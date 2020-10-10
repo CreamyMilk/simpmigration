@@ -107,7 +107,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 1.0),
                 //Slider area
                 SlidingContainer(
                   initialOffsetX: 5,

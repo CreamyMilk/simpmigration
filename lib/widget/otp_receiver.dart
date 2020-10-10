@@ -64,7 +64,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
 Future confirmOTP(mobile, code, context) async {
   OtpVerify data;
   final response = await http.post(
-    ("http://googlesecureotp.herokuapp.com/" + "verify"),
+    ("https://googlesecureotp.herokuapp.com/" + "verify"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",

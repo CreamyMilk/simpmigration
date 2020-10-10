@@ -1,3 +1,4 @@
+import 'package:clone/archive/urllearn.dart';
 import 'package:clone/archive/users_data.dart';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:clone/views/home_cards_layouts.dart';
@@ -9,8 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-
-//import 'archive/urllearn.dart';
 
 final GeolocatorService geoService = GeolocatorService();
 
@@ -33,8 +32,8 @@ class RouteGenerator {
             builder: (ctx) => MapSample(initialPosition: args));
       case '/login':
         return MaterialPageRoute(builder: (ctx) => LoginRouter());
-      // case '/url':
-      //   return MaterialPageRoute(builder: (ctx) => UrlTest());
+      case '/url':
+        return MaterialPageRoute(builder: (ctx) => UrlTest());
       case '/home':
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondAnimation) {

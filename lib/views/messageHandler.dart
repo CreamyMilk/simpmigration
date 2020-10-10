@@ -94,7 +94,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
 
   _sendTokenHTTP(final data) async {
     return http.post(
-      "http://googlesecureotp.herokuapp.com/verify",
+      "https://googlesecureotp.herokuapp.com/verify",
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

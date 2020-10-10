@@ -19,7 +19,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8.0),
-      color: Colors.white,
+      color: Colors.transparent,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -79,7 +79,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
               ),
               AnimatedContainer(
                 duration: Duration(seconds: 100),
-                color: Colors.white,
+                color: Colors.transparent,
                 alignment: Alignment.bottomRight,
                 padding: EdgeInsets.all(5.0),
                 child: MaterialButton(

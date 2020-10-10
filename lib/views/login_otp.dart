@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:clone/model/otpresponse.dart';
-import 'package:clone/widget/intro_video.dart';
+//import 'package:clone/widget/intro_video.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:sms_autofill/sms_autofill.dart';
 
@@ -39,7 +39,7 @@ class _LoginOTPState extends State<LoginOTP> {
       onWillPop: () async => false,
       child: Stack(
         children: [
-          IntroVideo(),
+          //IntroVideo(),
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
@@ -72,7 +72,14 @@ class _LoginOTPState extends State<LoginOTP> {
                       Icons.settings,
                       color: Colors.white,
                     ),
-                    onPressed: () {})
+                    onPressed: () async {
+                      final url = 'https://google.com';
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    })
               ],
             ),
             body: Stack(
@@ -116,7 +123,14 @@ class _ThreeBButtons extends StatelessWidget {
             Expanded(
               flex: 2,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  final url = 'https://i-crib.co.ke/lists';
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4.0),
                   child: Container(
@@ -127,7 +141,7 @@ class _ThreeBButtons extends StatelessWidget {
                         ),
                       ),
                       height: 180,
-                      child: Text("See \nHouse Listings",
+                      child: Text("See \nHouse \tListings",
                           style: TextStyle(fontSize: 20))),
                 ),
               ),
@@ -201,30 +215,40 @@ class _ThreeBButtons extends StatelessWidget {
                     child: LayoutBuilder(builder: (context, constraints) {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(4.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            border: Border(
-                              bottom:
-                                  BorderSide(width: 4.5, color: Colors.white),
-                            ),
-                          ),
-                          height: 90,
-                          width: constraints.maxWidth,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Icon(
-                                Icons.help_outline,
-                                size: constraints.maxWidth / 2.5,
-                                color: Colors.white,
+                        child: GestureDetector(
+                          onTap: () async {
+                            final url = 'tel:0797678252';
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              border: Border(
+                                bottom:
+                                    BorderSide(width: 4.5, color: Colors.white),
                               ),
-                              Text("Help\nContacts",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ))
-                            ],
+                            ),
+                            height: 90,
+                            width: constraints.maxWidth,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Icon(
+                                  Icons.help_outline,
+                                  size: constraints.maxWidth / 2.5,
+                                  color: Colors.white,
+                                ),
+                                Text("Help\nContacts",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ))
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -452,7 +476,7 @@ Future getOTP(mobile, appsign) async {
   print('Phone $mobile');
   if (mobile != null) {
     final response = await http.post(
-      ("http://googlesecureotp.herokuapp.com/" + "otp"),
+      ("https://googlesecureotp.herokuapp.com/" + "otp"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
