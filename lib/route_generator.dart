@@ -2,7 +2,6 @@ import 'package:clone/archive/urllearn.dart';
 import 'package:clone/archive/users_data.dart';
 import 'package:clone/enums/connectivity_status.dart';
 import 'package:clone/services/connectivity_service.dart';
-
 import 'package:clone/services/geolocation_service.dart';
 import 'package:clone/views/home_cards_layouts.dart';
 import 'package:clone/views/login_otp.dart';
@@ -50,7 +49,6 @@ class RouteGenerator {
         );
 
       default:
-        // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
     }
   }
@@ -80,10 +78,6 @@ class StartUpScreenProvider extends StatelessWidget {
               ConnectivityService().connectionStatusController.stream),
       FutureProvider<Position>(
           create: (context) => geoService.getInitialLocation()),
-
-      // Provider<MpexaProvider>(
-      //   create: (_) => MpexaProvider(),
-      // ),
     ], child: MyMessageHandler());
   }
 }
@@ -96,9 +90,6 @@ class LoginRouter extends StatelessWidget {
     return MultiProvider(providers: [
       FutureProvider<Position>(
           create: (context) => geoService.getInitialLocation()),
-      // Provider<MpexaProvider>(
-      //   create: (_) => MpexaProvider(),
-      // ),
     ], child: LoginOTP());
   }
 }

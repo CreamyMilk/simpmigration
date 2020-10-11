@@ -3,12 +3,9 @@ import 'dart:io';
 import 'package:clone/enums/connectivity_status.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
-
 import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyMessageHandler extends StatefulWidget {
@@ -22,8 +19,6 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   @override
   void initState() {
     super.initState();
-
-    //Ios Setup
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(
         IosNotificationSettings(),
@@ -31,7 +26,6 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     } else {
       _saveDeviceToken();
     }
-
     //Subscribe to topic frontEND
     _fcm.subscribeToTopic("tenant");
     //Unsubscribe to topic
@@ -70,7 +64,14 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     _getStartUpPage(context);
     return Container(
       color: _getStartUpColor(context),
-      child: Center(child: CircularProgressIndicator()),
+      child: Center(
+        child: FlareActor(
+          'assets/InitLoading.flr',
+          alignment: Alignment.center,
+          fit: BoxFit.contain,
+          animation: 'Demo',
+        ),
+      ),
     );
   }
 
@@ -78,8 +79,6 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   _saveDeviceToken() async {
     // Get the current user
     String uid = 'Jotham254';
-
-    //Auth service  = await _auth.currentUser(); // Gives me logged in user details
     String fcmToken = await _fcm.getToken();
 
     //Send to backend
@@ -90,13 +89,14 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
         'platform': Platform.operatingSystem
       };
       //http.post
+      print(data);
       _sendTokenHTTP(data);
     }
   }
 
   _sendTokenHTTP(final data) async {
     return http.post(
-      "https://googlesecureotp.herokuapp.com/verify",
+      "https://googlesecureotp.herokuapp.com/fmctoken",
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -109,7 +109,7 @@ _getStartUpPage(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final userToken = prefs.getString('user_token') ?? "";
   print("UserToken ilikuwa $userToken");
-  Future.delayed(Duration(seconds: 5), () {
+  Future.delayed(Duration(seconds: 9), () {
     userToken == "0"
         ? Navigator.of(context).pushNamed('/home')
         : Navigator.of(context).pushNamed('/login');
@@ -122,7 +122,7 @@ _getStartUpColor(context) {
     case ConnectivityStatus.Cellular:
       return Colors.green;
     case ConnectivityStatus.WiFi:
-      return Colors.blue;
+      return Color(0x000E1F);
     case ConnectivityStatus.Offline:
       return Colors.grey;
     default:

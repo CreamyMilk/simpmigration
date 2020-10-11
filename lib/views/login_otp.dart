@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:clone/model/otpresponse.dart';
-//import 'package:clone/widget/intro_video.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+//import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -57,7 +57,8 @@ class _LoginOTPState extends State<LoginOTP> {
                 child: Row(children: [
                   Spacer(),
                   Text("ICRIB\nAgency",
-                      style: TextStyle(fontWeight: FontWeight.w500)),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, color: Colors.white)),
                   Icon(
                     Icons.tag_faces,
                     color: Colors.white,
@@ -68,18 +69,21 @@ class _LoginOTPState extends State<LoginOTP> {
               ),
               actions: [
                 IconButton(
-                    icon: Icon(
-                      Icons.settings,
-                      color: Colors.white,
-                    ),
-                    onPressed: () async {
-                      final url = 'https://google.com';
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else {
-                        throw 'Could not launch $url';
-                      }
-                    })
+                  icon: Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    print(MediaQuery.of(context).size.height / 210);
+                    print(MediaQuery.of(context).size.height / 105);
+                    // final url = 'https://google.com';
+                    // if (await canLaunch(url)) {
+                    //   await launch(url);
+                    // } else {
+                    //   throw 'Could not launch $url';
+                    // }
+                  },
+                )
               ],
             ),
             body: Stack(
@@ -87,7 +91,9 @@ class _LoginOTPState extends State<LoginOTP> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(height: 210),
+                    SizedBox(
+                        height:
+                            MediaQuery.of(context).size.height * 0.239115880),
                     AnimatedSwitcher(
                       duration: Duration(seconds: 1),
                       child: _myAnimatedWidget,
@@ -163,7 +169,7 @@ class _ThreeBButtons extends StatelessWidget {
                     },
                     child: Container(
                       alignment: Alignment.bottomCenter,
-                      height: 180,
+                      height: MediaQuery.of(context).size.height * 0.20495,
                       color: Colors.transparent,
                       child: LayoutBuilder(builder: (context, constraints) {
                         return ClipRRect(
@@ -176,7 +182,8 @@ class _ThreeBButtons extends StatelessWidget {
                                     BorderSide(width: 4.5, color: Colors.white),
                               ),
                             ),
-                            height: 90,
+                            height:
+                                MediaQuery.of(context).size.height * 0.102425,
                             width: constraints.maxWidth,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -210,7 +217,7 @@ class _ThreeBButtons extends StatelessWidget {
                 children: [
                   Container(
                     alignment: Alignment.bottomCenter,
-                    height: 180,
+                    height: MediaQuery.of(context).size.height * 0.20495,
                     color: Colors.transparent,
                     child: LayoutBuilder(builder: (context, constraints) {
                       return ClipRRect(
@@ -232,7 +239,8 @@ class _ThreeBButtons extends StatelessWidget {
                                     BorderSide(width: 4.5, color: Colors.white),
                               ),
                             ),
-                            height: 90,
+                            height:
+                                MediaQuery.of(context).size.height * 0.102425,
                             width: constraints.maxWidth,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -321,62 +329,63 @@ class _Logincard extends StatelessWidget {
   }
 }
 
-class PhoneNumberForm extends StatefulWidget {
-  const PhoneNumberForm({Key key}) : super(key: key);
+// class PhoneNumberForm extends StatefulWidget {
+//   const PhoneNumberForm({Key key}) : super(key: key);
 
-  @override
-  _PhoneNumberFormState createState() => _PhoneNumberFormState();
-}
+//   @override
+//   _PhoneNumberFormState createState() => _PhoneNumberFormState();
+// }
 
-class _PhoneNumberFormState extends State<PhoneNumberForm> {
-  final TextEditingController _testcontroller = TextEditingController();
-  String mobile = "";
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      cursorColor: Colors.green,
-      onChanged: (value) {
-        print(value);
-        setState(() {
-          mobile = value;
-        });
-      },
-      controller: _testcontroller,
-      decoration: InputDecoration(
-        suffixIcon: IconButton(
-          icon: Icon(Icons.perm_contact_calendar),
-          onPressed: () async {
-            final PhoneContact contact =
-                await FlutterContactPicker.pickPhoneContact();
-            setState(() {
-              _testcontroller.text = contact.phoneNumber.number;
-              mobile = contact.phoneNumber.number;
-            });
-          },
-        ),
-        hintText: 'PhoneNumber',
-        errorText: validatePassword(_testcontroller.text),
-        prefixText: "",
-      ),
-      keyboardType: TextInputType.numberWithOptions(),
-    );
-  }
+// class _PhoneNumberFormState extends State<PhoneNumberForm> {
+//   final TextEditingController _testcontroller = TextEditingController();
+//   String mobile = "";
+//   @override
+//   Widget build(BuildContext context) {
+//     return TextField(
+//       cursorColor: Colors.green,
+//       onChanged: (value) {
+//         print(value);
+//         setState(() {
+//           mobile = value;
+//         });
+//       },
+//       controller: _testcontroller,
+//       decoration: InputDecoration(
+//         suffixIcon: IconButton(
+//           icon: Icon(Icons.perm_contact_calendar),
+//           onPressed: () async {
+//             final PhoneContact contact =
+//                 await FlutterContactPicker.pickPhoneContact();
+//             setState(() {
+//               _testcontroller.text = contact.phoneNumber.number;
+//               mobile = contact.phoneNumber.number;
+//             });
+//           },
+//         ),
+//         hintText: 'PhoneNumber',
+//         prefixText: "",
+//       ),
+//       keyboardType: TextInputType.numberWithOptions(),
+//     );
+//   }
 
-  String validatePassword(String value) {
-    if (!(value.length > 9) && value.isNotEmpty) {
-      return "Mobile number should be in the format 2547xx";
-    }
-    return null;
-  }
-
-  void showSnack(context) {}
-}
+//   void showSnack(context) {}
+// }
 
 Future<void> showMyDialog(BuildContext context) async {
   String mobile = "";
+  // String validatePassword(String value) {
+  //   print('Value $value');
+  //   if (!(value.length > 9 && value.isNotEmpty)) {
+  //     return "Number should be in the format 07xx";
+  //   }
+  //   if (value.startsWith("7")) {
+  //     return "Please write number as 07xx";
+  //   }
+  //   return null;
+  // }
 
   TextEditingController _mytextcontroller;
-  //_mytextcontroller.text = '';
   return showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -415,6 +424,7 @@ Future<void> showMyDialog(BuildContext context) async {
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: 'Phone Number',
+                          //errorText: validatePassword(_mytextcontroller.text),
                         ),
                         onChanged: (value) {
                           mobile = value;
@@ -432,16 +442,17 @@ Future<void> showMyDialog(BuildContext context) async {
                   style: TextStyle(color: Colors.black54, fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
-                Text("https://www.i-crib.co.ke/terms",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 12,
-                    ))
+                Text(
+                  "https://www.i-crib.co.ke/terms",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 12,
+                  ),
+                )
               ],
             ),
-          ), //SingleChildScrollView(
-
+          ),
           actions: <Widget>[
             MaterialButton(
               child: Text('CANCEL'),
