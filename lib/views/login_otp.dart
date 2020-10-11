@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:linkable/linkable.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
@@ -442,8 +443,8 @@ Future<void> showMyDialog(BuildContext context) async {
                   style: TextStyle(color: Colors.black54, fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
-                Text(
-                  "https://www.i-crib.co.ke/terms",
+                Linkable(
+                  text: "https://www.i-crib.co.ke/terms",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.blue,

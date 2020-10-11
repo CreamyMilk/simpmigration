@@ -26,14 +26,24 @@ class _OtpReceiverState extends State<OtpReceiver> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.ac_unit),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.ac_unit),
+        
         onPressed: () {},
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Enter Received Pin Here"),
+          Text(
+            "Please wait for activation code sent to your \nphone number",
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 10),
+          Text(
+            "0797678252",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.blue),
+          ),
           Container(
             padding: EdgeInsets.symmetric(
               horizontal: 50,
