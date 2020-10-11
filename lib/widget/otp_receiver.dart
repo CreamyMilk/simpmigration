@@ -28,7 +28,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.ac_unit),
-        
+        label: Text("Resend"),
         onPressed: () {},
       ),
       body: Column(
