@@ -58,7 +58,7 @@ class _LoginOTPState extends State<LoginOTP> {
                 child: Row(children: [
                   Spacer(),
                   Text("ICRIB\nAgency",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.w500, color: Colors.white)),
                   Icon(
                     Icons.tag_faces,
@@ -149,7 +149,7 @@ class _ThreeBButtons extends StatelessWidget {
                       ),
                       height: 180,
                       child: Text("See \nHouse \tListings",
-                          style: TextStyle(fontSize: 20))),
+                          style: const TextStyle(fontSize: 20))),
                 ),
               ),
             ),
@@ -197,7 +197,7 @@ class _ThreeBButtons extends StatelessWidget {
                                 Text(
                                   "Service\nMap",
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                   ),
                                 )
@@ -253,7 +253,7 @@ class _ThreeBButtons extends StatelessWidget {
                                 ),
                                 Text("Help\nContacts",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                     ))
                               ],
@@ -287,7 +287,7 @@ class _Logincard extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20.0),
           child: Text(
             "Welcome To \nIcrib Residence",
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 25,
             ),
@@ -301,7 +301,7 @@ class _Logincard extends StatelessWidget {
               bottomLeft: Radius.circular(8.0),
             ),
           ),
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           onPressed: () {
             showMyDialog(context);
 
@@ -312,7 +312,7 @@ class _Logincard extends StatelessWidget {
             children: [
               Text(
                 "LOGIN",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
                     fontSize: 13),
@@ -440,13 +440,13 @@ Future<void> showMyDialog(BuildContext context) async {
                 Spacer(),
                 Text(
                   "By choosing to proceed, you agree to the following terms of service",
-                  style: TextStyle(color: Colors.black54, fontSize: 12),
+                  style: const TextStyle(color: Colors.black54, fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
                 Linkable(
                   text: "https://www.i-crib.co.ke/terms",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.blue,
                     fontSize: 12,
                   ),
