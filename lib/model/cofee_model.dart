@@ -6,6 +6,7 @@ class Coffee {
   String address;
   String description;
   String thumbNail;
+  String contact;
   LatLng locationCoords;
 
   Coffee(
@@ -14,6 +15,7 @@ class Coffee {
       this.address,
       this.description,
       this.thumbNail,
+      this.contact,
       this.locationCoords});
 }
 
@@ -22,6 +24,8 @@ final List<Coffee> coffeeShops = [
       rank: 1,
       shopName: 'Stumptown Coffee Roasters',
       address: '18 W 29th St',
+      //open
+      contact: 'tel:254797678252',
       description:
           'Coffee bar chain offering house-roasted direct-trade coffee, along with brewing gear & whole beans',
       locationCoords: LatLng(40.745803, -73.988213),
@@ -31,6 +35,7 @@ final List<Coffee> coffeeShops = [
       rank: 2,
       shopName: 'Andrews Coffee Shop',
       address: '463 7th Ave',
+      contact: 'tel:254797678252',
       description:
           'All-day American comfort eats in a basic diner-style setting',
       locationCoords: LatLng(40.751908, -73.989804),
@@ -40,6 +45,7 @@ final List<Coffee> coffeeShops = [
       rank: 3,
       shopName: 'Third Rail Coffee',
       address: '240 Sullivan St',
+      contact: 'tel:254797678252',
       description:
           'Small spot draws serious caffeine lovers with wide selection of brews & baked goods.',
       locationCoords: LatLng(40.730148, -73.999639),
@@ -49,6 +55,7 @@ final List<Coffee> coffeeShops = [
       rank: 4,
       shopName: 'Hi-Collar',
       address: '214 E 10th St',
+      contact: 'tel:254797678252',
       description:
           'Snazzy, compact Japanese cafe showcasing high-end coffee & sandwiches, plus sake & beer at night.',
       locationCoords: LatLng(40.729515, -73.985927),
@@ -58,6 +65,7 @@ final List<Coffee> coffeeShops = [
       rank: 5,
       shopName: 'Everyman Espresso',
       address: '301 W Broadway',
+      contact: 'tel:254797678252',
       description:
           'Compact coffee & espresso bar turning out drinks made from direct-trade beans in a low-key setting.',
       locationCoords: LatLng(40.721622, -74.004308),

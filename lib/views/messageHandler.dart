@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:clone/enums/connectivity_status.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -67,7 +69,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   Widget build(BuildContext context) {
     _getStartUpPage(context);
     return Container(
-      color: Colors.yellow,
+      color: _getStartUpColor(context),
       child: Center(child: CircularProgressIndicator()),
     );
   }
@@ -112,4 +114,18 @@ _getStartUpPage(BuildContext context) async {
         ? Navigator.of(context).pushNamed('/home')
         : Navigator.of(context).pushNamed('/login');
   });
+}
+
+_getStartUpColor(context) {
+  var connectionStatus = Provider.of<ConnectivityStatus>(context);
+  switch (connectionStatus) {
+    case ConnectivityStatus.Cellular:
+      return Colors.green;
+    case ConnectivityStatus.WiFi:
+      return Colors.blue;
+    case ConnectivityStatus.Offline:
+      return Colors.grey;
+    default:
+      return Colors.grey;
+  }
 }

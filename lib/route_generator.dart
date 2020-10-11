@@ -1,5 +1,8 @@
 import 'package:clone/archive/urllearn.dart';
 import 'package:clone/archive/users_data.dart';
+import 'package:clone/enums/connectivity_status.dart';
+import 'package:clone/services/connectivity_service.dart';
+
 import 'package:clone/services/geolocation_service.dart';
 import 'package:clone/views/home_cards_layouts.dart';
 import 'package:clone/views/login_otp.dart';
@@ -72,8 +75,12 @@ class StartUpScreenProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
+      StreamProvider<ConnectivityStatus>(
+          create: (context) =>
+              ConnectivityService().connectionStatusController.stream),
       FutureProvider<Position>(
           create: (context) => geoService.getInitialLocation()),
+
       // Provider<MpexaProvider>(
       //   create: (_) => MpexaProvider(),
       // ),

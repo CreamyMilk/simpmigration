@@ -57,8 +57,8 @@ class MapSampleState extends State<MapSample> {
         }
         return Center(
           child: SizedBox(
-            height: Curves.easeInOut.transform(value) * 125.0,
-            width: Curves.easeInOut.transform(value) * 350.0,
+            height: Curves.easeInOut.transform(value) * 225.0,
+            width: Curves.easeInOut.transform(value) * 450.0,
             child: widget,
           ),
         );
@@ -71,10 +71,6 @@ class MapSampleState extends State<MapSample> {
           children: [
             Center(
               child: Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10.0,
-                  vertical: 20.0,
-                ),
                 height: 150.0,
                 width: MediaQuery.of(context).size.width * 0.7,
                 decoration: BoxDecoration(
@@ -92,42 +88,26 @@ class MapSampleState extends State<MapSample> {
                       color: Colors.white),
                   child: Row(
                     children: [
-                      Container(
-                          height: 90.0,
-                          width: 90.0,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10.0),
-                                  topLeft: Radius.circular(10.0)),
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      coffeeShops[index].thumbNail),
-                                  fit: BoxFit.cover))),
-                      SizedBox(width: 5.0),
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              coffeeShops[index].shopName,
-                              style: TextStyle(
-                                  fontSize: 12.5, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              coffeeShops[index].address,
-                              style: TextStyle(
-                                  fontSize: 12.0, fontWeight: FontWeight.w600),
-                            ),
-                            Container(
-                              width: 170.0,
-                              child: Text(
-                                coffeeShops[index].description,
-                                style: TextStyle(
-                                    fontSize: 11.0,
-                                    fontWeight: FontWeight.w300),
-                              ),
-                            )
-                          ])
+                      Column(children: [
+                        Text(
+                          coffeeShops[index].shopName,
+                          style: TextStyle(
+                              fontSize: 12.5, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          coffeeShops[index].address,
+                          style: TextStyle(
+                              fontSize: 12.0, fontWeight: FontWeight.w600),
+                        ),
+                        Container(
+                          width: 170.0,
+                          child: Text(
+                            coffeeShops[index].description,
+                            style: TextStyle(
+                                fontSize: 11.0, fontWeight: FontWeight.w300),
+                          ),
+                        )
+                      ])
                     ],
                   ),
                 ),
@@ -175,11 +155,24 @@ class MapSampleState extends State<MapSample> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _goToTheLake(
-            widget.initialPosition.latitude, widget.initialPosition.longitude),
-        label: Text('My Location!'),
-        icon: Icon(Icons.directions_boat),
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton.extended(
+          onPressed: () {
+            // _goToTheLake(widget.initialPosition.latitude,
+            //     widget.initialPosition.longitude);
+            showBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                  color: Colors.redAccent,
+                );
+              },
+            );
+            print('me');
+          },
+          label: Text('My Location!'),
+          icon: Icon(Icons.directions_boat),
+        ),
       ),
     );
   }

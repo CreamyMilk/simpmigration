@@ -32,6 +32,7 @@ dependencies:
   http:
   sms_autofill: ^1.2.5
   url_launcher: 
+  connectivity: ^0.4.9+3
   google_maps_flutter: ^0.5.32
   geolocator: ^5.3.1
   flutter_contact: ^0.6.1
