@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:async';
-import 'dart:html';
-
 import 'package:clone/model/otpresponse.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -467,7 +465,7 @@ Future<void> showMyDialog(BuildContext context) async {
               //getOTP(),
               onPressed: () async {
                 //send post request here
-                Navigator.of(context).pop();
+
                 final appsignature = await SmsAutoFill().getAppSignature;
                 //todo add loading
                 if (mobile.length > 9) {
