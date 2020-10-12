@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clone/widget/timerFab.dart';
 import 'package:flutter/material.dart';
 import 'package:clone/model/otpconfirmmodel.dart';
 
@@ -26,11 +27,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        icon: Icon(Icons.ac_unit),
-        label: Text("Resend"),
-        onPressed: () {},
-      ),
+      floatingActionButton: TimerFab(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

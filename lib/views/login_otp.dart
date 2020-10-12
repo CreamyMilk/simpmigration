@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:html';
 
 import 'package:clone/model/otpresponse.dart';
 
@@ -444,7 +445,7 @@ Future<void> showMyDialog(BuildContext context) async {
                   textAlign: TextAlign.center,
                 ),
                 Linkable(
-                  text: "https://www.i-crib.co.ke/terms",
+                  text: "i-crib.co.ke/terms",
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.blue,
@@ -466,11 +467,11 @@ Future<void> showMyDialog(BuildContext context) async {
               //getOTP(),
               onPressed: () async {
                 //send post request here
+                Navigator.of(context).pop();
                 final appsignature = await SmsAutoFill().getAppSignature;
                 //todo add loading
                 if (mobile.length > 9) {
-                  await getOTP(mobile, appsignature);
-                  Navigator.of(context).pushNamed('/otprec');
+                  await getOTP(mobile, appsignature, context);
                 } else {
                   print("Lenght");
                 }
@@ -483,7 +484,7 @@ Future<void> showMyDialog(BuildContext context) async {
   );
 }
 
-Future getOTP(mobile, appsign) async {
+Future getOTP(mobile, appsign, context) async {
   OtpResponse data;
   print('Phone $mobile');
   if (mobile != null) {
@@ -503,6 +504,7 @@ Future getOTP(mobile, appsign) async {
     var myjson = json.decode(response.body);
     data = OtpResponse.fromJson(myjson);
     print(data.messageCode);
+    Navigator.of(context).pushNamed('/otprec');
   } else {
     print('Please add number');
   }
