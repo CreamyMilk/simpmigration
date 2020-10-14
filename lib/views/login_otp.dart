@@ -74,6 +74,7 @@ class _LoginOTPState extends State<LoginOTP> {
                     color: Colors.white,
                   ),
                   onPressed: () {
+                    Navigator.of(context).pushNamed('/home');
                     print(MediaQuery.of(context).size.height / 210);
                     print(MediaQuery.of(context).size.height / 105);
                     // final url = 'https://google.com';
