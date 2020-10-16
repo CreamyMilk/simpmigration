@@ -109,31 +109,28 @@ class MapSampleState extends State<MapSample> {
                                 fontSize: 11.0, fontWeight: FontWeight.w300),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                              child: MaterialButton(
-                            color: Colors.white,
-                            elevation: 2.0,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.phone,
-                                  color: Colors.white,
-                                ),
-                                Text(" Call!"),
-                              ],
-                            ),
-                            onPressed: () async {
-                              final url = coffeeShops[index].contact;
-                              if (await canLaunch(url)) {
-                                await launch(url);
-                              } else {
-                                throw 'Could not launch $url';
-                              }
-                            },
-                          )),
-                        ),
+                        Container(
+                            child: MaterialButton(
+                          color: Colors.white,
+                          elevation: 2.0,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.phone,
+                                color: Colors.white,
+                              ),
+                              Text("Call!"),
+                            ],
+                          ),
+                          onPressed: () async {
+                            final url = coffeeShops[index].contact;
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                        )),
                       ])
                     ],
                   ),
@@ -185,17 +182,17 @@ class MapSampleState extends State<MapSample> {
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton.extended(
           onPressed: () {
-            // _goToTheLake(widget.initialPosition.latitude,
-            //     widget.initialPosition.longitude);
-            showBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                  color: Colors.redAccent,
-                  height: MediaQuery.of(context).size.height * 0.225,
-                );
-              },
-            );
+            _goToTheLake(widget.initialPosition.latitude,
+                widget.initialPosition.longitude);
+            // showBottomSheet(
+            //   context: context,
+            //   builder: (BuildContext context) {
+            //     return Container(
+            //       color: Colors.redAccent,
+            //       height: MediaQuery.of(context).size.height * 0.225,
+            //     );
+            //   },
+            // );
             print('me');
           },
           label: Text('My Location!'),
