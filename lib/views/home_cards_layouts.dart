@@ -1,6 +1,5 @@
-import 'dart:developer';
 import 'dart:math';
-
+import 'dart:developer';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:clone/views/issues_card.dart';
 import 'package:clone/views/rent_card.dart';
@@ -125,14 +124,17 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                       children: [
                         PageCard(
                           childwidget: RentPaymentCard(),
+                          gradients: [Colors.white, Colors.lightGreen[100]],
                         ),
                         SizedBox(width: 10),
                         PageCard(
                           childwidget: IssuesCard(),
+                          gradients: [Colors.white, Colors.red[100]],
                         ),
                         SizedBox(width: 10),
                         PageCard(
                           childwidget: ServiceCard(),
+                          gradients: [Colors.white, Colors.lightBlue[100]],
                         ),
                         SizedBox(width: 20),
                       ],
@@ -233,8 +235,9 @@ class _CardListingsState extends State<CardListings> {
 
 class PageCard extends StatelessWidget {
   final Widget childwidget;
+  final List<Color> gradients;
 
-  const PageCard({this.childwidget});
+  const PageCard({@required this.childwidget, @required this.gradients});
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +246,11 @@ class PageCard extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.8,
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: gradients),
+          //color: Colors.lightBlue[100],
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: this.childwidget);

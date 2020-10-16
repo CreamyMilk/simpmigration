@@ -21,7 +21,7 @@ class _ServiceCardState extends State<ServiceCard> {
       builder: (BuildContext context, position, child) {
         return Container(
           padding: EdgeInsets.all(8.0),
-          color: Colors.white,
+          color: Colors.transparent,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -71,7 +71,7 @@ class _ServiceCardState extends State<ServiceCard> {
                 children: [
                   AnimatedContainer(
                     duration: Duration(seconds: 100),
-                    color: Colors.white,
+                    color: Colors.transparent,
                     alignment: Alignment.bottomLeft,
                     padding: EdgeInsets.all(5.0),
                     child: MaterialButton(
@@ -89,7 +89,7 @@ class _ServiceCardState extends State<ServiceCard> {
                   ),
                   AnimatedContainer(
                     duration: Duration(seconds: 100),
-                    color: Colors.white,
+                    color: Colors.transparent,
                     alignment: Alignment.bottomRight,
                     padding: EdgeInsets.all(5.0),
                     child: MaterialButton(

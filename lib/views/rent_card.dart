@@ -77,7 +77,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                       },
                       child: Text(
                         _rentstaus ? "Paid" : "Due",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                       ))
                 ],
               ),
@@ -91,11 +91,11 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                       _testvar ? Theme.of(context).primaryColor : Colors.grey,
                   child: Row(
                     children: [
-                      Text("Pay now", style: TextStyle(color: Colors.white)),
+                      Text("Pay now", style: TextStyle(color: Colors.black)),
                     ],
                   ),
                   onPressed: () {
-                    _settingModalBottomSheet(context, _rentDue.toString());
+                    settingModalBottomSheet(context, _rentDue.toString());
                     print("STK push sent");
                   },
                 ),
@@ -108,7 +108,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   }
 }
 
-void _settingModalBottomSheet(context, amountDue) {
+void settingModalBottomSheet(context, amountDue) {
   showModalBottomSheet(
     isScrollControlled: true,
     shape: RoundedRectangleBorder(

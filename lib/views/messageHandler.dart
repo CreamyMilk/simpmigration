@@ -15,6 +15,7 @@ class MyMessageHandler extends StatefulWidget {
 
 class _MyMessageHandlerState extends State<MyMessageHandler> {
   String userToken;
+  double op;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   @override
   void initState() {
@@ -26,6 +27,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     } else {
       _saveDeviceToken();
     }
+    op = 0.0;
     //Subscribe to topic frontEND
     _fcm.subscribeToTopic("tenant");
     //Unsubscribe to topic
@@ -33,7 +35,6 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage :$message");
-        //Disply Dialogue
         showDialog(
           //Text(message['notification']['title']
           context: context,
@@ -62,14 +63,20 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   @override
   Widget build(BuildContext context) {
     _getStartUpPage(context);
+
     return Container(
       color: _getStartUpColor(context),
       child: Center(
-        child: FlareActor(
-          'assets/InitLoading.flr',
-          alignment: Alignment.center,
-          fit: BoxFit.contain,
-          animation: 'Demo',
+        child: Hero(
+          tag: 'house',
+          child: AnimatedOpacity(
+            duration: Duration(seconds: 10),
+            opacity: op,
+            child: Image(
+              fit: BoxFit.scaleDown,
+              image: AssetImage('assets/images/house_logo.jpeg'),
+            ),
+          ),
         ),
       ),
     );
@@ -90,6 +97,9 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       };
       //http.post
       print(data);
+      setState(() {
+        op = 1;
+      });
       _sendTokenHTTP(data);
     }
   }
@@ -120,12 +130,12 @@ _getStartUpColor(context) {
   var connectionStatus = Provider.of<ConnectivityStatus>(context);
   switch (connectionStatus) {
     case ConnectivityStatus.Cellular:
-      return Colors.green;
+      return Color(0x000E1F);
     case ConnectivityStatus.WiFi:
       return Color(0x000E1F);
     case ConnectivityStatus.Offline:
-      return Colors.grey;
+      return Color(0x000E1F);
     default:
-      return Colors.grey;
+      return Color(0x000E1F);
   }
 }

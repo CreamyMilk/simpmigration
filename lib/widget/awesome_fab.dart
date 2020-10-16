@@ -1,3 +1,4 @@
+import 'package:clone/views/rent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -24,7 +25,10 @@ class AwesomeFAB extends StatelessWidget {
             SpeedDialChild(
               child: Icon(Icons.monochrome_photos, color: Colors.white),
               backgroundColor: Colors.deepOrange,
-              onTap: () => print('Pay Rent'),
+              onTap: () {
+                settingModalBottomSheet(context, '1');
+                print("STK push sent");
+              },
               label: 'Pay Rent',
               labelStyle:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
