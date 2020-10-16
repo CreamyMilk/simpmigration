@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
         title: appTitle,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.lightBlue,
-          accentColor: Colors.lightBlueAccent,
+          primaryColor: Colors.black,
+          accentColor: Colors.black38,
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
         darkTheme: ThemeData(

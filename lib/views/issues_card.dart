@@ -81,8 +81,8 @@ class _IssuesCardState extends State<IssuesCard> {
                       //Text(message['notification']['title']
                       context: context,
                       builder: (context) => AlertDialog(
-                          title: Text("Payment intent sent "),
-                          content: Text("\n to 0797678252")),
+                          title: Text("Type"),
+                          content: Text("\n Description:")),
                     );
                     setState(() {
                       _testvar = !_testvar;

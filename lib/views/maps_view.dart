@@ -4,6 +4,7 @@ import 'package:clone/model/cofee_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapSample extends StatefulWidget {
   final Position initialPosition;
@@ -91,8 +92,9 @@ class MapSampleState extends State<MapSample> {
                       Column(children: [
                         Text(
                           coffeeShops[index].shopName,
+                          maxLines: 3,
                           style: TextStyle(
-                              fontSize: 12.5, fontWeight: FontWeight.bold),
+                              fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           coffeeShops[index].address,
@@ -106,7 +108,32 @@ class MapSampleState extends State<MapSample> {
                             style: TextStyle(
                                 fontSize: 11.0, fontWeight: FontWeight.w300),
                           ),
-                        )
+                        ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                              child: MaterialButton(
+                            color: Colors.white,
+                            elevation: 2.0,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.phone,
+                                  color: Colors.white,
+                                ),
+                                Text(" Call!"),
+                              ],
+                            ),
+                            onPressed: () async {
+                              final url = coffeeShops[index].contact;
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                          )),
+                        ),
                       ])
                     ],
                   ),
@@ -165,6 +192,7 @@ class MapSampleState extends State<MapSample> {
               builder: (BuildContext context) {
                 return Container(
                   color: Colors.redAccent,
+                  height: MediaQuery.of(context).size.height * 0.225,
                 );
               },
             );
