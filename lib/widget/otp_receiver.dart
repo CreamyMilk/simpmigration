@@ -10,7 +10,11 @@ import 'package:sms_autofill/sms_autofill.dart';
 import 'package:http/http.dart' as http;
 
 class OtpReceiver extends StatefulWidget {
-  OtpReceiver({Key key}) : super(key: key);
+  final phonenumber;
+  OtpReceiver({
+    Key key,
+    @required this.phonenumber,
+  }) : super(key: key);
 
   @override
   _OtpReceiverState createState() => _OtpReceiverState();
@@ -37,7 +41,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
           ),
           SizedBox(height: 10),
           Text(
-            "0797678252",
+            "${widget.phonenumber}",
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.blue),
           ),
@@ -52,7 +56,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
               onCodeChanged: (val) {
                 print(val);
                 if (val.length == 4) {
-                  confirmOTP("254599", val, context);
+                  confirmOTP(widget.phonenumber, val, context);
                   //Navigator.of(context).pop();
                 }
               },

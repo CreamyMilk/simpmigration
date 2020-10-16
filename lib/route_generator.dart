@@ -25,7 +25,8 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute(builder: (ctx) => StartUpScreenProvider());
       case '/otprec':
-        return CupertinoPageRoute(builder: (ctx) => OtpReceiver());
+        return CupertinoPageRoute(
+            builder: (ctx) => OtpReceiver(phonenumber: args));
       case '/randomUser':
         return MaterialPageRoute(builder: (ctx) => UserTest(appTitle: 'ok'));
       case '/map':

@@ -84,44 +84,46 @@ class MapSampleState extends State<MapSample> {
                       ),
                     ]),
                 child: Container(
+                  padding: EdgeInsets.only(left: 16.0, top: 10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
                       color: Colors.white),
-                  child: Row(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(children: [
-                        Text(
-                          coffeeShops[index].shopName,
-                          maxLines: 3,
+                      Text(
+                        coffeeShops[index].shopName,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        coffeeShops[index].address,
+                        style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey),
+                      ),
+                      SizedBox(height: 2),
+                      Container(
+                        width: 200.0,
+                        child: Text(
+                          coffeeShops[index].description,
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 11.0, fontWeight: FontWeight.w300),
                         ),
-                        Text(
-                          coffeeShops[index].address,
-                          style: TextStyle(
-                              fontSize: 12.0, fontWeight: FontWeight.w600),
-                        ),
-                        Container(
-                          width: 170.0,
-                          child: Text(
-                            coffeeShops[index].description,
-                            style: TextStyle(
-                                fontSize: 11.0, fontWeight: FontWeight.w300),
+                      ),
+                      Spacer(),
+                      Container(
+                        child: InputChip(
+                          avatar: Icon(
+                            Icons.call,
+                            color: Colors.blue,
                           ),
-                        ),
-                        Container(
-                            child: MaterialButton(
-                          color: Colors.white,
-                          elevation: 2.0,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.phone,
-                                color: Colors.white,
-                              ),
-                              Text("Call!"),
-                            ],
-                          ),
+                          label: Text("Call Now"),
                           onPressed: () async {
                             final url = coffeeShops[index].contact;
                             if (await canLaunch(url)) {
@@ -130,8 +132,8 @@ class MapSampleState extends State<MapSample> {
                               throw 'Could not launch $url';
                             }
                           },
-                        )),
-                      ])
+                        ),
+                      ),
                     ],
                   ),
                 ),

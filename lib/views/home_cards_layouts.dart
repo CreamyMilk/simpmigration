@@ -22,11 +22,11 @@ class HomeViewCardLayout extends StatefulWidget {
 }
 
 class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
-  String _username = "Jotham";
+  String _username = "Patrick";
 
   Map<String, dynamic> transactions = {
     'title': "Transactions",
-    'data': ["Joe", "Wick", "Mal", "grown", "1", "ewe", "wewe", "kaku"],
+    'data': ["Oct", "Sept", "August", "July", "June", "May", "Feb", "Jan"],
   };
   Map<String, dynamic> complains = {
     'title': "Expenses",

@@ -516,7 +516,7 @@ Future getOTP(mobile, appsign, context) async {
     var myjson = json.decode(response.body);
     data = OtpResponse.fromJson(myjson);
     print(data.messageCode);
-    Navigator.of(context).pushNamed('/otprec');
+    Navigator.of(context).pushNamed('/otprec', arguments: mobile);
   } else {
     print('Please add number');
   }

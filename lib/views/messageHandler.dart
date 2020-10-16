@@ -85,7 +85,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   //Get token, save it to the datbase for current user
   _saveDeviceToken() async {
     // Get the current user
-    String uid = 'Jotham254';
+    String uid = 'Patrick254';
     String fcmToken = await _fcm.getToken();
 
     //Send to backend

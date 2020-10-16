@@ -97,7 +97,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 90),
         brush: PdfSolidBrush(PdfColor(65, 104, 205)));
 
-    page.graphics.drawString('\$' + getTotalAmount(grid).toString(),
+    page.graphics.drawString('Ksh.' + getTotalAmount(grid).toString(),
         PdfStandardFont(PdfFontFamily.helvetica, 18),
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 100),
         brush: PdfBrushes.white,
@@ -118,9 +118,9 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     final String receiptNumber = 'Receipt Number: 2058557939\r\n\r\nDate: ' +
         format.format(DateTime.now());
     final Size contentSize = contentFont.measureString(receiptNumber);
-    const String address = '''Bill To: \r\n\r\nOliver Ndegwa, 
-        \r\n\r\nKahawa Sukari, Kenya, San Mateo, 
-        \r\n\r\n9920 BridgePointe Parkway, \r\n\r\n9365550136''';
+    const String address = '''Bill To: \r\n\r\nPatrick Murui, 
+        \r\n\r\nKahawa Sukari, Kenya, 
+        \r\n\r\nHouse No, \r\n\r\nA136''';
 
     PdfTextElement(text: receiptNumber, font: contentFont).draw(
         page: page,

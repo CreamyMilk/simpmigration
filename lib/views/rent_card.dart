@@ -91,7 +91,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                       _testvar ? Theme.of(context).primaryColor : Colors.grey,
                   child: Row(
                     children: [
-                      Text("Pay now", style: TextStyle(color: Colors.black)),
+                      Text("Pay now", style: TextStyle(color: Colors.white)),
                     ],
                   ),
                   onPressed: () {
@@ -145,7 +145,7 @@ Future _sendPayment(mobile, amountDue, ctx) async {
         {
           'phonenumber': mobile,
           'amount': amountDue,
-          'userID': 'Jotham254',
+          'userID': 'Patrick254',
           'socketID': 'mee',
           'notifToken': fcmToken
         },
@@ -184,7 +184,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
   String amountDue;
   @override
   void initState() {
-    mobile = "0797678252";
+    mobile = "0759306745";
     amountDue = "1";
     super.initState();
   }
