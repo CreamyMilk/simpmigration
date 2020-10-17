@@ -1,6 +1,6 @@
-# clone
+# Clone 😊
 
-A new Flutter project.
+Flutter version 1.20.4
 
 ## Getting Started
 
