@@ -33,7 +33,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (ctx) => MapSample(initialPosition: args));
       case '/login':
-        return MaterialPageRoute(builder: (ctx) => LoginRouter());
+        return MaterialPageRoute(builder: (ctx) => LoginOTP());
       case '/url':
         return MaterialPageRoute(builder: (ctx) => UrlTest());
       case '/complain':

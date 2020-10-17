@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:clone/model/otpresponse.dart';
+import 'package:clone/route_generator.dart';
 import 'package:clone/widget/intro_video.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -101,7 +102,10 @@ class _LoginOTPState extends State<LoginOTP> {
                       child: _myAnimatedWidget,
                     ),
                     Spacer(flex: 2),
-                    _ThreeBButtons(),
+                    MultiProvider(providers: [
+                      FutureProvider<Position>(
+                          create: (context) => geoService.getInitialLocation()),
+                    ], child: _ThreeBButtons()),
                   ],
                 ),
               ],

@@ -14,7 +14,7 @@ class RentPaymentCard extends StatefulWidget {
 }
 
 class _RentPaymentCardState extends State<RentPaymentCard> {
-  String _month = "January";
+  String _month = "October";
   int _rentDue = 20000;
   bool _testvar = true;
   bool _rentstaus = true;
