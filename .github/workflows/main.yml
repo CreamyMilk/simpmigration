@@ -31,9 +31,9 @@ jobs:
         echo Add other actions to build,
         echo and deploy your project.  
     - run: flutter pub get
-    - run: flutter build apk
-    - name: Archive code coverage results
+    - run: flutter build apk --release
+    - name: Building android release Apk 🤖
       uses: actions/upload-artifact@v2
       with:
-        name: THE APK
+        name: ReleaseApk🤖
         path: build/app/outputs/flutter-apk/app-release.apk
