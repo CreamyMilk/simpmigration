@@ -21,5 +21,14 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         flutter-version: '1.20.4'
+          # Runs a single command using the runners shell
+    - name: Run a one-line script
+      run: echo Hello, Flutter Worldo!
+
+    # Runs a set of commands using the runners shell
+    - name: Run a multi-line script
+      run: |
+        echo Add other actions to build,
+        echo and deploy your project.  
     - run: flutter pub get
     - run: flutter build apk
