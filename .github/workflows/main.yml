@@ -35,5 +35,5 @@ jobs:
     - name: Building android release Apk 🤖
       uses: actions/upload-artifact@v2
       with:
-        name: ReleaseApk🤖
+        name: ReleaseApk
         path: build/app/outputs/flutter-apk/app-release.apk
