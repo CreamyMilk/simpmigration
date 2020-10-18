@@ -33,16 +33,17 @@ class _IssuesCardState extends State<IssuesCard> {
               ),
               Container(child: Text("Issues")),
               PopupMenuButton(
-                  onSelected: choiceAction,
-                  icon: Icon(Icons.more_horiz),
-                  itemBuilder: (BuildContext context) {
-                    return option.map((String choice) {
-                      return PopupMenuItem(
-                        value: choice,
-                        child: Text(choice),
-                      );
-                    }).toList();
-                  }),
+                onSelected: choiceAction,
+                icon: Icon(Icons.more_horiz),
+                itemBuilder: (BuildContext context) {
+                  return option.map((String choice) {
+                    return PopupMenuItem(
+                      value: choice,
+                      child: Text(choice),
+                    );
+                  }).toList();
+                },
+              ),
             ],
           ),
           Text(
@@ -77,16 +78,10 @@ class _IssuesCardState extends State<IssuesCard> {
                     ],
                   ),
                   onPressed: () {
-                    showDialog(
-                      //Text(message['notification']['title']
-                      context: context,
-                      builder: (context) => AlertDialog(
-                          title: Text("Type"),
-                          content: Text("\n Description:")),
-                    );
-                    setState(() {
-                      _testvar = !_testvar;
-                    });
+                    Navigator.of(context).pushNamed('/complain');
+                    // setState(() {
+                    //   _testvar = !_testvar;
+                    // });
                     print("STK push sent");
                   },
                 ),
@@ -105,13 +100,7 @@ class _IssuesCardState extends State<IssuesCard> {
                     ],
                   ),
                   onPressed: () {
-                    showDialog(
-                      //Text(message['notification']['title']
-                      context: context,
-                      builder: (context) => AlertDialog(
-                          title: Text("Payment intent sent "),
-                          content: Text("\n to 0797678252")),
-                    );
+                    Navigator.of(context).pushNamed('/complain');
                     setState(() {
                       _testvar = !_testvar;
                     });

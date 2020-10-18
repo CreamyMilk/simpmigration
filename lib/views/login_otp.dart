@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:clone/model/otpresponse.dart';
+import 'package:clone/route_generator.dart';
+import 'package:clone/widget/intro_video.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +41,7 @@ class _LoginOTPState extends State<LoginOTP> {
       onWillPop: () async => false,
       child: Stack(
         children: [
-          //IntroVideo(),
+          IntroVideo(),
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
@@ -77,6 +79,7 @@ class _LoginOTPState extends State<LoginOTP> {
                     Navigator.of(context).pushNamed('/home');
                     print(MediaQuery.of(context).size.height / 210);
                     print(MediaQuery.of(context).size.height / 105);
+                    Navigator.of(context).pushNamed('/home');
                     // final url = 'https://google.com';
                     // if (await canLaunch(url)) {
                     //   await launch(url);
@@ -100,7 +103,10 @@ class _LoginOTPState extends State<LoginOTP> {
                       child: _myAnimatedWidget,
                     ),
                     Spacer(flex: 2),
-                    _ThreeBButtons(),
+                    MultiProvider(providers: [
+                      FutureProvider<Position>(
+                          create: (context) => geoService.getInitialLocation()),
+                    ], child: _ThreeBButtons()),
                   ],
                 ),
               ],
@@ -141,15 +147,27 @@ class _ThreeBButtons extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4.0),
                   child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          bottom: BorderSide(width: 4.5, color: Colors.green),
-                        ),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      border: Border(
+                        bottom: BorderSide(width: 4.5, color: Colors.yellow),
                       ),
-                      height: 180,
-                      child: Text("See \nHouse \tListings",
-                          style: const TextStyle(fontSize: 20))),
+                    ),
+                    height: 180,
+                    child: Column(
+                      children: [
+                        Hero(
+                          tag: "house",
+                          child: Image(
+                            fit: BoxFit.scaleDown,
+                            height: 150,
+                            image: AssetImage('assets/images/house_logo.jpeg'),
+                          ),
+                        ),
+                        Text("Listings", style: TextStyle(color: Colors.white))
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -177,7 +195,7 @@ class _ThreeBButtons extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4.0),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey,
+                              color: Colors.transparent,
                               border: Border(
                                 bottom:
                                     BorderSide(width: 4.5, color: Colors.white),
@@ -234,7 +252,7 @@ class _ThreeBButtons extends StatelessWidget {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey,
+                              color: Colors.transparent,
                               border: Border(
                                 bottom:
                                     BorderSide(width: 4.5, color: Colors.white),
@@ -307,20 +325,20 @@ class _Logincard extends StatelessWidget {
 
             //Navigator.of(context).pushNamed('/otprec');
           },
-          color: Colors.green,
+          color: Colors.yellow,
           child: Row(
             children: [
               Text(
                 "LOGIN",
                 style: const TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.w400,
                     fontSize: 13),
               ),
               Icon(
                 Icons.lock,
                 size: 10,
-                color: Colors.white,
+                color: Colors.black,
               )
             ],
           ),
@@ -503,7 +521,7 @@ Future getOTP(mobile, appsign, context) async {
     var myjson = json.decode(response.body);
     data = OtpResponse.fromJson(myjson);
     print(data.messageCode);
-    Navigator.of(context).pushNamed('/otprec');
+    Navigator.of(context).pushNamed('/otprec', arguments: mobile);
   } else {
     print('Please add number');
   }

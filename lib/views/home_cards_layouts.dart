@@ -1,6 +1,5 @@
-import 'dart:developer';
 import 'dart:math';
-
+import 'dart:developer';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:clone/views/issues_card.dart';
 import 'package:clone/views/rent_card.dart';
@@ -23,11 +22,11 @@ class HomeViewCardLayout extends StatefulWidget {
 }
 
 class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
-  String _username = "Jotham";
+  String _username = "Patrick";
 
   Map<String, dynamic> transactions = {
     'title': "Transactions",
-    'data': ["Joe", "Wick", "Mal", "grown", "1", "ewe", "wewe", "kaku"],
+    'data': ["Oct", "Sept", "August", "July", "June", "May", "Feb", "Jan"],
   };
   Map<String, dynamic> complains = {
     'title': "Expenses",
@@ -125,38 +124,17 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                       children: [
                         PageCard(
                           childwidget: RentPaymentCard(),
-                          gradients:[Colors.white, Colors.lightGreen[100]],
+                          gradients: [Colors.white, Colors.lightGreen[100]],
                         ),
                         SizedBox(width: 10),
                         PageCard(
                           childwidget: IssuesCard(),
-                          gradients:[Colors.white, Colors.red[50]],
-                        ),
-                        SizedBox(width: 10),
                         PageCard(
-                          childwidget: ServiceCard(),
-                          gradients:[Colors.white, Colors.lightBlue[100]],
+                          gradients: [Colors.white, Colors.lightBlue[100]],
                         ),
                         SizedBox(width: 20),
                       ],
-                    ),
-                  ),
-                ),
-
-                //Bottom Listing
-                SlidingContainer(
-                  initialOffsetX: -1,
-                  intervalStart: 0.5,
-                  intervalEnd: 1,
-                  childs: Container(
-                    child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: _myAnimatedWidget),
-                  ),
-                ),
-              ],
             ),
-          ),
         ),
       ),
     );
@@ -238,22 +216,3 @@ class PageCard extends StatelessWidget {
   final Widget childwidget;
   final List<Color> gradients;
 
-  const PageCard({@required this.childwidget,@required this.gradients});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: 1,
-        width: MediaQuery.of(context).size.width * 0.8,
-        padding: EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-              gradient: LinearGradient(
-      begin: Alignment.bottomCenter,
-      end: Alignment.topCenter,
-      colors: gradients),
-          //color: Colors.lightBlue[100],
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: this.childwidget);
-  }
-}

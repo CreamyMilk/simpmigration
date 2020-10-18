@@ -12,7 +12,7 @@ class _IntroVideoState extends State<IntroVideo> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset('qassets/introVideo.mp4');
+    _controller = VideoPlayerController.asset('assets/introVideo.mp4');
 
     _controller.addListener(() {
       setState(() {});

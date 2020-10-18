@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:clone/model/paymentResponse.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:clone/widget/payments_selections.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class RentPaymentCard extends StatefulWidget {
 }
 
 class _RentPaymentCardState extends State<RentPaymentCard> {
-  String _month = "January";
+  String _month = "October";
   int _rentDue = 20000;
   bool _testvar = true;
   bool _rentstaus = true;
@@ -76,7 +77,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                       },
                       child: Text(
                         _rentstaus ? "Paid" : "Due",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                       ))
                 ],
               ),
@@ -94,7 +95,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                     ],
                   ),
                   onPressed: () {
-                    _settingModalBottomSheet(context, _rentDue.toString());
+                    settingModalBottomSheet(context, _rentDue.toString());
                     print("STK push sent");
                   },
                 ),
@@ -107,7 +108,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   }
 }
 
-void _settingModalBottomSheet(context, amountDue) {
+void settingModalBottomSheet(context, amountDue) {
   showModalBottomSheet(
     isScrollControlled: true,
     shape: RoundedRectangleBorder(
@@ -127,11 +128,12 @@ Future _sendPayment(mobile, amountDue, ctx) async {
     context: ctx,
     builder: (ctx) => AlertDialog(
         title: Text("Request Successful"),
-        content: Text("Please intent sent\nworth Ksh.$amountDue \nto $mobile")),
+        content: Text("Amount :Ksh.$amountDue \nTo :$mobile")),
   );
-
+  final FirebaseMessaging _fcm = FirebaseMessaging();
   PaymentResponse data;
   try {
+    String fcmToken = await _fcm.getToken();
     final response = await http.post(
       ("https://googlesecureotp.herokuapp.com/" + "payment"),
       headers: {
@@ -143,16 +145,14 @@ Future _sendPayment(mobile, amountDue, ctx) async {
         {
           'phonenumber': mobile,
           'amount': amountDue,
-          'userID': 'Jotham254',
+          'userID': 'Patrick254',
           'socketID': 'mee',
-          'notifToken': 'sererer.erere.rwewe'
+          'notifToken': fcmToken
         },
       ),
     );
     var myjson = json.decode(response.body);
     data = PaymentResponse.fromJson(myjson);
-
-    //Show Popup
 
     print(data.paymentCode);
     print(data.description);
@@ -184,7 +184,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
   String amountDue;
   @override
   void initState() {
-    mobile = "0797678252";
+    mobile = "0759306745";
     amountDue = "1";
     super.initState();
   }
