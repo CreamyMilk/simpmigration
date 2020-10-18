@@ -211,8 +211,26 @@ class _CardListingsState extends State<CardListings> {
     );
   }
 }
-
 class PageCard extends StatelessWidget {
   final Widget childwidget;
   final List<Color> gradients;
 
+  const PageCard({@required this.childwidget, @required this.gradients});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 1,
+        width: MediaQuery.of(context).size.width * 0.8,
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: gradients),
+          //color: Colors.lightBlue[100],
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: this.childwidget);
+  }
+}
