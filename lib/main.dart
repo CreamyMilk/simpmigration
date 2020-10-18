@@ -2,8 +2,13 @@ import 'package:clone/route_generator.dart';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+const userBoxName = 'user';
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox(userBoxName);
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {

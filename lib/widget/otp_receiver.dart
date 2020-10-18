@@ -102,6 +102,5 @@ Future confirmOTP(mobile, code, context) async {
   } else {
     Navigator.of(context).pushNamed('/home');
   }
-
   //Navigator.of(context).pop();
 }
