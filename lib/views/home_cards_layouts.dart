@@ -87,7 +87,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                 },
               )),
           //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, complains: complains, transactions: transactions),
-          floatingActionButton: AwesomeFAB(),
+            floatingActionButton: AwesomeFAB(),
           body: SafeArea(
             child: ListView(
               children: [
@@ -129,30 +129,46 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                         SizedBox(width: 10),
                         PageCard(
                           childwidget: IssuesCard(),
+                          gradients: [Colors.white, Colors.red[100]],
+                        ),
+                        SizedBox(width: 10),
                         PageCard(
+                          childwidget: ServiceCard(),
                           gradients: [Colors.white, Colors.lightBlue[100]],
                         ),
                         SizedBox(width: 20),
                       ],
+                    ),
+                  ),
+                ),
+                //Bottom Listing
+                SlidingContainer(
+                  initialOffsetX: -1,
+                  intervalStart: 0.5,
+                  intervalEnd: 1,
+                  childs: Container(
+                    child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: _myAnimatedWidget),
+                  ),
+                ),
+              ],
             ),
+          ),
         ),
       ),
     );
   }
 }
-
 class CardListings extends StatefulWidget {
   const CardListings({
     Key key,
     @required this.myItems,
   }) : super(key: key);
-
   final Map<String, dynamic> myItems;
-
   @override
   _CardListingsState createState() => _CardListingsState();
 }
-
 class _CardListingsState extends State<CardListings> {
   @override
   Widget build(BuildContext context) {
@@ -214,9 +230,7 @@ class _CardListingsState extends State<CardListings> {
 class PageCard extends StatelessWidget {
   final Widget childwidget;
   final List<Color> gradients;
-
   const PageCard({@required this.childwidget, @required this.gradients});
-
   @override
   Widget build(BuildContext context) {
     return Container(
