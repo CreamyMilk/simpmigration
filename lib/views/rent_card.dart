@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:clone/model/paymentResponse.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:clone/widget/payments_selections.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,25 @@ class RentPaymentCard extends StatefulWidget {
 }
 
 class _RentPaymentCardState extends State<RentPaymentCard> {
-  String _month = "October";
-  int _rentDue = 20000;
+  Box<dynamic> userHiveBox; 
+  Map<String,dynamic> defrent = {"month":"October","rentDue":1578,"rentStatus":false};
+  //Map<String,dynamic> rent;
+  String _month ;
+  int _rentDue ;
   bool _testvar = true;
-  bool _rentstaus = true;
+  bool _rentstaus ;
   List<String> option = ["All Transaction", "Recipts"];
+
+  @override
+  void initState() {
+  userHiveBox = Hive.box('user');
+  //rent = userHiveBox.get('rent',defaultValue:defrent); //Add default for non complains
+  _month = defrent["month"];
+  _rentDue = defrent["rentDue"];
+  _rentstaus = defrent["rentStatus"];
+  print("DATATATATAT####### IS $_rentDue");
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(

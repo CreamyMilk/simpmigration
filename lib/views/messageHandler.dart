@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clone/enums/connectivity_status.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,6 @@ class MyMessageHandler extends StatefulWidget {
   @override
   _MyMessageHandlerState createState() => _MyMessageHandlerState();
 }
-
 class _MyMessageHandlerState extends State<MyMessageHandler> {
   String userToken;
   double op;
@@ -20,6 +20,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   @override
   void initState() {
     super.initState();
+    //_initalHive();
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(
         IosNotificationSettings(),
@@ -114,12 +115,31 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     );
   }
 }
-
+_cacheUserDetails(){
+  final userHiveBox = Hive.box('user');
+  Map<String, dynamic> transactions = {
+    'title': "Transactions",
+    'data': ["Dfault", "Default", "Default", "Default", "Default", "Default", "Default", "Default"],
+  };
+    Map<String, dynamic> complains = {
+    'title': "Expenses",
+    'data': ["Water", "Painting", "Gas"]
+  };
+  Map<String,dynamic> rent = {"month":"October","rentDue":1578,"rentStatus":false};
+  Map<String,dynamic> data = {'transactions':transactions};
+  final jstring =jsonEncode(data);
+  print(jstring);
+  userHiveBox.putAll(jsonDecode(jstring));
+  
+}
 _getStartUpPage(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final userToken = prefs.getString('user_token') ?? "";
+  //final userData = prefs.getString('user_data') ?? "";
+
+  _cacheUserDetails();
   print("UserToken ilikuwa $userToken");
-  Future.delayed(Duration(seconds: 9), () {
+  Future.delayed(Duration(seconds: 1), () {
     userToken == "0"
         ? Navigator.of(context).pushNamed('/home')
         : Navigator.of(context).pushNamed('/login');

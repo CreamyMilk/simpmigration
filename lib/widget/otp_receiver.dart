@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:clone/widget/timerFab.dart';
 import 'package:flutter/material.dart';
 import 'package:clone/model/otpconfirmmodel.dart';
+import 'package:hive/hive.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -91,7 +92,9 @@ Future confirmOTP(mobile, code, context) async {
   data = OtpVerify.fromJson(myjson);
   print(data.message);
   if (data.message == 0) {
+    String userdata = _cacheUserDetails();
     final prefs = await SharedPreferences.getInstance();
+    prefs.setString("user_data",userdata);
     prefs.setString("user_token", data.message.toString()).then((bool success) {
       if (success) {
         Navigator.of(context).pushNamed('/home');
@@ -102,5 +105,22 @@ Future confirmOTP(mobile, code, context) async {
   } else {
     Navigator.of(context).pushNamed('/home');
   }
-  //Navigator.of(context).pop();
+  
+}
+_cacheUserDetails(){
+  final userHiveBox = Hive.box('user');
+    Map<String, dynamic> transactions = {
+    'title': "Transactions",
+    'data': ["TestStore", "Sept", "August", "July", "June", "May", "Feb", "Oct"],
+  };
+    Map<String, dynamic> complains = {
+    'title': "Expenses",
+    'data': ["Water", "Painting", "Gas"]
+  };
+  Map<String,dynamic> rent = {"month":"October","rentDue":1578,"rentStatus":false};
+  Map<String,dynamic> data = {'username':"LOGGEDIN",'uid': '34','mobile':'0797678252','transactions':transactions,'complains':complains,'rent':rent,'lastIssue':'number AND ARRAY','lastService':'number and'};
+  final jstring =jsonEncode(data);
+  print(jstring);
+  userHiveBox.putAll(jsonDecode(jstring));  
+  return jstring;
 }

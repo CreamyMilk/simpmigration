@@ -9,8 +9,8 @@ import 'package:clone/widget/pdf_button.dart';
 import 'package:clone/widget/slidingContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeViewCardLayout extends StatefulWidget {
@@ -22,13 +22,15 @@ class HomeViewCardLayout extends StatefulWidget {
 }
 
 class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
-  String _username = "Patrick";
-
-  Map<String, dynamic> transactions = {
+  Box<dynamic> userHiveBox;
+  String _username='3';
+  Map<String,dynamic> _transactions;
+  Map<String, dynamic> defaulttransactions = {
     'title': "Transactions",
-    'data': ["Oct", "Sept", "August", "July", "June", "May", "Feb", "Jan"],
+    'data': ["Dfault", "Default", "Default", "Default", "Default", "Default", "Default", "Default"],
   };
-  Map<String, dynamic> complains = {
+  Map<String, dynamic> _complains;
+    Map<String, dynamic> defaultcomplains = {
     'title': "Expenses",
     'data': ["Water", "Painting", "Gas"]
   };
@@ -39,9 +41,13 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   @override
   void initState() {
     super.initState();
+    userHiveBox = Hive.box('user');
+    _username = userHiveBox.get('username', defaultValue: "JohnDoe");
+    var temp = userHiveBox.get('transactions',defaultValue:defaulttransactions);//Add default for non 
+    _transactions = temp;
     fadeswitch = true;
     _myAnimatedWidget = CardListings(
-      myItems: transactions,
+      myItems: _transactions,
       key: ValueKey(1),
     );
   }
@@ -82,11 +88,12 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                 icon: Icon(Icons.account_circle),
                 color: Colors.white,
                 onPressed: () {
+                  Navigator.of(context).pushNamed('/');
                   print(
                       'Card should be the percenage ${300 / MediaQuery.of(context).size.height}% while Listings${400 / MediaQuery.of(context).size.height}%');
                 },
               )),
-          //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, complains: complains, transactions: transactions),
+          //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, _complains: _complains, _transactions: _transactions),
             floatingActionButton: AwesomeFAB(),
           body: SafeArea(
             child: ListView(

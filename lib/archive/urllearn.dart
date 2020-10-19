@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UrlTest extends StatelessWidget {
@@ -20,7 +19,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final userHiveBox = Hive.box('user');
+  
   String name;
   Future<void> _launched;
   String _phone = '';
@@ -67,14 +66,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    userHiveBox.put('name', 'Jotham');
+    
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     const String toLaunch = 'https://www.i-crib.co.ke/lists';
-    name = userHiveBox.get('name', defaultValue: "John Doe");
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -94,6 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               RaisedButton(
                 onPressed: () => setState(() {
+                 
+                  
                   _launched = _makePhoneCall('tel:$_phone');
                 }),
                 child: const Text('Make phone call'),

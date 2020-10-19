@@ -45,7 +45,7 @@ class RouteGenerator {
               create: (context) => animation,
               child: HomeViewCardLayout(
                 transitionAnime: animation,
-              ),
+              )
             );
           },
           transitionDuration: const Duration(seconds: 2),

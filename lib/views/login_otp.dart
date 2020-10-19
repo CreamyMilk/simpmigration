@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:clone/model/otpresponse.dart';
 import 'package:clone/route_generator.dart';
-import 'package:clone/widget/intro_video.dart';
+//import 'package:clone/widget/intro_video.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class _LoginOTPState extends State<LoginOTP> {
       onWillPop: () async => false,
       child: Stack(
         children: [
-          IntroVideo(),
+          //IntroVideo(),
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
