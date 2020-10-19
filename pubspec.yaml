@@ -80,7 +80,7 @@ flutter:
     - assets/images/
     - assets/sign.png
     - assets/introVideo.mp4
-  
+    - assets/mpesa.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

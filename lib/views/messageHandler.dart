@@ -125,7 +125,6 @@ _cacheUserDetails(){
     'title': "Expenses",
     'data': ["Water", "Painting", "Gas"]
   };
-  Map<String,dynamic> rent = {"month":"October","rentDue":1578,"rentStatus":false};
   Map<String,dynamic> data = {'transactions':transactions};
   final jstring =jsonEncode(data);
   print(jstring);

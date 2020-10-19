@@ -4,11 +4,16 @@ import 'package:flutter/rendering.dart';
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-
+  void upadateRentCard(String month,bool status,int amount){
+  var userBox = Hive.box('user');
+  Map<String,dynamic> rent = {"month":month,"rentDue":amount,"rentStatus":status};
+  userBox.put("rent",rent);
+}
 class AwesomeFAB extends StatelessWidget {
   const AwesomeFAB({Key key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     return Consumer<Position>(
@@ -37,7 +42,13 @@ class AwesomeFAB extends StatelessWidget {
             SpeedDialChild(
               child: Icon(Icons.brush, color: Colors.white),
               backgroundColor: Colors.green,
-              onTap: () => print('Receipts'),
+              onTap: () {
+                var userBox = Hive.box('user');
+                //userBox.put('rentStats',!(userBox.get('rentStats')));
+                upadateRentCard("October",true,2);
+                print("eee${userBox.get('rentStats')}");
+                print('Receipts');
+                },
               label: 'Receipts',
               labelStyle:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
@@ -64,7 +75,11 @@ class AwesomeFAB extends StatelessWidget {
       },
     );
   }
+
 }
+//WEB SOCKETS TO DO THIS OR A PULL TO REFRESH
+
+
 // class OlfFAB extends StatefulWidget {
 //   const OlfFAB({
 //     Key key,

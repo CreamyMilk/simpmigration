@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:clone/model/paymentResponse.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:clone/widget/payments_selections.dart';
 import 'package:flutter/material.dart';
@@ -21,105 +23,114 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   String _month ;
   int _rentDue ;
   bool _testvar = true;
-  bool _rentstaus ;
+  bool _status ;
   List<String> option = ["All Transaction", "Recipts"];
 
   @override
   void initState() {
-  userHiveBox = Hive.box('user');
-  //rent = userHiveBox.get('rent',defaultValue:defrent); //Add default for non complains
-  _month = defrent["month"];
-  _rentDue = defrent["rentDue"];
-  _rentstaus = defrent["rentStatus"];
-  print("DATATATATAT####### IS $_rentDue");
     super.initState();
+  userHiveBox = Hive.box('user');
+  var temp = userHiveBox.get('rent',defaultValue:{'rentDue':0,'month':"October","rentStatus":false}); //Add default for non complains
+  _month = temp["month"];
+  _rentDue = temp['rentDue'];
+  _status = temp["rentStatus"];
+  print("DTAT");
+    
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      color: Colors.transparent,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Month  :",
-                style: TextStyle(
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black),
-              ),
-              Container(child: Text("$_month")),
-              PopupMenuButton(
-                  onSelected: choiceAction,
-                  icon: Icon(Icons.more_horiz),
-                  itemBuilder: (BuildContext context) {
-                    return option.map((String choice) {
-                      return PopupMenuItem(
-                        value: choice,
-                        child: Text(choice),
-                      );
-                    }).toList();
-                  }),
-            ],
-          ),
-          Text(
-            "Ksh.${_rentDue.toString()}",
-            style: TextStyle(
-              fontWeight: FontWeight.w200,
-              fontSize: 40.0,
-            ),
-          ),
-          Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    "RentStatus",
-                    style: TextStyle(color: Colors.grey, fontSize: 10.0),
-                  ),
-                  MaterialButton(
-                      color: _rentstaus ? Colors.greenAccent : Colors.redAccent,
-                      onPressed: () {
-                        setState(() {
-                          _rentstaus = !_rentstaus;
-                        });
-                      },
-                      child: Text(
-                        _rentstaus ? "Paid" : "Due",
-                        style: TextStyle(color: Colors.black),
-                      ))
-                ],
-              ),
-              AnimatedContainer(
-                duration: Duration(seconds: 100),
-                color: Colors.transparent,
-                alignment: Alignment.bottomRight,
-                padding: EdgeInsets.all(5.0),
-                child: MaterialButton(
-                  color:
-                      _testvar ? Theme.of(context).primaryColor : Colors.grey,
-                  child: Row(
-                    children: [
-                      Text("Pay now", style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                  onPressed: () {
-                    settingModalBottomSheet(context, _rentDue.toString());
-                    print("STK push sent");
-                  },
+    return ValueListenableBuilder(
+
+      valueListenable: Hive.box('user').listenable(),
+      builder: (context, box, widget) {
+        var local = userHiveBox.get('rent',defaultValue:{'rentDue':0,'month':"October","rentStatus":false}); 
+        _month = local["month"];
+        _rentDue = local['rentDue'];
+        _status = local["rentStatus"];
+        String _visualAmount = _rentDue.toString().replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
+        return  Container(
+        padding: EdgeInsets.all(8.0),
+        color: Colors.transparent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Month  :",
+                  style: TextStyle(
+                      fontSize: 10.0,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.black),
                 ),
+                Container(child: Text("$_month")),
+                PopupMenuButton(
+                    onSelected: choiceAction,
+                    icon: Icon(Icons.more_horiz),
+                    itemBuilder: (BuildContext context) {
+                      return option.map((String choice) {
+                        return PopupMenuItem(
+                          value: choice,
+                          child: Text(choice),
+                        );
+                      }).toList();
+                    },),
+              ],
+            ),
+            Text(
+              "Ksh.$_visualAmount",
+              style: TextStyle(
+                fontWeight: FontWeight.w200,
+                fontSize: 40.0,
               ),
-            ],
-          )
-        ],
-      ),
-    );
+            ),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      "RentStatus",
+                      style: TextStyle(color: Colors.grey, fontSize: 10.0),
+                    ),
+                    MaterialButton(
+                        color: _status ? Colors.greenAccent : Colors.redAccent,
+                        onPressed: () {
+
+                        },
+                        child: Text(
+                          _status ? "Paid" : "Due",
+                          style: TextStyle(color: Colors.black),
+                        ))
+                  ],
+                ),
+                AnimatedContainer(
+                  duration: Duration(seconds: 100),
+                  color: Colors.transparent,
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.all(5.0),
+                  child: MaterialButton(
+                    color:
+                        _testvar ? Theme.of(context).primaryColor : Colors.grey,
+                    child: Row(
+                      children: [
+                        Text("Pay now", style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                    onPressed: () {
+                      settingModalBottomSheet(context, _rentDue.toString());
+                      print("STK push sent");
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+      },);
   }
 }
 
@@ -138,14 +149,10 @@ void settingModalBottomSheet(context, amountDue) {
 }
 
 Future _sendPayment(mobile, amountDue, ctx) async {
-  showDialog(
-    //Text(message['notification']['title']
-    context: ctx,
-    builder: (ctx) => AlertDialog(
-        title: Text("Request Successful"),
-        content: Text("Amount :Ksh.$amountDue \nTo :$mobile")),
-  );
+
   final FirebaseMessaging _fcm = FirebaseMessaging();
+  var userBox = Hive.box('user');
+  String useracccount = userBox.get("ewewe",defaultValue:"Error");
   PaymentResponse data;
   try {
     String fcmToken = await _fcm.getToken();
@@ -160,7 +167,7 @@ Future _sendPayment(mobile, amountDue, ctx) async {
         {
           'phonenumber': mobile,
           'amount': amountDue,
-          'userID': 'Patrick254',
+          'userID': useracccount,
           'socketID': 'mee',
           'notifToken': fcmToken
         },
@@ -168,14 +175,63 @@ Future _sendPayment(mobile, amountDue, ctx) async {
     );
     var myjson = json.decode(response.body);
     data = PaymentResponse.fromJson(myjson);
-
+    
+        showDialog(
+    //Text(message['notification']['title']
+    context: ctx,
+    builder: (ctx) => AlertDialog(
+        title: AspectRatio(
+                aspectRatio: 1.5,
+                child: FlareActor(
+                  'assets/initLoading.flr',
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: 'Demo',
+                ),
+              ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Amount :Ksh.$amountDue \nTo :$mobile"),
+          ],
+        )),
+  );
+    
     print(data.paymentCode);
     print(data.description);
-  } catch (err) {
-    print(err);
+  } catch (SocketException) {
+    print("msEE HAUNA WIFI");
+      showDialog(
+    //Text(message['notification']['title']
+    context: ctx,
+    builder: (ctx) => AlertDialog(
+        title: AspectRatio(
+                aspectRatio: 1.5,
+                child: FlareActor(
+                  'assets/tick.flr',
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: 'go',
+                ),
+              ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Msee WIFI au Bundles"),
+          ],
+        )),
+  );
   }
 }
-
+String convertTo07(String f){
+  String no;
+  String pl;
+  String t5;
+  no = f.replaceAll(new RegExp(r"\s+"), "");
+  pl = no.replaceAll(new RegExp(r"\+"), "");
+  t5 = pl.replaceAll(new RegExp(r"2547"), "07");
+  return t5;
+}
 void choiceAction(String choice) {
   print(choice);
   Navigator.of(null).pushNamed('/randomUser');
@@ -183,7 +239,10 @@ void choiceAction(String choice) {
 
 String validatePassword(String value) {
   if (!(value.length > 9) && value.isNotEmpty) {
-    return "Mobile number should be in the format 254xxx";
+    if(value[0] != "0"){
+       return "Mobile number should be in the format 07xx";
+    }
+   return null;
   }
   return null;
 }
@@ -194,13 +253,18 @@ class PaymentBottomSheet extends StatefulWidget {
 }
 
 class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
+  Box<dynamic> userHiveBox; 
   final TextEditingController _testcontroller = TextEditingController();
   String mobile;
   String amountDue;
+  String visualAmount;
   @override
   void initState() {
-    mobile = "0759306745";
-    amountDue = "1";
+    userHiveBox = Hive.box('user');
+    var temp = userHiveBox.get('rent',defaultValue:{'rentDue':1,'month':"October","rentStatus":false}); //Add default for non complains
+    mobile = userHiveBox.get('mobile',defaultValue: "");
+    amountDue = temp["rentDue"].toString();
+    visualAmount = amountDue.replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
     super.initState();
   }
 
@@ -243,7 +307,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "20,000",
+                          "$visualAmount",
                           style: TextStyle(
                               fontWeight: FontWeight.w100, fontSize: 25),
                         ),
@@ -318,14 +382,15 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                 decoration: InputDecoration(
                   isDense: true,
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.perm_contact_calendar),
+                    icon: Icon(Icons.contacts),
+
                     onPressed: () async {
                       final PhoneContact contact =
                           await FlutterContactPicker.pickPhoneContact();
-                      print(contact);
+          
                       setState(() {
-                        _testcontroller.text = contact.phoneNumber.number;
-                        mobile = contact.phoneNumber.number;
+                        _testcontroller.text =convertTo07(contact.phoneNumber.number);
+                        mobile = convertTo07(contact.phoneNumber.number);
                       });
                     },
                   ),
@@ -345,7 +410,8 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                     minWidth: MediaQuery.of(context).size.width * .95,
                     onPressed: () async {
                       Navigator.pop(context);
-                      await _sendPayment(mobile, "1", context);
+                    
+                      await _sendPayment(mobile, amountDue, context);
                     },
                     color: Colors.black,
                     child: Text(

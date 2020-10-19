@@ -117,8 +117,8 @@ _cacheUserDetails(){
     'title': "Expenses",
     'data': ["Water", "Painting", "Gas"]
   };
-  Map<String,dynamic> rent = {"month":"October","rentDue":1578,"rentStatus":false};
-  Map<String,dynamic> data = {'username':"LOGGEDIN",'uid': '34','mobile':'0797678252','transactions':transactions,'complains':complains,'rent':rent,'lastIssue':'number AND ARRAY','lastService':'number and'};
+  Map<String,dynamic> rent = {"month":10,"rentDue":77,"rentStatus":false};
+  Map<String,dynamic> data = {'username':"LOGGEDIN",'uid': '34','mobile':'0797678252','transaction':transactions,'complains':complains,'rent':rent,'lastIssue':'number AND ARRAY','lastService':'number and'};
   final jstring =jsonEncode(data);
   print(jstring);
   userHiveBox.putAll(jsonDecode(jstring));  
