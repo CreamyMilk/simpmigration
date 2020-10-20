@@ -6,10 +6,20 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-  void upadateRentCard(String month,bool status,int amount){
+void upadateRentCard(String month,bool status,int amount){
   var userBox = Hive.box('user');
   Map<String,dynamic> rent = {"month":month,"rentDue":amount,"rentStatus":status};
   userBox.put("rent",rent);
+}
+void updateTransactions(){
+  var userBox = Hive.box('user');
+    List<Map<String,dynamic>> newtrans=[{"month":"Febuary","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}];
+    Map<String, dynamic> transactions = {
+    'title': "Transactions",
+    'data': newtrans,
+  };
+  userBox.put("transaction",transactions);
+  print("Transactions Added");
 }
 class AwesomeFAB extends StatelessWidget {
   const AwesomeFAB({Key key}) : super(key: key);
@@ -45,6 +55,7 @@ class AwesomeFAB extends StatelessWidget {
               onTap: () {
                 var userBox = Hive.box('user');
                 //userBox.put('rentStats',!(userBox.get('rentStats')));
+                updateTransactions();
                 upadateRentCard("October",true,2);
                 print("eee${userBox.get('rentStats')}");
                 print('Receipts');

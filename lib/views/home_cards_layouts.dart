@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:developer';
 import 'package:clone/services/geolocation_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:clone/views/issues_card.dart';
 import 'package:clone/views/rent_card.dart';
 import 'package:clone/views/services_card.dart';
@@ -25,10 +26,12 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   Box<dynamic> userHiveBox;
   String _username='3';
   Map<String,dynamic> _transactions;
-  Map<String, dynamic> defaulttransactions = {
-    'title': "Transactions",
-    'data': ["Dfault", "Default", "Default", "Default", "Default", "Default", "Default", "Default"],
-  };
+
+    Map<String,dynamic> soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}};
+
+    Map<String, dynamic> defaulttransactions ;
+
+
   Map<String, dynamic> _complains;
     Map<String, dynamic> defaultcomplains = {
     'title': "Expenses",
@@ -44,12 +47,17 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
     userHiveBox = Hive.box('user');
     _username = userHiveBox.get('username', defaultValue: "JohnDoe");
     var temp = userHiveBox.get('transactions',defaultValue:defaulttransactions);//Add default for non 
+    defaulttransactions = {
+    'title': "Transactions",
+    'data': [soletrans,soletrans],
+  };
     _transactions = temp;
     fadeswitch = true;
     _myAnimatedWidget = CardListings(
       myItems: _transactions,
       key: ValueKey(1),
     );
+    //print(">>>>>>>>>>>>$_transactions");
   }
 
   @override
@@ -173,66 +181,83 @@ class CardListings extends StatefulWidget {
     @required this.myItems,
   }) : super(key: key);
   final Map<String, dynamic> myItems;
+  
   @override
   _CardListingsState createState() => _CardListingsState();
 }
 class _CardListingsState extends State<CardListings> {
+  Box<dynamic> userHiveBox;
+
+  @override
+  void initState() { 
+    super.initState();
+    print("Transaction List");
+  }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white38,
-      //Bottom Listing size 400
-      height: MediaQuery.of(context).size.height * 0.4554588205448669,
-      child: ReorderableListView(
-        header: Row(
-          children: [
-            SizedBox(
-              height: 29,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                widget.myItems['title'],
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 5.0),
+    return ValueListenableBuilder(
+      valueListenable: Hive.box('user').listenable(),
+      builder: (context, box, widget) {
+        var local =box.get('transaction',defaultValue:{
+    'title': "Transactions",
+    'data': [{"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}}],
+  });
+        return Container(
+        color: Colors.white38,
+        //Bottom Listing size 400
+        height: MediaQuery.of(context).size.height * 0.4554588205448669,
+        child: ReorderableListView(
+          header: Row(
+            children: [
+              SizedBox(
+                height: 29,
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  local['title'],
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: 5.0),
+                ),
+              ),
+            ],
+          ),
+          onReorder: (oldIndex, newIndex) {
+            print(oldIndex);
+            print(newIndex);
+            setState(() {
+              if (newIndex > oldIndex) {
+                newIndex -= 1;
+              }
+              final item = local['data'].removeAt(oldIndex);
+              local['data'].insert(newIndex, item);
+            });
+          },
+          children: [
+            for (final item in local['data'])
+            
+              ExpansionTile(
+                key: ValueKey(Random().nextInt(10000)),
+                title: Text(item["month"]),
+                subtitle: Text("${Timeline.now}"),
+                leading: Icon(Icons.album),
+                trailing: Text("Ksh.${item["rec"]["amount"].toString()}",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                children: [
+                  Row(
+                    children: [
+                      CreatePdfStatefulWidget(
+                        transData: item["rec"]),
+                       ],
+                  )
+                ],
+              ),
           ],
         ),
-        onReorder: (oldIndex, newIndex) {
-          print(oldIndex);
-          print(newIndex);
-          setState(() {
-            if (newIndex > oldIndex) {
-              newIndex -= 1;
-            }
-            final item = widget.myItems['data'].removeAt(oldIndex);
-            widget.myItems['data'].insert(newIndex, item);
-          });
-        },
-        children: [
-          for (final item in widget.myItems['data'])
-            ExpansionTile(
-              key: ValueKey(Random().nextInt(10000)),
-              title: Text(item),
-              subtitle: Text("${Timeline.now}"),
-              leading: Icon(Icons.album),
-              trailing: Text("Ksh.${Random().nextInt(10000).toString()}",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              children: [
-                Row(
-                  children: [
-                    CreatePdfStatefulWidget(
-                      transData:{"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}}['rec']),
-                  ],
-                )
-              ],
-            ),
-        ],
-      ),
-    );
+      );
+      });
   }
 }
 class PageCard extends StatelessWidget {

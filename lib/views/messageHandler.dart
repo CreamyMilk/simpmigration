@@ -117,9 +117,11 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
 }
 _cacheUserDetails(){
   final userHiveBox = Hive.box('user');
+   Map<String,dynamic> soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}};
+
   Map<String, dynamic> transactions = {
     'title': "Transactions",
-    'data': ["Dfault", "Default", "Default", "Default", "Default", "Default", "Default", "Default"],
+    'data': [soletrans,soletrans],
   };
     Map<String, dynamic> complains = {
     'title': "Expenses",
