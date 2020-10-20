@@ -117,7 +117,7 @@ _cacheUserDetails(){
     'title': "Expenses",
     'data': ["Water", "Painting", "Gas"]
   };
-  Map<String,dynamic> rent = {"month":10,"rentDue":77,"rentStatus":false};
+  Map<String,dynamic> rent = {"month":'January',"rentDue":77,"rentStatus":false};
   Map<String,dynamic> data = {'username':"LOGGEDIN",'uid': '34','mobile':'0797678252','transaction':transactions,'complains':complains,'rent':rent,'lastIssue':'number AND ARRAY','lastService':'number and'};
   final jstring =jsonEncode(data);
   print(jstring);

@@ -43,11 +43,11 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
         ],
       ),
       color: Colors.blue,
-      onPressed: generatereceipt,
+      onPressed:(){generatereceipt({});},
     );
   }
 
-  Future<void> generatereceipt() async {
+  Future<void> generatereceipt(Map<String,dynamic> recdata) async {
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
     //Add page to the PDF
@@ -61,7 +61,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     //Generate PDF grid.
     final PdfGrid grid = getGrid();
     //Draw the header section by creating text element
-    final PdfLayoutResult result = drawHeader(page, pageSize, grid);
+    final PdfLayoutResult result = drawHeader(page, pageSize, grid,username);
     //Draw grid
     drawGrid(page, grid, result);
     //Add receipt footer
@@ -81,7 +81,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
   }
 
   //Draws the receipt header
-  PdfLayoutResult drawHeader(PdfPage page, Size pageSize, PdfGrid grid) {
+  PdfLayoutResult drawHeader(PdfPage page, Size pageSize, PdfGrid grid,String username) {
     //Draw rectangle
     page.graphics.drawRectangle(
         brush: PdfSolidBrush(PdfColor(91, 126, 215, 255)),
@@ -118,9 +118,10 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     final String receiptNumber = 'Receipt Number: 2058557939\r\n\r\nDate: ' +
         format.format(DateTime.now());
     final Size contentSize = contentFont.measureString(receiptNumber);
-    const String address = '''Bill To: \r\n\r\nPatrick Murui, 
-        \r\n\r\nKahawa Sukari, Kenya, 
-        \r\n\r\nHouse No, \r\n\r\nA136''';
+    final String address = '''
+        \r\nBill To : $username, 
+        \r\nBranch  : Kahawa Sukari, Kenya.
+        \r\nHouseNo : New''';
 
     PdfTextElement(text: receiptNumber, font: contentFont).draw(
         page: page,
@@ -151,15 +152,16 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
         page: page, bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0));
 
     //Draw grand total.
-    page.graphics.drawString('Grand Total',
-        PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
+    page.graphics.drawString('Grand Total:',
+        PdfStandardFont(PdfFontFamily.timesRoman, 10, style: PdfFontStyle.bold),
         bounds: Rect.fromLTWH(
             quantityCellBounds.left,
             result.bounds.bottom + 10,
             quantityCellBounds.width,
             quantityCellBounds.height));
     page.graphics.drawString(getTotalAmount(grid).toString(),
-        PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
+        PdfStandardFont(PdfFontFamily.helvetica, 10, style: PdfFontStyle.bold),
+        format: PdfStringFormat(alignment: PdfTextAlignment.center),
         bounds: Rect.fromLTWH(
             totalPriceCellBounds.left,
             result.bounds.bottom + 10,
@@ -196,25 +198,26 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     //Create a PDF grid
     final PdfGrid grid = PdfGrid();
     //Secify the columns count to the grid.
-    grid.columns.add(count: 5);
+    grid.columns.add(count: 3);
     //Create the header row of the grid.
     final PdfGridRow headerRow = grid.headers.add(1)[0];
     //Set style
     headerRow.style.backgroundBrush = PdfSolidBrush(PdfColor(68, 114, 196));
     headerRow.style.textBrush = PdfBrushes.white;
-    headerRow.cells[0].value = 'Rent Id';
+    headerRow.cells[0].value = 'Bill Name';
     headerRow.cells[0].stringFormat.alignment = PdfTextAlignment.center;
-    headerRow.cells[1].value = 'Service Name';
-    headerRow.cells[2].value = 'Price';
-    headerRow.cells[3].value = 'Quantity';
-    headerRow.cells[4].value = 'Total';
+    headerRow.cells[1].value = 'Description';
+    headerRow.cells[2].value = 'Amount';
+    headerRow.cells[2].stringFormat.alignment = PdfTextAlignment.center;
+    //headerRow.cells[3].value = 'Amount';
+    //headerRow.cells[4].value = 'Total';
     //Add rows
-    addProducts('CA-1098', 'AWC Logo Cap', 8.99, 2, 17.98, grid);
-    addProducts('LJ-0192', 'Long-Sleeve Logo Jersey,M', 49.99, 3, 149.97, grid);
-    addProducts('So-B909-M', 'Mountain Bike Socks,M', 9.5, 2, 19, grid);
-    addProducts('LJ-0192', 'Long-Sleeve Logo Jersey,M', 49.99, 4, 199.96, grid);
-    addProducts('FK-5136', 'ML Fork', 175.49, 6, 1052.94, grid);
-    addProducts('HL-U509', 'Sports-100 Helmet,Black', 34.99, 1, 34.99, grid);
+    addProducts('Home Rent', 'AWC Logo Cap', 8.99, 2, 17.98, grid);
+    addProducts('Water Bill', '-- -- --', 0, 3, 149.97, grid);
+    addProducts('Electric Bill', '-- -- --', 0, 2, 19, grid);
+    addProducts('Gas Bill', '-- -- --', 0, 4, 199.96, grid);
+    addProducts('Guard Bill', '-- -- --', 0, 6, 1052.94, grid);
+    addProducts('Utility Bill', '-- -- --', 0 , 1, 34.99, grid);
     //Apply the table built-in style
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
     //Set gird columns width
@@ -227,11 +230,14 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       final PdfGridRow row = grid.rows[i];
       for (int j = 0; j < row.cells.count; j++) {
         final PdfGridCell cell = row.cells[j];
-        if (j == 0) {
+        if (j == 0 ) {
+          cell.stringFormat.alignment = PdfTextAlignment.center;
+        }
+        if (j == 2 ) {
           cell.stringFormat.alignment = PdfTextAlignment.center;
         }
         cell.style.cellPadding =
-            PdfPaddings(bottom: 5, left: 5, right: 5, top: 5);
+            PdfPaddings(bottom: 5, left: 5, right: 15, top: 5);
       }
     }
     return grid;
@@ -244,8 +250,8 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     row.cells[0].value = productId;
     row.cells[1].value = productName;
     row.cells[2].value = price.toString();
-    row.cells[3].value = quantity.toString();
-    row.cells[4].value = total.toString();
+    //row.cells[3].value = quantity.toString();
+    //row.cells[4].value = total.toString();
   }
 
   //Get the total amount.

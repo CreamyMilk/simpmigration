@@ -154,6 +154,18 @@ Future _sendPayment(mobile, amountDue, ctx) async {
   var userBox = Hive.box('user');
   String useracccount = userBox.get("ewewe",defaultValue:"Error");
   PaymentResponse data;
+  showDialog(
+    //Text(message['notification']['title']
+    context: ctx,
+    builder: (ctx) => AlertDialog(
+        title:Text("Request Sent"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Amount :Ksh.$amountDue \nTo :$mobile"),
+          ],
+        )),
+  );
   try {
     String fcmToken = await _fcm.getToken();
     final response = await http.post(
@@ -173,29 +185,11 @@ Future _sendPayment(mobile, amountDue, ctx) async {
         },
       ),
     );
+
     var myjson = json.decode(response.body);
     data = PaymentResponse.fromJson(myjson);
     
-        showDialog(
-    //Text(message['notification']['title']
-    context: ctx,
-    builder: (ctx) => AlertDialog(
-        title: AspectRatio(
-                aspectRatio: 1.5,
-                child: FlareActor(
-                  'assets/initLoading.flr',
-                  alignment: Alignment.center,
-                  fit: BoxFit.contain,
-                  animation: 'Demo',
-                ),
-              ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("Amount :Ksh.$amountDue \nTo :$mobile"),
-          ],
-        )),
-  );
+
     
     print(data.paymentCode);
     print(data.description);
@@ -217,7 +211,7 @@ Future _sendPayment(mobile, amountDue, ctx) async {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Msee WIFI au Bundles"),
+            Text("Turn on WIFI or Bundles"),
           ],
         )),
   );

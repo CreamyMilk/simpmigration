@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:clone/model/otpresponse.dart';
 import 'package:clone/route_generator.dart';
+import 'package:app_settings/app_settings.dart';
 //import 'package:clone/widget/intro_video.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -183,7 +184,15 @@ class _ThreeBButtons extends StatelessWidget {
                             .pushNamed('/map', arguments: position);
                       } else {
                         Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text("Turn on location service")));
+                            content:Text("Turn on location service"),
+                            action: SnackBarAction(
+                              textColor: Colors.yellow,
+                              label:"Turn On",
+                              onPressed:(){
+                                AppSettings.openLocationSettings();
+                                print("Opening Settings");
+                              }
+                            ),));
                       }
                     },
                     child: Container(
@@ -502,9 +511,11 @@ Future<void> showMyDialog(BuildContext context) async {
 }
 
 Future getOTP(mobile, appsign, context) async {
+  
   OtpResponse data;
   print('Phone $mobile');
   if (mobile != null) {
+    try{
     final response = await http.post(
       ("https://googlesecureotp.herokuapp.com/" + "otp"),
       headers: {
@@ -522,7 +533,15 @@ Future getOTP(mobile, appsign, context) async {
     data = OtpResponse.fromJson(myjson);
     print(data.messageCode);
     Navigator.of(context).pushNamed('/otprec', arguments: mobile);
-  } else {
+  }catch(SocketException){
+  
+showDialog(
+    //Text(message['notification']['title']
+    context: context,
+    builder: (context) => AlertDialog(
+        title: Text("No Network connection"),
+        actions: [MaterialButton(onPressed:(){},child:Text("Turn on"))],));
+  }}else {
     print('Please add number');
   }
 }
