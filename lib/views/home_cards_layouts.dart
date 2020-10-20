@@ -215,7 +215,7 @@ class _CardListingsState extends State<CardListings> {
         children: [
           for (final item in widget.myItems['data'])
             ExpansionTile(
-              key: ValueKey(item),
+              key: ValueKey(Random().nextInt(10000)),
               title: Text(item),
               subtitle: Text("${Timeline.now}"),
               leading: Icon(Icons.album),
@@ -225,8 +225,7 @@ class _CardListingsState extends State<CardListings> {
                 Row(
                   children: [
                     CreatePdfStatefulWidget(
-                      transData:{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}
-                    ),
+                      transData:{"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}}['rec']),
                   ],
                 )
               ],

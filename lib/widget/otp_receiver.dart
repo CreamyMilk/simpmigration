@@ -109,9 +109,11 @@ Future confirmOTP(mobile, code, context) async {
 }
 _cacheUserDetails(){
   final userHiveBox = Hive.box('user');
+  Map<String,dynamic> soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}};
+
     Map<String, dynamic> transactions = {
     'title': "Transactions",
-    'data': ["TestStore", "Sept", "August", "July", "June", "May", "Feb", "Oct"],
+    'data': [soletrans,soletrans],
   };
     Map<String, dynamic> complains = {
     'title': "Expenses",
