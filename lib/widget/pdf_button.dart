@@ -11,19 +11,22 @@ import 'package:flutter/services.dart' show rootBundle;
 
 /// Represents the PDF stateful widget class.
 class CreatePdfStatefulWidget extends StatefulWidget {
+  final Map<String,dynamic> transData;
   /// Initalize the instance of the [CreatePdfStatefulWidget] class.
-  const CreatePdfStatefulWidget({Key key, this.title}) : super(key: key);
+  const CreatePdfStatefulWidget({Key key, @required this.transData}) : super(key: key);
 
   /// title.
-  final String title;
+  
   @override
   _CreatePdfState createState() => _CreatePdfState();
 }
 
 class _CreatePdfState extends State<CreatePdfStatefulWidget> {
   ByteData signData;
+  Map<String,dynamic> _t;
   @override
   void initState() {
+    _t = widget.transData;
     rootBundle
         .load('assets/sign.png')
         .then((data) => setState(() => this.signData = data));
@@ -43,11 +46,11 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
         ],
       ),
       color: Colors.blue,
-      onPressed:(){generatereceipt({});},
+      onPressed:(){generatereceipt(_t);},
     );
   }
 
-  Future<void> generatereceipt(Map<String,dynamic> recdata) async {
+  Future<void> generatereceipt(Map<String,dynamic> tr) async {
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
     //Add page to the PDF
@@ -59,9 +62,9 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
         pen: PdfPen(PdfColor(142, 170, 219, 255)));
     //Generate PDF grid.
-    final PdfGrid grid = getGrid();
+    final PdfGrid grid = getGrid(tr);
     //Draw the header section by creating text element
-    final PdfLayoutResult result = drawHeader(page, pageSize, grid,username);
+    final PdfLayoutResult result = drawHeader(page, pageSize, grid,tr);
     //Draw grid
     drawGrid(page, grid, result);
     //Add receipt footer
@@ -81,7 +84,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
   }
 
   //Draws the receipt header
-  PdfLayoutResult drawHeader(PdfPage page, Size pageSize, PdfGrid grid,String username) {
+  PdfLayoutResult drawHeader(PdfPage page, Size pageSize, PdfGrid grid,Map<String,dynamic> tra) {
     //Draw rectangle
     page.graphics.drawRectangle(
         brush: PdfSolidBrush(PdfColor(91, 126, 215, 255)),
@@ -115,13 +118,13 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
             lineAlignment: PdfVerticalAlignment.bottom));
     //Create data foramt and convert it to text.
     final DateFormat format = DateFormat.yMMMMd('en_US');
-    final String receiptNumber = 'Receipt Number: 2058557939\r\n\r\nDate: ' +
+    final String receiptNumber = 'Receipt Number: ${tra["receiptNumber"]}\r\n\r\nDate: ' +
         format.format(DateTime.now());
     final Size contentSize = contentFont.measureString(receiptNumber);
     final String address = '''
-        \r\nBill To : $username, 
-        \r\nBranch  : Kahawa Sukari, Kenya.
-        \r\nHouseNo : New''';
+        \r\nBill To     : ${tra["username"]}. 
+        \r\nBranch    : ${tra["branch"]}).
+        \r\nHouseNo : ${tra["house"]}''';
 
     PdfTextElement(text: receiptNumber, font: contentFont).draw(
         page: page,
@@ -179,8 +182,8 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
         Offset(pageSize.width, pageSize.height - 100));
 
     const String footerContent =
-        '''800 Interchange Blvd.\r\n\r\nSuite 2501, Austin,
-         TX 78721\r\n\r\nAny Questions? support@adventure-works.com''';
+        '''ICRIB Agency\r\n\rKahawa Sukari, Austin,
+         \r\n\r\nAny Questions? admin@i-crib.com''';
 
     //Added 30 as a margin for the layout
     //Drawing Signature
@@ -194,7 +197,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
   }
 
   //Create PDF grid and return
-  PdfGrid getGrid() {
+  PdfGrid getGrid(Map<String,dynamic> tran) {
     //Create a PDF grid
     final PdfGrid grid = PdfGrid();
     //Secify the columns count to the grid.
@@ -212,7 +215,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     //headerRow.cells[3].value = 'Amount';
     //headerRow.cells[4].value = 'Total';
     //Add rows
-    addProducts('Home Rent', 'AWC Logo Cap', 8.99, 2, 17.98, grid);
+    addProducts('Home Rent', '${tran["description"]}', tran["amount"].toDouble(), 2, 17.98, grid);
     addProducts('Water Bill', '-- -- --', 0, 3, 149.97, grid);
     addProducts('Electric Bill', '-- -- --', 0, 2, 19, grid);
     addProducts('Gas Bill', '-- -- --', 0, 4, 199.96, grid);

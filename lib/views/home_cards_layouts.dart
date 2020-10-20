@@ -224,7 +224,9 @@ class _CardListingsState extends State<CardListings> {
               children: [
                 Row(
                   children: [
-                    CreatePdfStatefulWidget(),
+                    CreatePdfStatefulWidget(
+                      transData:{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}
+                    ),
                   ],
                 )
               ],
