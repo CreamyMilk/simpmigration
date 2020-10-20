@@ -32,7 +32,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
     Map<String, dynamic> defaulttransactions ;
 
 
-  Map<String, dynamic> _complains;
+  //Map<String, dynamic> _complains;
     Map<String, dynamic> defaultcomplains = {
     'title': "Expenses",
     'data': ["Water", "Painting", "Gas"]

@@ -123,10 +123,10 @@ _cacheUserDetails(){
     'title': "Transactions",
     'data': [soletrans,soletrans],
   };
-    Map<String, dynamic> complains = {
-    'title': "Expenses",
-    'data': ["Water", "Painting", "Gas"]
-  };
+  //   Map<String, dynamic> complains = {
+  //   'title': "Expenses",
+  //   'data': ["Water", "Painting", "Gas"]
+  // };
   Map<String,dynamic> data = {'transactions':transactions};
   final jstring =jsonEncode(data);
   print(jstring);

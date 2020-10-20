@@ -92,9 +92,9 @@ Future confirmOTP(mobile, code, context) async {
   data = OtpVerify.fromJson(myjson);
   print(data.message);
   if (data.message == 0) {
-    String userdata = _cacheUserDetails();
+    _cacheUserDetails();
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString("user_data",userdata);
+    //prefs.setString("user_data",userdata);
     prefs.setString("user_token", data.message.toString()).then((bool success) {
       if (success) {
         Navigator.of(context).pushNamed('/home');
@@ -121,8 +121,6 @@ _cacheUserDetails(){
   };
   Map<String,dynamic> rent = {"month":'January',"rentDue":77,"rentStatus":false};
   Map<String,dynamic> data = {'username':"LOGGEDIN",'uid': '34','mobile':'0797678252','transaction':transactions,'complains':complains,'rent':rent,'lastIssue':'number AND ARRAY','lastService':'number and'};
-  final jstring =jsonEncode(data);
-  print(jstring);
-  userHiveBox.putAll(jsonDecode(jstring));  
-  return jstring;
+  userHiveBox.putAll(data);  
+  print("Inserting login info");
 }
