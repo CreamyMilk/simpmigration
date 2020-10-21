@@ -71,7 +71,7 @@ class RouteGenerator {
 
 class StartUpScreenProvider extends StatelessWidget {
   const StartUpScreenProvider({Key key}) : super(key: key);
-
+  // v2 use the connectivity package for all api negotions
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [

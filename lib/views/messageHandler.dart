@@ -21,6 +21,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   void initState() {
     super.initState();
     //_initalHive();
+    //v2 register ios push notification service
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(
         IosNotificationSettings(),
@@ -34,10 +35,10 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     //Unsubscribe to topic
     //_fcm.unsubscribeFromTopic("Teneant");
     _fcm.configure(
+      //Use for popups and ticks
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage :$message");
         showDialog(
-          //Text(message['notification']['title']
           context: context,
           builder: (context) => AlertDialog(
               title: AspectRatio(
@@ -55,6 +56,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       onResume: (Map<String, dynamic> message) async {
         print("onMessage :$message");
       },
+      //App closed and you press notification
       onLaunch: (Map<String, dynamic> message) async {
         print("onMessage :$message");
       },
