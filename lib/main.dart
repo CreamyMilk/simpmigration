@@ -1,3 +1,4 @@
+import 'package:clone/model/contact.dart';
 import 'package:clone/route_generator.dart';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ void main(){
           WidgetsFlutterBinding.ensureInitialized();
           await Hive.initFlutter();
           await Hive.openBox('user');
+          Hive.registerAdapter(ContactAdapter());
+          await Hive.openBox<Contact>('tr');
           runApp(MyApp());
   });
 }

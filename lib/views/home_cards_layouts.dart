@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:math';
+import 'package:clone/model/contact.dart';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:clone/views/issues_card.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:clone/model/loginotpmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeViewCardLayout extends StatefulWidget {
@@ -158,25 +161,33 @@ class CardListings extends StatefulWidget {
   @override
   _CardListingsState createState() => _CardListingsState();
 }
+void uTransactions()async{
+  final prefs = await SharedPreferences.getInstance();
+  final jsonTrans = prefs.getString('user_transactions') ?? '';
+  Transaction tt = Transaction.fromJson(json.decode(jsonTrans));
+  var userBox = Hive.box('user');
+  userBox.put("transaction",tt.toJson());
+  print("Transactions Added ${tt.toJson()}");
+} 
 class _CardListingsState extends State<CardListings> {
-  Box<dynamic> userHiveBox;
-  Map<String,dynamic> defaultTrans;
+ 
   @override
-  void initState() { 
+  void initState() {
+    //uTransactions();
     super.initState();
-    defaultTrans={
-    "title": "Transactions",
-    "data": [{"month":"Jan","time":"00/00/00","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}}],
-  };
-    print("Transaction List${defaultTrans.runtimeType}");
   }
+
+
   @override
   Widget build(BuildContext context) {
 
     return ValueListenableBuilder(
-      valueListenable: Hive.box('user').listenable(),
+      valueListenable: Hive.box<Contact>('tr').listenable(),
       builder: (context, box, widget) {
-        var local =box.get('transaction',defaultValue:defaultTrans);
+        
+         //print("localfile--<${ new Map<String, dynamic>.from(snapshot.value);}>---");
+        var temp =  box.get('transaction');
+        var local  = temp.data;
   print("SDSSD$local");
         if(true){
         return Container(

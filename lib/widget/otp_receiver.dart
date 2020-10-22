@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:clone/model/contact.dart';
 import 'package:clone/model/loginotpmodel.dart';
 import 'package:clone/widget/timerFab.dart';
 import 'package:flutter/material.dart';
-import 'package:clone/model/otpconfirmmodel.dart';
+//import 'package:clone/model/otpconfirmmodel.dart';
 import 'package:hive/hive.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,8 +96,17 @@ Future confirmOTP(mobile, code, context) async {
   print(data.info.toJson());
   if (data.message == 0) {
     _cacheUserDetails(data.info.toJson());
-    final prefs = await SharedPreferences.getInstance();
-    //prefs.setString("user_data",userdata);
+  final prefs = await SharedPreferences.getInstance();
+    //List<Data> tempStore = data.info.transaction.data;
+    //for(Data d  in tempStore){
+     // print("my values in d --<${d.toJson().runtimeType}>---");
+    //}
+  //   List<Map<String,dynamic>> newtrans=tempStore.toList();
+  //     Map<String, dynamic> transactions = {
+  //   'title': "Transactions",
+  //   'data': newtrans,
+  // };
+    //prefs.setString("user_transactions",data.info.transaction.toString());
     prefs.setString("user_token", data.message.toString()).then((bool success) {
       if (success) {
         Navigator.of(context).pushNamed('/home');
@@ -111,19 +121,30 @@ Future confirmOTP(mobile, code, context) async {
 }
 _cacheUserDetails(apidata){
   final userHiveBox = Hive.box('user');
-  //print(apidata);
-  Map<String,dynamic> soletrans={"month":"APIMONTH","time":"01/01/2001","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}};
-
-    Map<String, dynamic> transactions = {
+  final trBox = Hive.box<Contact>('tr');
+  print("AAPI$apidata");
+  List<Map<String,dynamic>> newtrans=apidata["transaction"]["data"];
+  Map<String, dynamic> transactions = {
     'title': "Transactions",
-    'data': [soletrans],
+    'data': newtrans,
   };
-    Map<String, dynamic> complains = {
-    'title': "Expenses",
-    'data': ["Water", "Painting", "Gas"]
-  };
-  Map<String,dynamic> rent = {"month":'January',"rentDue":77,"rentStatus":false};
-  Map<String,dynamic> data = {'username':"LOGGEDIN",'uid': '34','mobile':'0797678252','transaction':transactions,'complains':complains,'rent':rent,'lastIssue':'number AND ARRAY','lastService':'number and'};
-  userHiveBox.putAll(apidata);  
+  
+  trBox.put("transaction",Contact(transactions));
+  //con.data=transactions;
+    //Map<String, dynamic> complains = {
+    //'title': "Expenses",
+    //'data': ["Water", "Painting", "Gas"]
+  //};
+  //Map<String,dynamic> rent = {"month":'January',"rentDue":77,"rentStatus":false};
+  //Map<String,dynamic> data = {'username':"LOGGEDIN",'uid': '34','mobile':'0797678252','transaction':transactions,'lastIssue':'number AND ARRAY','lastService':'number and'};
+  
+  //trBox.put("transaction",transactions); 
+  userHiveBox.put("username",apidata["username"]); 
+  userHiveBox.put("mobile",apidata["mobile"]); 
+  userHiveBox.put("rent",apidata["rent"]); 
+  userHiveBox.put("uid",apidata["uid"]); 
+
+
+  //userHiveBox.putAll(apidata);  
   print("Inserting login info");
 }
