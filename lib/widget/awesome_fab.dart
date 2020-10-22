@@ -13,7 +13,7 @@ void upadateRentCard(String month,bool status,int amount){
 }
 void updateTransactions(){
   var userBox = Hive.box('user');
-    List<Map<String,dynamic>> newtrans=[{"month":"Febuary","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}];
+    List<Map<String,dynamic>> newtrans=[{"month":"Febuary","time":"99/99/99","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}];
     Map<String, dynamic> transactions = {
     'title': "Transactions",
     'data': newtrans,

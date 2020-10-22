@@ -27,21 +27,34 @@ inital jsonpayload required fomr login
 ```
 ```json
  {
-    "username":"LOGGEDIN",
+    "username":"API LOGIN",
     "uid": "34",
     "mobile":"0797678252",
     "transaction":transactions,
-    "complains":complains,
-    "services":services,
+    "complains":[],
+    "services":[],
     "rent": {
-        "month":"January",
-        "rentDue":77,
-        "rentStatus":false
+        "month":"API MONTH",
+        "rentDue":8956,
+        "rentStatus":true
         },
-    "lastIssue":"number AND ARRAY",
-    "lastService":"number and"
+    "lastIssue":"0",
+    "lastService":"0"
 };
 transaction
+[
+  {
+  "month":"Jan",
+  "time":"12/20/2020",
+  "rec":{
+    "username":"boom",
+    "branch":"Kahawa Sukari,Kenya",
+    "house":"A12",
+    "receiptNumber":"WC2340923409",
+    "description":"Mpesa Express 9.30am by 254797678353","amount":9000}
+  }
+]
+
 {
     "type":"Mpesa",//Help
     "transAmount":3000,
@@ -52,9 +65,10 @@ transaction
     "notificationID":"wcf20202020",
     "houseNo":"A001"
 }
+
 complains
 {
-  "
+  
 }
 
 

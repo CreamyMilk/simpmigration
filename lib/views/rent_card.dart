@@ -18,7 +18,7 @@ class RentPaymentCard extends StatefulWidget {
 
 class _RentPaymentCardState extends State<RentPaymentCard> {
   Box<dynamic> userHiveBox; 
-  Map<String,dynamic> defrent = {"month":"October","rentDue":1578,"rentStatus":false};
+  Map<String,dynamic> defrent = {"month":"October","time":"00/00/00","rentDue":1578,"rentStatus":false};
   //Map<String,dynamic> rent;
   String _month ;
   int _rentDue ;

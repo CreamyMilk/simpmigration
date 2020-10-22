@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clone/model/loginotpmodel.dart';
 import 'package:clone/widget/timerFab.dart';
 import 'package:flutter/material.dart';
 import 'package:clone/model/otpconfirmmodel.dart';
@@ -74,9 +75,9 @@ class _OtpReceiverState extends State<OtpReceiver> {
 }
 
 Future confirmOTP(mobile, code, context) async {
-  OtpVerify data;
+  Otploginresponse data;
   final response = await http.post(
-    ("https://googlesecureotp.herokuapp.com/" + "verify"),
+    ("http://192.168.0.16:9020/" + "otplogin"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",
@@ -89,10 +90,11 @@ Future confirmOTP(mobile, code, context) async {
     ),
   );
   var myjson = json.decode(response.body);
-  data = OtpVerify.fromJson(myjson);
-  print(data.message);
+  //print(myjson);
+  data = Otploginresponse.fromJson(myjson);
+  print(data.info.toJson());
   if (data.message == 0) {
-    _cacheUserDetails();
+    _cacheUserDetails(data.info.toJson());
     final prefs = await SharedPreferences.getInstance();
     //prefs.setString("user_data",userdata);
     prefs.setString("user_token", data.message.toString()).then((bool success) {
@@ -107,13 +109,14 @@ Future confirmOTP(mobile, code, context) async {
   }
   
 }
-_cacheUserDetails(){
+_cacheUserDetails(apidata){
   final userHiveBox = Hive.box('user');
-  Map<String,dynamic> soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}};
+  //print(apidata);
+  Map<String,dynamic> soletrans={"month":"APIMONTH","time":"01/01/2001","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}};
 
     Map<String, dynamic> transactions = {
     'title': "Transactions",
-    'data': [soletrans,soletrans],
+    'data': [soletrans],
   };
     Map<String, dynamic> complains = {
     'title': "Expenses",
@@ -121,6 +124,6 @@ _cacheUserDetails(){
   };
   Map<String,dynamic> rent = {"month":'January',"rentDue":77,"rentStatus":false};
   Map<String,dynamic> data = {'username':"LOGGEDIN",'uid': '34','mobile':'0797678252','transaction':transactions,'complains':complains,'rent':rent,'lastIssue':'number AND ARRAY','lastService':'number and'};
-  userHiveBox.putAll(data);  
+  userHiveBox.putAll(apidata);  
   print("Inserting login info");
 }

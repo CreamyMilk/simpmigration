@@ -6,14 +6,14 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const userBoxName = 'user';
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Hive.openBox('user');
+void main(){
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    runApp(MyApp());
+      .then((_)async{
+          WidgetsFlutterBinding.ensureInitialized();
+          await Hive.initFlutter();
+          await Hive.openBox('user');
+          runApp(MyApp());
   });
 }
 

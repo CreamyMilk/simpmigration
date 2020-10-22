@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:developer';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:clone/views/issues_card.dart';
@@ -24,21 +23,13 @@ class HomeViewCardLayout extends StatefulWidget {
 
 class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   Box<dynamic> userHiveBox;
-  String _username='3';
-  Map<String,dynamic> _transactions;
-
-    Map<String,dynamic> soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}};
-
-    Map<String, dynamic> defaulttransactions ;
-
-
-  //Map<String, dynamic> _complains;
-    Map<String, dynamic> defaultcomplains = {
+  String _username;
+  Map<String,dynamic> soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":4384}};
+  Map<String, dynamic> defaulttransactions;
+  Map<String, dynamic> defaultcomplains = {
     'title': "Expenses",
     'data': ["Water", "Painting", "Gas"]
   };
-  Widget _myAnimatedWidget;
-  ScrollController _cardsscrollcontroller;
   bool fadeswitch;
 
   @override
@@ -46,20 +37,8 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
     super.initState();
     userHiveBox = Hive.box('user');
     _username = userHiveBox.get('username', defaultValue: "JohnDoe");
-    var temp = userHiveBox.get('transactions',defaultValue:defaulttransactions);//Add default for non 
-    defaulttransactions = {
-    'title': "Transactions",
-    'data': [soletrans,soletrans],
-  };
-    _transactions = temp;
     fadeswitch = true;
-    _myAnimatedWidget = CardListings(
-      myItems: _transactions,
-      key: ValueKey(1),
-    );
-    //print(">>>>>>>>>>>>$_transactions");
   }
-
   @override
   Widget build(BuildContext context) {
     final GeolocatorService geoService = GeolocatorService();
@@ -133,7 +112,6 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                     height: MediaQuery.of(context).size.height *
                         0.3415941154086502, //Cards Height
                     child: ListView(
-                      controller: _cardsscrollcontroller,
                       padding: EdgeInsets.all(4.0),
                       scrollDirection: Axis.horizontal,
                       children: [
@@ -162,11 +140,8 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                   intervalStart: 0.5,
                   intervalEnd: 1,
                   childs: Container(
-                    child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: _myAnimatedWidget),
+                    child: CardListings()),
                   ),
-                ),
               ],
             ),
           ),
@@ -176,36 +151,39 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   }
 }
 class CardListings extends StatefulWidget {
-  const CardListings({
+  CardListings({
     Key key,
-    @required this.myItems,
   }) : super(key: key);
-  final Map<String, dynamic> myItems;
   
   @override
   _CardListingsState createState() => _CardListingsState();
 }
 class _CardListingsState extends State<CardListings> {
   Box<dynamic> userHiveBox;
-
+  Map<String,dynamic> defaultTrans;
   @override
   void initState() { 
     super.initState();
-    print("Transaction List");
+    defaultTrans={
+    "title": "Transactions",
+    "data": [{"month":"Jan","time":"00/00/00","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}}],
+  };
+    print("Transaction List${defaultTrans.runtimeType}");
   }
   @override
   Widget build(BuildContext context) {
+
     return ValueListenableBuilder(
       valueListenable: Hive.box('user').listenable(),
       builder: (context, box, widget) {
-        var local =box.get('transaction',defaultValue:{
-    'title': "Transactions",
-    'data': [{"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}}],
-  });
+        var local =box.get('transaction',defaultValue:defaultTrans);
+  print("SDSSD$local");
+        if(true){
         return Container(
         color: Colors.white38,
         //Bottom Listing size 400
-        height: MediaQuery.of(context).size.height * 0.4554588205448669,
+        //height: MediaQuery.of(context).size.height * 0.4554588205448669,
+        height:400,
         child: ReorderableListView(
           header: Row(
             children: [
@@ -237,11 +215,10 @@ class _CardListingsState extends State<CardListings> {
           },
           children: [
             for (final item in local['data'])
-            
               ExpansionTile(
                 key: ValueKey(Random().nextInt(10000)),
                 title: Text(item["month"]),
-                subtitle: Text("${Timeline.now}"),
+                subtitle: Text("${item["time"]}"),
                 leading: Icon(Icons.album),
                 trailing: Text("Ksh.${item["rec"]["amount"].toString()}",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
@@ -256,8 +233,10 @@ class _CardListingsState extends State<CardListings> {
               ),
           ],
         ),
-      );
-      });
+      );}else{
+        print("$local");
+        return Text('JKDSJDKJSKDJ');
+      }});
   }
 }
 class PageCard extends StatelessWidget {

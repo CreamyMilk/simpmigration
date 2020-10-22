@@ -119,20 +119,19 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
 }
 _cacheUserDetails(){
   final userHiveBox = Hive.box('user');
-   Map<String,dynamic> soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":9000}};
 
   Map<String, dynamic> transactions = {
-    'title': "Transactions",
-    'data': [soletrans,soletrans],
+    "title": "Transactions",
+    "data": [{"month":"Febuary","time":"99/99/99","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}],
   };
   //   Map<String, dynamic> complains = {
   //   'title': "Expenses",
   //   'data': ["Water", "Painting", "Gas"]
   // };
-  Map<String,dynamic> data = {'transactions':transactions};
-  final jstring =jsonEncode(data);
-  print(jstring);
-  userHiveBox.putAll(jsonDecode(jstring));
+  Map<String,dynamic> data = {'transaction':transactions};
+  // final jstring =jsonEncode(data);
+  // print(jstring);
+  userHiveBox.put('trs',transactions);
   
 }
 _getStartUpPage(BuildContext context) async {
@@ -140,7 +139,7 @@ _getStartUpPage(BuildContext context) async {
   final userToken = prefs.getString('user_token') ?? "";
   //final userData = prefs.getString('user_data') ?? "";
 
-  _cacheUserDetails();
+  //_cacheUserDetails();
   print("UserToken ilikuwa $userToken");
   Future.delayed(Duration(seconds: 1), () {
     userToken == "0"
