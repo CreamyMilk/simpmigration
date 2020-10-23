@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:clone/model/contact.dart';
 import 'package:clone/model/loginotpmodel.dart';
 import 'package:clone/widget/timerFab.dart';
 import 'package:flutter/material.dart';

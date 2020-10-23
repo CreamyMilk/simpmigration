@@ -63,13 +63,7 @@ class _ComplainsFormState extends State<ComplainsForm> {
                         content:
                             Text("It will be resolved in due time\nThank You."),
                         actions: [
-                          GestureDetector(
-                            child: Text("Close"),
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              //Navigator.of(context).pop();
-                            },
-                          )
+                          MaterialButton(child:Text("Close",style: TextStyle(color:Colors.white)),color:Theme.of(context).primaryColor,onPressed: () { Navigator.of(context).pushNamed('/home'); },),
                         ],
                       ),
                     );

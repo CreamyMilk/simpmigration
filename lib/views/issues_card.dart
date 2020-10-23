@@ -11,7 +11,7 @@ class IssuesCard extends StatefulWidget {
 class _IssuesCardState extends State<IssuesCard> {
   String _houseNumber = "A2";
   int _compains = 4;
-  bool _testvar = true;
+
   List<String> option = ["Details", "Contact Us"];
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _IssuesCardState extends State<IssuesCard> {
                 alignment: Alignment.bottomLeft,
                 padding: EdgeInsets.all(5.0),
                 child: MaterialButton(
-                  color: _testvar ? Colors.white : Colors.grey,
+                  color: Colors.white ,
                   child: Row(
                     children: [
                       Text("Past Complains",
@@ -93,7 +93,7 @@ class _IssuesCardState extends State<IssuesCard> {
                 padding: EdgeInsets.all(5.0),
                 child: MaterialButton(
                   color:
-                      _testvar ? Theme.of(context).primaryColor : Colors.grey,
+                      Theme.of(context).primaryColor,
                   child: Row(
                     children: [
                       Text("Report !", style: TextStyle(color: Colors.white)),
@@ -101,9 +101,6 @@ class _IssuesCardState extends State<IssuesCard> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pushNamed('/complain');
-                    setState(() {
-                      _testvar = !_testvar;
-                    });
                     print("STK push sent");
                   },
                 ),
