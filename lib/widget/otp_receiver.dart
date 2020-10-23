@@ -97,16 +97,14 @@ Future confirmOTP(mobile, code, context) async {
   if (data.message == 0) {
     _cacheUserDetails(data.info.toJson());
   final prefs = await SharedPreferences.getInstance();
-    //List<Data> tempStore = data.info.transaction.data;
-    //for(Data d  in tempStore){
-     // print("my values in d --<${d.toJson().runtimeType}>---");
-    //}
+  var tempStore = data.info.transaction.toJson();
+  print("JSON --<>I--NG ${jsonEncode(tempStore)}");
   //   List<Map<String,dynamic>> newtrans=tempStore.toList();
   //     Map<String, dynamic> transactions = {
   //   'title': "Transactions",
   //   'data': newtrans,
   // };
-    //prefs.setString("user_transactions",data.info.transaction.toString());
+    prefs.setString("user_transactions",jsonEncode(tempStore));
     prefs.setString("user_token", data.message.toString()).then((bool success) {
       if (success) {
         Navigator.of(context).pushNamed('/home');
@@ -121,15 +119,14 @@ Future confirmOTP(mobile, code, context) async {
 }
 _cacheUserDetails(apidata){
   final userHiveBox = Hive.box('user');
-  final trBox = Hive.box<Contact>('tr');
   print("AAPI$apidata");
-  List<Map<String,dynamic>> newtrans=apidata["transaction"]["data"];
-  Map<String, dynamic> transactions = {
-    'title': "Transactions",
-    'data': newtrans,
-  };
+  var newtrans=apidata["transaction"];
+  // Map<String, dynamic> transactions = {
+  //   'title': "Transactions",
+  //   'data': newtrans,
+  // };
   
-  trBox.put("transaction",Contact(transactions));
+  userHiveBox.put("transaction",jsonEncode(newtrans));
   //con.data=transactions;
     //Map<String, dynamic> complains = {
     //'title': "Expenses",

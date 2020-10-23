@@ -117,9 +117,14 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     );
   }
 }
-_cacheUserDetails(){
+_cacheUserDetails(jsonString){
   final userHiveBox = Hive.box('user');
-
+  if(jsonString =="no"){
+    print("THE IS NO STORED DATA");
+  }else{
+    userHiveBox.put("transaction",jsonString);
+  }
+  
   //dd Map<String, dynamic> transactions = {
   //  "title": "Transactions",
    // "data": [{"month":"Febuary","time":"99/99/99","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}],
@@ -137,9 +142,8 @@ _cacheUserDetails(){
 _getStartUpPage(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final userToken = prefs.getString('user_token') ?? "";
-  //final userData = prefs.getString('user_data') ?? "";
-
-  //_cacheUserDetails();
+  final userTrans = prefs.getString('user_transactions') ?? "no";
+  _cacheUserDetails(userTrans);
   print("UserToken ilikuwa $userToken");
   Future.delayed(Duration(seconds: 1), () {
     userToken == "0"

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:clone/views/rent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -6,19 +8,22 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 void upadateRentCard(String month,bool status,int amount){
   var userBox = Hive.box('user');
   Map<String,dynamic> rent = {"month":month,"rentDue":amount,"rentStatus":status};
   userBox.put("rent",rent);
 }
-void updateTransactions(){
+void updateTransactions()async {
+    final prefs = await SharedPreferences.getInstance();
   var userBox = Hive.box('user');
     List<Map<String,dynamic>> newtrans=[{"month":"Febuary","time":"99/99/99","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}];
     Map<String, dynamic> transactions = {
     'title': "Transactions",
     'data': newtrans,
   };
-  userBox.put("transaction",transactions);
+  userBox.put("transaction",jsonEncode(transactions));
+  prefs.setString("user_transactions",jsonEncode(transactions));
   print("Transactions Added");
 }
 class AwesomeFAB extends StatelessWidget {

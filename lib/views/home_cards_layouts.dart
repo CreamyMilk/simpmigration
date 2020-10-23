@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:clone/model/contact.dart';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:clone/views/issues_card.dart';
@@ -86,66 +85,74 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
           //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, _complains: _complains, _transactions: _transactions),
             floatingActionButton: AwesomeFAB(),
           body: SafeArea(
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: Container(
-                    child: Text(
-                      "Hello, $_username",
-                      style: TextStyle(
-                        letterSpacing: 2.0,
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.w100,
+            child: RefreshIndicator(
+              onRefresh:()async {
+                Future.delayed(Duration(seconds: 2),(){
+                  print("Fetching new data");
+                });
+              },
+
+                child: ListView(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: Container(
+                      child: Text(
+                        "Hello, $_username",
+                        style: TextStyle(
+                          letterSpacing: 2.0,
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w100,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 1.0),
-                //Slider area
-                SlidingContainer(
-                  initialOffsetX: 5,
-                  intervalStart: 0,
-                  intervalEnd: 0.5,
-                  childs: Container(
-                    margin: EdgeInsets.all(16.0),
-                    //color: Colors.red[50],
-                    height: MediaQuery.of(context).size.height *
-                        0.3415941154086502, //Cards Height
-                    child: ListView(
-                      padding: EdgeInsets.all(4.0),
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        PageCard(
-                          childwidget: RentPaymentCard(),
-                          gradients: [Colors.white, Colors.lightGreen[100]],
-                        ),
-                        SizedBox(width: 10),
-                        PageCard(
-                          childwidget: IssuesCard(),
-                          gradients: [Colors.white, Colors.red[100]],
-                        ),
-                        SizedBox(width: 10),
-                        PageCard(
-                          childwidget: ServiceCard(),
-                          gradients: [Colors.white, Colors.lightBlue[100]],
-                        ),
-                        SizedBox(width: 20),
-                      ],
+                  SizedBox(height: 1.0),
+                  //Slider area
+                  SlidingContainer(
+                    initialOffsetX: 5,
+                    intervalStart: 0,
+                    intervalEnd: 0.5,
+                    childs: Container(
+                      margin: EdgeInsets.all(16.0),
+                      //color: Colors.red[50],
+                      height: MediaQuery.of(context).size.height *
+                          0.3415941154086502, //Cards Height
+                      child: ListView(
+                        padding: EdgeInsets.all(4.0),
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          PageCard(
+                            childwidget: RentPaymentCard(),
+                            gradients: [Colors.white, Colors.lightGreen[100]],
+                          ),
+                          SizedBox(width: 10),
+                          PageCard(
+                            childwidget: IssuesCard(),
+                            gradients: [Colors.white, Colors.red[100]],
+                          ),
+                          SizedBox(width: 10),
+                          PageCard(
+                            childwidget: ServiceCard(),
+                            gradients: [Colors.white, Colors.lightBlue[100]],
+                          ),
+                          SizedBox(width: 20),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                //Bottom Listing
-                SlidingContainer(
-                  initialOffsetX: -1,
-                  intervalStart: 0.5,
-                  intervalEnd: 1,
-                  childs: Container(
-                    child: CardListings()),
-                  ),
-              ],
+                  //Bottom Listing
+                  SlidingContainer(
+                    initialOffsetX: -1,
+                    intervalStart: 0.5,
+                    intervalEnd: 1,
+                    childs: Container(
+                      child: CardListings()),
+                    ),
+                ],
+              ),
             ),
           ),
         ),
@@ -170,10 +177,10 @@ void uTransactions()async{
   print("Transactions Added ${tt.toJson()}");
 } 
 class _CardListingsState extends State<CardListings> {
- 
   @override
   void initState() {
-    //uTransactions();
+    //uTransactions 
+    //();
     super.initState();
   }
 
@@ -182,12 +189,11 @@ class _CardListingsState extends State<CardListings> {
   Widget build(BuildContext context) {
 
     return ValueListenableBuilder(
-      valueListenable: Hive.box<Contact>('tr').listenable(),
+      valueListenable: Hive.box('user').listenable(),
       builder: (context, box, widget) {
-        
          //print("localfile--<${ new Map<String, dynamic>.from(snapshot.value);}>---");
         var temp =  box.get('transaction');
-        var local  = temp.data;
+        var local  = json.decode(temp);
   print("SDSSD$local");
         if(true){
         return Container(
@@ -230,7 +236,7 @@ class _CardListingsState extends State<CardListings> {
                 key: ValueKey(Random().nextInt(10000)),
                 title: Text(item["month"]),
                 subtitle: Text("${item["time"]}"),
-                leading: Icon(Icons.album),
+                leading: Icon(Icons.access_time),
                 trailing: Text("Ksh.${item["rec"]["amount"].toString()}",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 children: [
