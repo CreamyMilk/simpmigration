@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -90,6 +91,28 @@ class _MyHomePageState extends State<MyHomePage> {
                     onChanged: (String text) => _phone = text,
                     decoration: const InputDecoration(
                         hintText: 'Input the phone number to launch')),
+              ),
+              MaterialButton(
+                onPressed: (){
+                  FirebaseCrashlytics.instance.log("Higgs-Boson detected! Bailing out");
+                },
+                child:Text("Log"),
+              ),
+              MaterialButton(
+                onPressed: (){
+                  FirebaseCrashlytics.instance.log("Higgs-Boson detected! Bailing out");
+                },
+                child:Text("Log")
+              ),
+                            MaterialButton(
+                onPressed: (){
+                  FirebaseCrashlytics.instance.crash();
+                },
+                child:Text("CRASH!")
+              ),
+                            MaterialButton(
+                onPressed: (){},
+                child:Text("Log")
               ),
               RaisedButton(
                 onPressed: () => setState(() {

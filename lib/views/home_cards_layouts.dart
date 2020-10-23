@@ -250,10 +250,7 @@ class _CardListingsState extends State<CardListings> {
               ),
           ],
         ),
-      );}else{
-        print("$local");
-        return Text('JKDSJDKJSKDJ');
-      }});
+      );}});
   }
 }
 class PageCard extends StatelessWidget {
