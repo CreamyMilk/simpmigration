@@ -86,12 +86,12 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
             floatingActionButton: AwesomeFAB(),
           body: SafeArea(
             child: RefreshIndicator(
-              onRefresh:()async {
-                Future.delayed(Duration(seconds: 2),(){
+              onRefresh:(){
+                return Future.delayed(Duration(seconds: 3),(){
                   print("Fetching new data");
+                  return "";
                 });
               },
-
                 child: ListView(
                 children: [
                   SizedBox(
