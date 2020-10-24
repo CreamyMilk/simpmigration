@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:clone/enums/connectivity_status.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:hive/hive.dart';
@@ -17,12 +16,13 @@ class MyMessageHandler extends StatefulWidget {
 class _MyMessageHandlerState extends State<MyMessageHandler> {
   String userToken;
   double op;
+
   final FirebaseMessaging _fcm = FirebaseMessaging();
   @override
   void initState() {
     super.initState();
 
-    FirebaseCrashlytics.instance.setUserIdentifier("JOTHAM CRASHES");
+
     //_initalHive();
     //v2 register ios push notification service
     if (Platform.isIOS) {

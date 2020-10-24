@@ -46,6 +46,8 @@ transaction
   {
   "month":"Jan",
   "time":"12/20/2020",
+  "year":"2020",
+  "rent_status":"90",
   "rec":{
     "username":"boom",
     "branch":"Kahawa Sukari,Kenya",
