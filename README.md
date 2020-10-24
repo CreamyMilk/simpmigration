@@ -73,5 +73,10 @@ complains
   
 }
 
-
+OTP RESPONSES
+```json
+{
+  "message_code":0,
+  "message_descritipon":"sds",
+}
 ```
