@@ -26,21 +26,63 @@ inital jsonpayload required fomr login
   };
 ```
 ```json
- {
-    "username":"API LOGIN",
-    "uid": "34",
-    "mobile":"0797678252",
-    "transaction":transactions,
-    "complains":[],
-    "services":[],
-    "rent": {
-        "month":"API MONTH",
-        "rentDue":8956,
-        "rentStatus":true
+{
+  "message": 0,
+  "info": {
+    "username": "JohnDoe",
+    "uid": "24",
+    "mobile": "+9999999",
+    "transaction": {
+      "title": "Transactions",
+      "data": [
+        {
+          "month": "August",
+          "time": "11/08/2020",
+          "year": "2020",
+          "rs": 1,
+          "rent_status": true,
+          "rec": {
+            "username": "JohnDoe",
+            "branch": "Kahawa Sukari",
+            "house": "GF4A",
+            "receiptNumber": "WC2340923409",
+            "description": "Mpesa Directpaymets",
+            "amount": 10100
+          }
         },
-    "lastIssue":"0",
-    "lastService":"0"
-};
+        {
+          "month": "September",
+          "time": "06/09/2020",
+          "year": "2020",
+          "rs": 1,
+          "rent_status": true,
+          "rec": {
+            "username": "JohnDoe",
+            "branch": "Kahawa Sukari",
+            "house": "GF4A",
+            "receiptNumber": "WC2340923409",
+            "description": "Mpesa Directpaymets",
+            "amount": 10000
+          }
+        }
+      ]
+    },
+    "complains": [
+      ""
+    ],
+    "services": [
+      ""
+    ],
+    "rent": {
+      "account": "johnk#GF4A",
+      "month": "October",
+      "rentDue": 10000,
+      "rent_status": false
+    },
+    "lastIssue": "0",
+    "lastService": "0"
+  }
+}
 transaction
 [
   {

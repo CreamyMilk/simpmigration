@@ -23,7 +23,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   String _month ;
   int _rentDue ;
   bool _testvar = true;
-  bool _status ;
+  bool _status =false;
   List<String> option = ["All Transaction", "Recipts"];
 
   @override
@@ -148,11 +148,10 @@ void settingModalBottomSheet(context, amountDue) {
   );
 }
 
-Future _sendPayment(mobile, amountDue, ctx) async {
+Future _sendPayment(mobile, amountDue,accName ,ctx) async {
 
   final FirebaseMessaging _fcm = FirebaseMessaging();
-  var userBox = Hive.box('user');
-  String useracccount = userBox.get("ewewe",defaultValue:"Error");
+  //String useracccount = userBox.get("ewewe",defaultValue:"Error");
   PaymentResponse data;
   showDialog(
     //Text(message['notification']['title']
@@ -177,20 +176,18 @@ Future _sendPayment(mobile, amountDue, ctx) async {
       body: jsonEncode(
         //ensure that the user has bothe the socketID and the USER ID
         {
-          'phonenumber': mobile,
-          'amount': amountDue,
-          'userID': useracccount,
-          'socketID': 'mee',
-          'notifToken': fcmToken
+          "phonenumber": mobile,
+          "amount": "1",
+          "userID": accName,
+          "socketID": "mee",
+          "notifToken": fcmToken
         },
       ),
     );
-
+    print("$accName");
     var myjson = json.decode(response.body);
+    print(fcmToken);
     data = PaymentResponse.fromJson(myjson);
-    
-
-    
     print(data.paymentCode);
     print(data.description);
   } catch (SocketException) {
@@ -202,16 +199,16 @@ Future _sendPayment(mobile, amountDue, ctx) async {
         title: AspectRatio(
                 aspectRatio: 1.5,
                 child: FlareActor(
-                  'assets/tick.flr',
+                  'assets/fail.flr',
                   alignment: Alignment.center,
                   fit: BoxFit.contain,
-                  animation: 'go',
+                  animation: 'Failure',
                 ),
               ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Turn on WIFI or Bundles"),
+            Text("It seems that you are offline"),
           ],
         )),
   );
@@ -252,12 +249,14 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
   String mobile;
   String amountDue;
   String visualAmount;
+  String accountName;
   @override
   void initState() {
     userHiveBox = Hive.box('user');
-    var temp = userHiveBox.get('rent',defaultValue:{'rentDue':1,'month':"October","rentStatus":false}); //Add default for non complains
+    var temp = userHiveBox.get('rent',defaultValue:{'rentDue':1,'account':'err','month':"October","rentStatus":false}); //Add default for non complains
     mobile = userHiveBox.get('mobile',defaultValue: "");
     amountDue = temp["rentDue"].toString();
+    accountName=temp["account"];
     visualAmount = amountDue.replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
     super.initState();
   }
@@ -405,7 +404,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                     onPressed: () async {
                       Navigator.pop(context);
                     
-                      await _sendPayment(mobile, amountDue, context);
+                      await _sendPayment(mobile, amountDue,accountName, context);
                     },
                     color: Colors.black,
                     child: Text(

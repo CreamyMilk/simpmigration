@@ -21,8 +21,6 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   @override
   void initState() {
     super.initState();
-
-
     //_initalHive();
     //v2 register ios push notification service
     if (Platform.isIOS) {
@@ -30,7 +28,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
         IosNotificationSettings(),
       );
     } else {
-      _saveDeviceToken();
+      //_saveDeviceToken();
     }
     op = 0.0;
     //Subscribe to topic frontEND
@@ -39,6 +37,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     //_fcm.unsubscribeFromTopic("Teneant");
     _fcm.configure(
       //Use for popups and ticks
+      //TODO payment notification
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage :$message");
         showDialog(
@@ -69,14 +68,13 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   @override
   Widget build(BuildContext context) {
     _getStartUpPage(context);
-
     return Container(
       color: _getStartUpColor(context),
       child: Center(
         child: Hero(
           tag: 'house',
           child: AnimatedOpacity(
-            duration: Duration(seconds: 10),
+            duration: Duration(seconds: 5),
             opacity: op,
             child: Image(
               fit: BoxFit.scaleDown,
@@ -123,7 +121,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
 _cacheUserDetails(jsonString){
   final userHiveBox = Hive.box('user');
   if(jsonString =="no"){
-    print("THE IS NO STORED DATA");
+    print("THEIR IS NO DATA TO STORED DATA");
   }else{
     userHiveBox.put("transaction",jsonString);
   }
@@ -148,7 +146,7 @@ _getStartUpPage(BuildContext context) async {
   final userTrans = prefs.getString('user_transactions') ?? "no";
   _cacheUserDetails(userTrans);
   print("UserToken ilikuwa $userToken");
-  Future.delayed(Duration(seconds: 1), () {
+  Future.delayed(Duration(seconds: 6), () {
     userToken == "0"
         ? Navigator.of(context).pushNamed('/home')
         : Navigator.of(context).pushNamed('/login');

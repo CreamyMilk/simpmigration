@@ -4,18 +4,13 @@ import 'package:clone/model/otpresponse.dart';
 import 'package:clone/route_generator.dart';
 import 'package:app_settings/app_settings.dart';
 //import 'package:clone/widget/intro_video.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:linkable/linkable.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:sms_autofill/sms_autofill.dart';
-
-//String otpNumber;
 
 class LoginOTP extends StatefulWidget {
   LoginOTP({Key key}) : super(key: key);
@@ -80,7 +75,7 @@ class _LoginOTPState extends State<LoginOTP> {
                     Navigator.of(context).pushNamed('/home');
                     print(MediaQuery.of(context).size.height / 210);
                     print(MediaQuery.of(context).size.height / 105);
-                    Navigator.of(context).pushNamed('/home');
+                    //Navigator.of(context).pushNamed('/home');
                     // final url = 'https://google.com';
                     // if (await canLaunch(url)) {
                     //   await launch(url);
@@ -331,7 +326,6 @@ class _Logincard extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           onPressed: () {
             showMyDialog(context);
-
             //Navigator.of(context).pushNamed('/otprec');
           },
           color: Colors.yellow,
@@ -412,7 +406,6 @@ Future<void> showMyDialog(BuildContext context) async {
   //   }
   //   return null;
   // }
-
   TextEditingController _mytextcontroller;
   return showDialog(
     context: context,
@@ -428,7 +421,7 @@ Future<void> showMyDialog(BuildContext context) async {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Please enter the number provided during house registration.',
+                  'Please enter the number provided during house registration.\n07xx',
                   textAlign: TextAlign.center,
                 ),
                 Divider(height: 10),
@@ -449,9 +442,11 @@ Future<void> showMyDialog(BuildContext context) async {
                         controller: _mytextcontroller,
                         showCursor: true,
                         autofocus: true,
+                        maxLength:10,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: 'Phone Number',
+                          
                           //errorText: validatePassword(_mytextcontroller.text),
                         ),
                         onChanged: (value) {
@@ -470,26 +465,38 @@ Future<void> showMyDialog(BuildContext context) async {
                   style: const TextStyle(color: Colors.black54, fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
-                Linkable(
-                  text: "i-crib.co.ke/terms",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.blue,
-                    fontSize: 12,
+                GestureDetector(
+                onTap: () async {
+                  final url = 'https://i-crib.co.ke/terms';
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
+                    child: Text("Terms & Conditions",                   
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.blue,
+                      fontSize: 12,
+                    ),
                   ),
-                )
-              ],
+                )],
             ),
           ),
           actions: <Widget>[
-            MaterialButton(
+            OutlineButton(
               child: Text('CANCEL'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             MaterialButton(
-              child: Text('PROCCED'),
+              color: Theme.of(context).primaryColor,
+              child: Text('PROCCED',style:TextStyle(
+                color:Colors.white
+              )),
               //getOTP(),
               onPressed: () async {
                 //send post request here
@@ -511,7 +518,6 @@ Future<void> showMyDialog(BuildContext context) async {
 }
 
 Future getOTP(mobile, appsign, context) async {
-  
   OtpResponse data;
   print('Phone $mobile');
   if (mobile != null) {
@@ -536,11 +542,10 @@ Future getOTP(mobile, appsign, context) async {
   }catch(SocketException){
   
 showDialog(
-    //Text(message['notification']['title']
     context: context,
     builder: (context) => AlertDialog(
-        title: Text("No Network connection"),
-        actions: [MaterialButton(onPressed:(){},child:Text("Turn on"))],));
+        title: Text("No Network connection."),
+        actions: [MaterialButton(color:Colors.black,onPressed:(){AppSettings.openWIFISettings();},child:Text("Turn on",style:TextStyle(color:Colors.white)))],));
   }}else {
     print('Please add number');
   }

@@ -77,15 +77,15 @@ class _OtpReceiverState extends State<OtpReceiver> {
 Future confirmOTP(mobile, code, context) async {
   Otploginresponse data;
   final response = await http.post(
-    ("http://192.168.0.16:9020/" + "otplogin"),
+    ("http://192.168.0.16:9080/" + "verifyotp"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",
     },
     body: jsonEncode(
       {
-        'phonenumber': mobile,
-        'code': code,
+        'phonenumber': "254759306745",//mobile,
+        'otp': code,
       },
     ),
   );
@@ -95,14 +95,14 @@ Future confirmOTP(mobile, code, context) async {
   print(data.info.toJson());
   if (data.message == 0) {
     _cacheUserDetails(data.info.toJson());
-  final prefs = await SharedPreferences.getInstance();
-  var tempStore = data.info.transaction.toJson();
-  print("JSON --<>I--NG ${jsonEncode(tempStore)}");
-  //   List<Map<String,dynamic>> newtrans=tempStore.toList();
-  //     Map<String, dynamic> transactions = {
-  //   'title': "Transactions",
-  //   'data': newtrans,
-  // };
+    final prefs = await SharedPreferences.getInstance();
+    var tempStore = data.info.transaction.toJson();
+    //print("JSON --<>I--NG ${jsonEncode(tempStore)}");
+    //   List<Map<String,dynamic>> newtrans=tempStore.toList();
+    //     Map<String, dynamic> transactions = {
+    //   'title': "Transactions",
+    //   'data': newtrans,
+    // };
     prefs.setString("user_transactions",jsonEncode(tempStore));
     prefs.setString("user_token", data.message.toString()).then((bool success) {
       if (success) {
@@ -111,6 +111,8 @@ Future confirmOTP(mobile, code, context) async {
         //Show that storage
       }
     });
+  }else if(data.message ==34){
+    print("Show snackbar that the otp supplied is invalid");
   } else {
     Navigator.of(context).pushNamed('/home');
   }

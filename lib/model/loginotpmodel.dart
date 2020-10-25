@@ -103,13 +103,19 @@ class Transaction {
 class Data {
   String month;
   String time;
+  String year;
+  int rs;
+  bool rentStatus;
   Rec rec;
 
-  Data({this.month, this.time, this.rec});
+  Data({this.month, this.time, this.year, this.rs, this.rentStatus, this.rec});
 
   Data.fromJson(Map<String, dynamic> json) {
     month = json['month'];
     time = json['time'];
+    year = json['year'];
+    rs = json['rs'];
+    rentStatus = json['rentStatus'];
     rec = json['rec'] != null ? new Rec.fromJson(json['rec']) : null;
   }
 
@@ -117,6 +123,9 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['month'] = this.month;
     data['time'] = this.time;
+    data['year'] = this.year;
+    data['rs'] = this.rs;
+    data['rentStatus'] = this.rentStatus;
     if (this.rec != null) {
       data['rec'] = this.rec.toJson();
     }
@@ -162,13 +171,15 @@ class Rec {
 }
 
 class Rent {
+  String account;
   String month;
   int rentDue;
   bool rentStatus;
 
-  Rent({this.month, this.rentDue, this.rentStatus});
+  Rent({this.account, this.month, this.rentDue, this.rentStatus});
 
   Rent.fromJson(Map<String, dynamic> json) {
+    account = json['account'];
     month = json['month'];
     rentDue = json['rentDue'];
     rentStatus = json['rentStatus'];
@@ -176,6 +187,7 @@ class Rent {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['account'] = this.account;
     data['month'] = this.month;
     data['rentDue'] = this.rentDue;
     data['rentStatus'] = this.rentStatus;
