@@ -4,6 +4,7 @@ import 'package:clone/enums/connectivity_status.dart';
 import 'package:clone/model/updateTrans_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -16,14 +17,11 @@ class MyMessageHandler extends StatefulWidget {
 }
 class _MyMessageHandlerState extends State<MyMessageHandler> {
   String userToken;
-  double op;
-
   final FirebaseMessaging _fcm = FirebaseMessaging();
   @override
   void initState() {
     super.initState();
-    //_startopacity();
-    //_initalHive();
+
     //v2 register ios push notification service
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(
@@ -31,9 +29,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       );
     } else {
       //_saveDeviceToken();
-    }
-    op = 0.0;
-    
+    }    
     //Subscribe to topic frontEND
     _fcm.subscribeToTopic("tenant"); 
     //Unsubscribe to topic
@@ -64,8 +60,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
         }else{
         showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-            
+        builder: (ctx) => AlertDialog(          
             title: AspectRatio(
                     aspectRatio: 1.5,
                     child: FlareActor(
@@ -78,9 +73,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
             content: Text("$desc",textAlign: TextAlign.center),
           ),
         );
-        
       }
-
       },
       onResume: (Map<String, dynamic> message) async {
         print("onMessage :$message");
@@ -91,35 +84,28 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     _getStartUpPage(context);
-  
     return Container(
       color: _getStartUpColor(context),
       child: Center(
         child: Hero(
-          tag: 'house',
-          child: AnimatedOpacity(
-            duration: Duration(seconds: 10),
-            opacity: op,
-            child: Image(
+          tag: 'house', 
+          child: FadeIn(
+              child: Image(
               fit: BoxFit.scaleDown,
               image: AssetImage('assets/images/house_logo.jpeg'),
             ),
-          ),
+            duration: Duration(seconds: 5),
+            curve: Curves.easeIn,
+          )
         ),
       ),
     );
   }
 
-  //Get token, save it to the datbase for current user
-  Startopacity()async{
-      setState(() {
-        op = 1;
-      });
-  }
+
   // ignore: unused_element
   _saveDeviceToken() async {
     // Get the current user
@@ -197,15 +183,15 @@ _cacheUserDetails(jsonString){
   // print(jstring);
   //userHiveBox.put('trs',transactions);
   
+  
 }
 _getStartUpPage(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final userToken = prefs.getString('user_token') ?? "";
   final userTrans = prefs.getString('user_transactions') ?? "no";
   _cacheUserDetails(userTrans);
-  Startopacity();
   print("UserToken ilikuwa $userToken");
-  Future.delayed(Duration(seconds: 15), () {
+  Future.delayed(Duration(seconds: 6), () {
     userToken == "0"
         ? Navigator.of(context).pushNamed('/home')
         : Navigator.of(context).pushNamed('/login');
