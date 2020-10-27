@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:clone/enums/connectivity_status.dart';
+import 'package:clone/model/updateTrans_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:hive/hive.dart';
@@ -21,6 +22,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   @override
   void initState() {
     super.initState();
+    //_startopacity();
     //_initalHive();
     //v2 register ios push notification service
     if (Platform.isIOS) {
@@ -31,16 +33,20 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       //_saveDeviceToken();
     }
     op = 0.0;
+    
     //Subscribe to topic frontEND
     _fcm.subscribeToTopic("tenant"); 
     //Unsubscribe to topic
     //_fcm.unsubscribeFromTopic("Teneant");
     _fcm.configure(
       //Use for popups and ticks
-      //TODO payment notification
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage :$message");
-        showDialog(
+        var ms = message["data"];
+        var type=ms["type"];
+        var desc=ms["desc"];
+        if(type == "0"){
+          showDialog(
           context: context,
           builder: (context) => AlertDialog(
               title: AspectRatio(
@@ -52,8 +58,29 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
                   animation: 'go',
                 ),
               ),
-              content: Text("Your Transaction was Succesful")),
+              content: Text("$desc",textAlign: TextAlign.center)),
         );
+        updateRent();
+        }else{
+        showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+            
+            title: AspectRatio(
+                    aspectRatio: 1.5,
+                    child: FlareActor(
+                      'assets/fail.flr',
+                      alignment: Alignment.center,
+                      fit: BoxFit.contain,
+                      animation: 'Failure',
+                    ),
+                  ),
+            content: Text("$desc",textAlign: TextAlign.center),
+          ),
+        );
+        
+      }
+
       },
       onResume: (Map<String, dynamic> message) async {
         print("onMessage :$message");
@@ -68,13 +95,14 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   @override
   Widget build(BuildContext context) {
     _getStartUpPage(context);
+  
     return Container(
       color: _getStartUpColor(context),
       child: Center(
         child: Hero(
           tag: 'house',
           child: AnimatedOpacity(
-            duration: Duration(seconds: 5),
+            duration: Duration(seconds: 10),
             opacity: op,
             child: Image(
               fit: BoxFit.scaleDown,
@@ -87,6 +115,12 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   }
 
   //Get token, save it to the datbase for current user
+  Startopacity()async{
+      setState(() {
+        op = 1;
+      });
+  }
+  // ignore: unused_element
   _saveDeviceToken() async {
     // Get the current user
     String uid = 'Patrick254';
@@ -101,13 +135,37 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       };
       //http.post
       print(data);
-      setState(() {
-        op = 1;
-      });
+
       _sendTokenHTTP(data);
     }
   }
-
+ 
+Future updateRent() async {
+  UpdateTransModel data;
+  final prefs = await SharedPreferences.getInstance();
+  final userHiveBox = Hive.box('user');
+  var userID = userHiveBox.get("uid",defaultValue: "no");
+  final response = await http.post(
+    ("http://192.168.0.16:9080/" + "gettrans"),
+    headers: {
+      "Accept": "application/json",
+      "content-type": "application/json",
+    },
+    body: jsonEncode(
+      {
+        'uid': userID,//mobile,
+      },
+    ),
+  );
+  var myjson = json.decode(response.body);
+  data = UpdateTransModel.fromJson(myjson);
+  var transactions = data.transaction.toJson();
+  var rent = data.rent.toJson();
+  userHiveBox.put("rent",jsonEncode(rent));
+  userHiveBox.put("transaction",jsonEncode(transactions));
+  prefs.setString("user_transactions",jsonEncode(transactions));
+  print("Transactions Added by a push notification");
+}
   _sendTokenHTTP(final data) async {
     return http.post(
       "https://googlesecureotp.herokuapp.com/fmctoken",
@@ -145,8 +203,9 @@ _getStartUpPage(BuildContext context) async {
   final userToken = prefs.getString('user_token') ?? "";
   final userTrans = prefs.getString('user_transactions') ?? "no";
   _cacheUserDetails(userTrans);
+  Startopacity();
   print("UserToken ilikuwa $userToken");
-  Future.delayed(Duration(seconds: 6), () {
+  Future.delayed(Duration(seconds: 15), () {
     userToken == "0"
         ? Navigator.of(context).pushNamed('/home')
         : Navigator.of(context).pushNamed('/login');
