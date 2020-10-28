@@ -429,7 +429,7 @@ Future<void> showMyDialog(BuildContext context) async {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Spacer(flex: 2),
-                    Column(
+                    Column( 
                       children: [
                         Container(color: Colors.transparent, child: Text(" ")),
                         Container(child: Text("+254")),
