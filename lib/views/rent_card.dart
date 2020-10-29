@@ -178,7 +178,7 @@ Future _sendPayment(mobile, amountDue,accName ,ctx) async {
         {
           "phonenumber": mobile,
           "amount": "1",
-          "userID": accName,
+          "userID": accName??"Error",
           "socketID": "mee",
           "notifToken": fcmToken
         },

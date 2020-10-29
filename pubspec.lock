@@ -721,6 +721,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.5"
+  sms_consent:
+    dependency: "direct main"
+    description:
+      name: sms_consent
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6"
   source_span:
     dependency: transitive
     description:

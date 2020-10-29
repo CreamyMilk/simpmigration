@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:clone/model/loginotpmodel.dart';
 import 'package:clone/widget/timerFab.dart';
 import 'package:flutter/material.dart';
-//import 'package:clone/model/otpconfirmmodel.dart';
+import 'package:flutter/services.dart';
+import 'package:sms_consent/sms_consent.dart';
 import 'package:hive/hive.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,18 +18,34 @@ class OtpReceiver extends StatefulWidget {
     Key key,
     @required this.phonenumber,
   }) : super(key: key);
-
   @override
   _OtpReceiverState createState() => _OtpReceiverState();
 }
 
 class _OtpReceiverState extends State<OtpReceiver> {
+  String _receivedCode = '';
   @override
   void initState() {
     super.initState();
-    _listenforOTP();
+    initSMSState();
   }
-
+    Future<void> initSMSState() async {
+    String receivedCode;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      String temp = await SmsConsent.startSMSConsent();
+      receivedCode = temp.substring(0, 4); 
+    } on PlatformException {
+      receivedCode = '';
+    }
+    if (!mounted) return;
+    setState(() => _receivedCode = receivedCode);
+  }
+  @override
+  void dispose() {
+    SmsConsent.stopSMSConsent();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,25 +70,26 @@ class _OtpReceiverState extends State<OtpReceiver> {
               vertical: 10,
             ),
             child: PinFieldAutoFill(
+              currentCode:_receivedCode,
               autofocus: false,
               codeLength: 4,
               onCodeChanged: (val) {
                 print(val);
                 if (val.length == 4) {
+                  print("doing some naviagion here $val");
                   confirmOTP(widget.phonenumber, val, context);
                   //Navigator.of(context).pop();
                 }
               },
             ),
-          )
+          ),
         ],
       ),
     );
   }
-
-  void _listenforOTP() async {
-    await SmsAutoFill().listenForCode;
-  }
+  // void _listenforOTP() async {
+  //   await SmsAutoFill().listenForCode;
+  // }
 }
 
 Future confirmOTP(mobile, code, context) async {
@@ -84,7 +102,7 @@ Future confirmOTP(mobile, code, context) async {
     },
     body: jsonEncode(
       {
-        'phonenumber': "254759306745",//mobile,
+        'phonenumber': mobile,//mobile,
         'otp': code,
       },
     ),

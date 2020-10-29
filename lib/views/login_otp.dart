@@ -277,7 +277,8 @@ class _ThreeBButtons extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.white,
-                                    ))
+                                    ),
+                                  )
                               ],
                             ),
                           ),
@@ -350,169 +351,144 @@ class _Logincard extends StatelessWidget {
     );
   }
 }
+class PopupForm extends StatefulWidget {
+  PopupForm({Key key}) : super(key: key);
 
-// class PhoneNumberForm extends StatefulWidget {
-//   const PhoneNumberForm({Key key}) : super(key: key);
+  @override
+  _PopupFormState createState() => _PopupFormState();
+}
 
-//   @override
-//   _PhoneNumberFormState createState() => _PhoneNumberFormState();
-// }
-
-// class _PhoneNumberFormState extends State<PhoneNumberForm> {
-//   final TextEditingController _testcontroller = TextEditingController();
-//   String mobile = "";
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextField(
-//       cursorColor: Colors.green,
-//       onChanged: (value) {
-//         print(value);
-//         setState(() {
-//           mobile = value;
-//         });
-//       },
-//       controller: _testcontroller,
-//       decoration: InputDecoration(
-//         suffixIcon: IconButton(
-//           icon: Icon(Icons.perm_contact_calendar),
-//           onPressed: () async {
-//             final PhoneContact contact =
-//                 await FlutterContactPicker.pickPhoneContact();
-//             setState(() {
-//               _testcontroller.text = contact.phoneNumber.number;
-//               mobile = contact.phoneNumber.number;
-//             });
-//           },
-//         ),
-//         hintText: 'PhoneNumber',
-//         prefixText: "",
-//       ),
-//       keyboardType: TextInputType.numberWithOptions(),
-//     );
-//   }
-
-//   void showSnack(context) {}
-// }
-
-Future<void> showMyDialog(BuildContext context) async {
-  String mobile = "";
-  // String validatePassword(String value) {
+class _PopupFormState extends State<PopupForm> {
+   TextEditingController _mytextcontroller;
+  bool _otploading=false;
+  int otpstatus=0;
+  String mobile="";
+  //   String validatePassword(String value) {
   //   print('Value $value');
-  //   if (!(value.length > 9 && value.isNotEmpty)) {
-  //     return "Number should be in the format 07xx";
-  //   }
+
   //   if (value.startsWith("7")) {
   //     return "Please write number as 07xx";
   //   }
   //   return null;
   // }
-  TextEditingController _mytextcontroller;
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 100),
+          child: AlertDialog(
+            title: Icon(Icons.phone),
+            content: Container(
+              height: 200,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Please enter the number provided during house registration.',
+                    textAlign: TextAlign.center,
+                  ),
+                  Divider(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Spacer(flex: 2),
+                      Column( 
+                        children: [
+                          Container(color: Colors.transparent, child: Text(" ")),
+                          Container(child: Text("+254")),
+                        ],
+                      ),
+                      Spacer(flex: 2),
+                      Expanded(
+                        flex: 20,
+                        child: TextField(
+                          controller: _mytextcontroller,
+                          showCursor: true,
+                          autofocus: true,
+                          maxLength:10,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: 'Phone Number',
+                            //errorText: validatePassword(mobile),
+                          ),
+                          onChanged: (value) {
+                            mobile = value;
+                            print(mobile);
+                          },
+                        ),
+                      ),
+                      Spacer(flex: 1),
+                    ],
+                  ),
+                  SizedBox(height: 30),
+                  Spacer(),
+                  Text(
+                    "By choosing to proceed, you agree to the following terms of service",
+                    style: const TextStyle(color: Colors.black54, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                  GestureDetector(
+                  onTap: () async {
+                    final url = 'https://i-crib.co.ke/terms';
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+                  },
+                      child: Text("Terms & Conditions",                   
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                        fontSize: 12,
+                      ),
+                    ),
+                  )],
+              ),
+            ),
+            actions: <Widget>[
+              OutlineButton(
+                child: Text('CANCEL'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              _otploading?CircularProgressIndicator(strokeWidth:1.0):
+              MaterialButton(
+                color: Theme.of(context).primaryColor,
+                child: Text('PROCCED',style:TextStyle(
+                  color:Colors.white
+                )),
+                //getOTP()
+                onPressed: () async {
+                  final appsignature = await SmsAutoFill().getAppSignature;             
+                  if (mobile.length > 9) {
+                    setState((){
+                    _otploading =true;
+                  });
+                  otpstatus= await getOTP(mobile, appsignature, context);
+                  if(otpstatus == 0){
+                    setState((){
+                      _otploading =true;
+                  });}}else {
+                    print("Lenght");
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+  }
+}
+
+
+Future<void> showMyDialog(BuildContext context) async {
+
   return showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
-      return ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: 100),
-        child: AlertDialog(
-          title: Icon(Icons.phone),
-          content: Container(
-            height: 200,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Please enter the number provided during house registration.\n07xx',
-                  textAlign: TextAlign.center,
-                ),
-                Divider(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Spacer(flex: 2),
-                    Column( 
-                      children: [
-                        Container(color: Colors.transparent, child: Text(" ")),
-                        Container(child: Text("+254")),
-                      ],
-                    ),
-                    Spacer(flex: 2),
-                    Expanded(
-                      flex: 20,
-                      child: TextField(
-                        controller: _mytextcontroller,
-                        showCursor: true,
-                        autofocus: true,
-                        maxLength:10,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: 'Phone Number',
-                          
-                          //errorText: validatePassword(_mytextcontroller.text),
-                        ),
-                        onChanged: (value) {
-                          mobile = value;
-                          print(mobile);
-                        },
-                      ),
-                    ),
-                    Spacer(flex: 1),
-                  ],
-                ),
-                SizedBox(height: 30),
-                Spacer(),
-                Text(
-                  "By choosing to proceed, you agree to the following terms of service",
-                  style: const TextStyle(color: Colors.black54, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-                GestureDetector(
-                onTap: () async {
-                  final url = 'https://i-crib.co.ke/terms';
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  } else {
-                    throw 'Could not launch $url';
-                  }
-                },
-                    child: Text("Terms & Conditions",                   
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.blue,
-                      fontSize: 12,
-                    ),
-                  ),
-                )],
-            ),
-          ),
-          actions: <Widget>[
-            OutlineButton(
-              child: Text('CANCEL'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            MaterialButton(
-              color: Theme.of(context).primaryColor,
-              child: Text('PROCCED',style:TextStyle(
-                color:Colors.white
-              )),
-              //getOTP(),
-              onPressed: () async {
-                //send post request here
-
-                final appsignature = await SmsAutoFill().getAppSignature;
-                //todo add loading
-                if (mobile.length > 9) {
-                  await getOTP(mobile, appsignature, context);
-                } else {
-                  print("Lenght");
-                }
-              },
-            ),
-          ],
-        ),
-      );
+      return PopupForm();
     },
   );
 }
@@ -523,7 +499,7 @@ Future getOTP(mobile, appsign, context) async {
   if (mobile != null) {
     try{
     final response = await http.post(
-      ("https://googlesecureotp.herokuapp.com/" + "otp"),
+      ("http://192.168.0.16:9080/" + "getotp"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
@@ -538,6 +514,7 @@ Future getOTP(mobile, appsign, context) async {
     var myjson = json.decode(response.body);
     data = OtpResponse.fromJson(myjson);
     print(data.messageCode);
+  
     Navigator.of(context).pushNamed('/otprec', arguments: mobile);
   }catch(SocketException){
   
@@ -549,4 +526,5 @@ showDialog(
   }}else {
     print('Please add number');
   }
+    return 0;
 }
