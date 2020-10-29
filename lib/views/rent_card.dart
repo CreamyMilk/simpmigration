@@ -82,7 +82,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
               "Ksh.$_visualAmount",
               style: TextStyle(
                 fontWeight: FontWeight.w200,
-                fontSize: 40.0,
+                fontSize: 35.0,
               ),
             ),
             Divider(),

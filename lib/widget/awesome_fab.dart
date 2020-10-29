@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clone/model/payment_update.dart';
 import 'package:clone/views/rent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 void upadateRentCard(String month,bool status,int amount){
   var userBox = Hive.box('user');
@@ -15,7 +17,7 @@ void upadateRentCard(String month,bool status,int amount){
   userBox.put("rent",rent);
 }
 void updateTransactions()async {
-    final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
   var userBox = Hive.box('user');
     List<Map<String,dynamic>> newtrans=[{"month":"Febuary","time":"99/99/99","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}];
     Map<String, dynamic> transactions = {
@@ -26,6 +28,8 @@ void updateTransactions()async {
   prefs.setString("user_transactions",jsonEncode(transactions));
   print("Transactions Added");
 }
+
+
 class AwesomeFAB extends StatelessWidget {
   const AwesomeFAB({Key key}) : super(key: key);
   
@@ -58,12 +62,13 @@ class AwesomeFAB extends StatelessWidget {
               child: Icon(Icons.brush, color: Colors.white),
               backgroundColor: Colors.green,
               onTap: () {
-                var userBox = Hive.box('user');
+                //var userBox = Hive.box('user');
+                //getLatestTrans();
                 //userBox.put('rentStats',!(userBox.get('rentStats')));
                 updateTransactions();
                 upadateRentCard("October",true,2);
-                print("eee${userBox.get('rentStats')}");
-                print('Receipts');
+                //print("eee${userBox.get('rentStats')}");
+                //print('Receipts');
                 },
               label: 'Receipts',
               labelStyle:

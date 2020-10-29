@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:clone/model/payment_update.dart';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:clone/views/issues_card.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:clone/model/loginotpmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeViewCardLayout extends StatefulWidget {
@@ -86,12 +86,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
             floatingActionButton: AwesomeFAB(),
           body: SafeArea(
             child: RefreshIndicator(
-              onRefresh:(){
-                return Future.delayed(Duration(seconds: 3),(){
-                  print("Fetching new data");
-                  return "";
-                });
-              },
+              onRefresh:GetLatestTrans,
                 child: ListView(
                 children: [
                   SizedBox(
@@ -119,24 +114,24 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                       margin: EdgeInsets.all(16.0),
                       //color: Colors.red[50],
                       height: MediaQuery.of(context).size.height *
-                          0.3415941154086502, //Cards Height
+                          0.2915941154086502, //Cards Height
                       child: ListView(
                         padding: EdgeInsets.all(4.0),
                         scrollDirection: Axis.horizontal,
                         children: [
                           PageCard(
                             childwidget: RentPaymentCard(),
-                            gradients: [Colors.white, Colors.lightGreen[100]],
+                            gradients: [Colors.white, Colors.lightGreen[200]],
                           ),
                           SizedBox(width: 10),
                           PageCard(
                             childwidget: IssuesCard(),
-                            gradients: [Colors.white, Colors.red[100]],
+                            gradients: [Colors.white, Colors.red[200]],
                           ),
                           SizedBox(width: 10),
                           PageCard(
                             childwidget: ServiceCard(),
-                            gradients: [Colors.white, Colors.lightBlue[100]],
+                            gradients: [Colors.white, Colors.lightBlue[200]],
                           ),
                           SizedBox(width: 20),
                         ],
@@ -168,18 +163,18 @@ class CardListings extends StatefulWidget {
   @override
   _CardListingsState createState() => _CardListingsState();
 }
-void uTransactions()async{
-  final prefs = await SharedPreferences.getInstance();
-  final jsonTrans = prefs.getString('user_transactions') ?? '';
-  Transaction tt = Transaction.fromJson(json.decode(jsonTrans));
-  var userBox = Hive.box('user');
-  userBox.put("transaction",tt.toJson());
-  print("Transactions Added ${tt.toJson()}");
-} 
+// void uTransactions()async{
+//   final prefs = await SharedPreferences.getInstance();
+//   final jsonTrans = prefs.getString('user_transactions') ?? '';
+//   Transaction tt = Transaction.fromJson(json.decode(jsonTrans));
+//   var userBox = Hive.box('user');
+//   userBox.put("transaction",tt.toJson());
+//   print("Transactions Added ${tt.toJson()}");
+// } 
 class _CardListingsState extends State<CardListings> {
   @override
   void initState() {
-    //uTransactions 
+    //uTransactions();
     //();
     super.initState();
   }
@@ -187,36 +182,41 @@ class _CardListingsState extends State<CardListings> {
 
   @override
   Widget build(BuildContext context) {
-
     return ValueListenableBuilder(
       valueListenable: Hive.box('user').listenable(),
       builder: (context, box, widget) {
-         //print("localfile--<${ new Map<String, dynamic>.from(snapshot.value);}>---");
         var temp =  box.get('transaction');
         var local  = json.decode(temp);
-  print("SDSSD$local");
+        //print("SDSSD$local");
         if(true){
         return Container(
-        color: Colors.white38,
+        color: Colors.white70,
         //Bottom Listing size 400
-        //height: MediaQuery.of(context).size.height * 0.4554588205448669,
-        height:400,
+        height: MediaQuery.of(context).size.height *  (0.8-0.2915941154086502),
+        //height:400,
         child: ReorderableListView(
-          header: Row(
+          header: Column(
             children: [
-              SizedBox(
-                height: 29,
+              Row(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      local['title'],
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w300,
+                          letterSpacing: 4.0),
+                    ),
+                  ),
+              
+                ],
+                
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  local['title'],
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                      letterSpacing: 5.0),
-                ),
-              ),
+              Divider(height:1),
             ],
           ),
           onReorder: (oldIndex, newIndex) {
@@ -227,7 +227,9 @@ class _CardListingsState extends State<CardListings> {
                 newIndex -= 1;
               }
               final item = local['data'].removeAt(oldIndex);
+  
               local['data'].insert(newIndex, item);
+              box.put("transaction",jsonEncode(local));
             });
           },
           children: [
@@ -237,7 +239,7 @@ class _CardListingsState extends State<CardListings> {
                 title: Text(item["month"]),
                 subtitle: Text("${item["time"]}"),
                 leading: Icon(Icons.access_time),
-                trailing: Text("Ksh.${item["rec"]["amount"].toString()}",
+                trailing: Text("Ksh.${(item["rec"]["amount"].toString()).replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 children: [
                   Row(

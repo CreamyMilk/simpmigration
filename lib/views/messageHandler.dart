@@ -9,6 +9,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:clone/model/payment_update.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyMessageHandler extends StatefulWidget {
@@ -56,7 +57,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
               ),
               content: Text("$desc",textAlign: TextAlign.center)),
         );
-        updateRent();
+        GetLatestTrans();
         }else{
         showDialog(
         context: context,
@@ -73,6 +74,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
             content: Text("$desc",textAlign: TextAlign.center),
           ),
         );
+         GetLatestTrans();
       }
       },
       onResume: (Map<String, dynamic> message) async {
