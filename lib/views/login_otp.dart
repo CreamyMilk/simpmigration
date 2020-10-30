@@ -499,7 +499,7 @@ Future getOTP(mobile, appsign, context) async {
   if (mobile != null) {
     try{
     final response = await http.post(
-      ("http://192.168.0.16:9080/" + "getotp"),
+      ("https://auth.i-crib.co.ke/" + "getotp"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
