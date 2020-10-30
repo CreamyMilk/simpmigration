@@ -31,7 +31,7 @@ class _ComplainsFormState extends State<ComplainsForm> {
             TextFormField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Kindly enter a caegory',
+                hintText: 'Kindly enter a category',
                 helperText: 'Complain type',
                 labelText: 'Category',
               ),
@@ -52,25 +52,28 @@ class _ComplainsFormState extends State<ComplainsForm> {
             ),
             Row(
               children: [
-                MaterialButton(
-                  color: Colors.black,
-                  onPressed: () {
-                    showDialog(
-                      //Text(message['notification']['title']
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text("Complain Submitted"),
-                        content:
-                            Text("It will be resolved in due time\nThank You."),
-                        actions: [
-                          MaterialButton(child:Text("Close",style: TextStyle(color:Colors.white)),color:Theme.of(context).primaryColor,onPressed: () { Navigator.of(context).pushNamed('/home'); },),
-                        ],
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "Submit",
-                    style: TextStyle(color: Colors.white),
+                Hero(
+                  tag:'report',
+                   child:MaterialButton(
+                    color: Colors.black,
+                    onPressed: () {
+                      showDialog(
+                        //Text(message['notification']['title']
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text("Complain Submitted"),
+                          content:
+                              Text("It will be resolved in due time\nThank You."),
+                          actions: [
+                            MaterialButton(child:Text("Close",style: TextStyle(color:Colors.white)),color:Theme.of(context).primaryColor,onPressed: () { Navigator.of(context).pushNamed('/home'); },),
+                          ],
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Submit",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 Spacer(),

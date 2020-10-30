@@ -41,7 +41,6 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-
       valueListenable: Hive.box('user').listenable(),
       builder: (context, box, widget) {
         var local = userHiveBox.get('rent',defaultValue:{'rentDue':0,'month':"October","rentStatus":false}); 

@@ -50,7 +50,7 @@ class _IssuesCardState extends State<IssuesCard> {
             "${_compains.toString()}",
             style: TextStyle(
               fontWeight: FontWeight.w200,
-              fontSize: 40.0,
+              fontSize: 35.0,
             ),
           ),
           Text(
@@ -91,18 +91,21 @@ class _IssuesCardState extends State<IssuesCard> {
                 color: Colors.transparent,
                 alignment: Alignment.bottomRight,
                 padding: EdgeInsets.all(5.0),
-                child: MaterialButton(
-                  color:
-                      Theme.of(context).primaryColor,
-                  child: Row(
-                    children: [
-                      Text("Report !", style: TextStyle(color: Colors.white)),
-                    ],
+                child: Hero(
+                  tag:"report",
+                                  child: MaterialButton(
+                    color:
+                        Theme.of(context).primaryColor,
+                    child: Row(
+                      children: [
+                        Text("Report !", style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/complain');
+                      print("STK push sent");
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/complain');
-                    print("STK push sent");
-                  },
                 ),
               ),
             ],
