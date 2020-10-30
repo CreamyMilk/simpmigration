@@ -123,7 +123,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     final Size contentSize = contentFont.measureString(receiptNumber);
     final String address = '''
         \r\nBill To     : ${tra["username"]}. 
-        \r\nBranch    : ${tra["branch"]}).
+        \r\nBranch    : ${tra["branch"]}.
         \r\nHouseNo : ${tra["house"]}''';
 
     PdfTextElement(text: receiptNumber, font: contentFont).draw(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:clone/model/paymentResponse.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -153,18 +154,29 @@ Future _sendPayment(mobile, amountDue,accName ,ctx) async {
   final FirebaseMessaging _fcm = FirebaseMessaging();
   //String useracccount = userBox.get("ewewe",defaultValue:"Error");
   PaymentResponse data;
-  showDialog(
-    //Text(message['notification']['title']
-    context: ctx,
-    builder: (ctx) => AlertDialog(
-        title:Text("Request Sent"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("Amount :Ksh.$amountDue \nTo :$mobile"),
-          ],
-        )),
-  );
+  Flushbar(
+    title:" Processing Payment ⏲...",
+    message:" 📲 No:$mobile  💱 Amount:Ksh.$amountDue",
+    icon:Icon(
+      Icons.info_outline,
+      size:28,
+      color: Colors.yellow,
+    ),
+    leftBarIndicatorColor: Colors.yellowAccent,
+    duration:Duration(seconds:5)
+  )..show(ctx);
+  // showDialog(
+  //   //Text(message['notification']['title']
+  //   context: ctx,
+  //   builder: (ctx) => AlertDialog(
+  //       title:Text("Request Sent"),
+  //       content: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           Text("Amount :Ksh.$amountDue \nTo :$mobile"),
+  //         ],
+  //       )),
+  // );
   try {
     String fcmToken = await _fcm.getToken();
     final response = await http.post(
@@ -253,7 +265,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
   @override
   void initState() {
     userHiveBox = Hive.box('user');
-    var temp = userHiveBox.get('rent',defaultValue:{'rentDue':1,'account':'err','month':"October","rentStatus":false}); //Add default for non complains
+    var temp = userHiveBox.get('rent',defaultValue:{'rentDue':0,'account':'err','month':"null","rentStatus":false}); //Add default for non complains
     mobile = userHiveBox.get('mobile',defaultValue: "");
     amountDue = temp["rentDue"].toString();
     accountName=temp["account"];

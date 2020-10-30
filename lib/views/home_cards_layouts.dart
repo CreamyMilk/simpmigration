@@ -73,9 +73,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                       });
                     })
               ],
-              leading: Hero(
-                tag:"house",
-                              child: IconButton(
+              leading: IconButton(
                   icon: Icon(Icons.account_circle),
                   color: Colors.white,
                   onPressed: () {
@@ -83,7 +81,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                     print(
                         'Card should be the percenage ${300 / MediaQuery.of(context).size.height}% while Listings${400 / MediaQuery.of(context).size.height}%');
                   },
-                ),
+                
               )),
           //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, _complains: _complains, _transactions: _transactions),
             floatingActionButton: AwesomeFAB(),
@@ -190,7 +188,7 @@ class _CardListingsState extends State<CardListings> {
       builder: (context, box, widget) {
         var temp =  box.get('transaction');
         var local  = json.decode(temp);
-        //print("SDSSD$local");
+        print("SDSSD$local");
         if(true){
         return Container(
         color: Colors.white70,
@@ -241,7 +239,11 @@ class _CardListingsState extends State<CardListings> {
                 key: ValueKey(Random().nextInt(10000)),
                 title: Text(item["month"]),
                 subtitle: Text("${item["time"]}"),
-                leading: Icon(Icons.access_time),
+                leading: CircleAvatar(
+                radius: 20,
+                backgroundImage:
+                    NetworkImage('https://via.placeholder.com/150'),
+                ),
                 trailing: Text("Ksh.${(item["rec"]["amount"].toString()).replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 children: [
