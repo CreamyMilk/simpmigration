@@ -1,10 +1,7 @@
 import 'dart:convert';
-
-import 'package:clone/model/payment_update.dart';
 import 'package:clone/views/rent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';

@@ -57,7 +57,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
               ),
               content: Text("$desc",textAlign: TextAlign.center)),
         );
-        GetLatestTrans();
+        getLatestTrans();
         }else{
         showDialog(
         context: context,
@@ -74,7 +74,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
             content: Text("$desc",textAlign: TextAlign.center),
           ),
         );
-         GetLatestTrans();
+         getLatestTrans();
       }
       },
       onResume: (Map<String, dynamic> message) async {
@@ -134,7 +134,7 @@ Future updateRent() async {
   final userHiveBox = Hive.box('user');
   var userID = userHiveBox.get("uid",defaultValue: "no");
   final response = await http.post(
-    ("http://192.168.0.16:9080/" + "gettrans"),
+    ("https://auth.i-crib.co.ke/" + "gettrans"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",

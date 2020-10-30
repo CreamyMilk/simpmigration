@@ -95,7 +95,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
 Future confirmOTP(mobile, code, context) async {
   Otploginresponse data;
   final response = await http.post(
-    ("http://192.168.0.16:9080/" + "verifyotp"),
+    ("https://auth.i-crib.co.ke/" + "verifyotp"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",

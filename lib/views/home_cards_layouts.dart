@@ -73,20 +73,23 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                       });
                     })
               ],
-              leading: IconButton(
-                icon: Icon(Icons.account_circle),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/');
-                  print(
-                      'Card should be the percenage ${300 / MediaQuery.of(context).size.height}% while Listings${400 / MediaQuery.of(context).size.height}%');
-                },
+              leading: Hero(
+                tag:"house",
+                              child: IconButton(
+                  icon: Icon(Icons.account_circle),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/');
+                    print(
+                        'Card should be the percenage ${300 / MediaQuery.of(context).size.height}% while Listings${400 / MediaQuery.of(context).size.height}%');
+                  },
+                ),
               )),
           //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, _complains: _complains, _transactions: _transactions),
             floatingActionButton: AwesomeFAB(),
           body: SafeArea(
             child: RefreshIndicator(
-              onRefresh:GetLatestTrans,
+              onRefresh:getLatestTrans,
                 child: ListView(
                 children: [
                   SizedBox(
