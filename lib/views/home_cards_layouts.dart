@@ -78,10 +78,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                   color: Colors.white,
                   onPressed: () {
                     Navigator.of(context).pushNamed('/');
-                    print(
-                        'Card should be the percenage ${300 / MediaQuery.of(context).size.height}% while Listings${400 / MediaQuery.of(context).size.height}%');
-                  },
-                
+                  },           
               )),
           //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, _complains: _complains, _transactions: _transactions),
             floatingActionButton: AwesomeFAB(),

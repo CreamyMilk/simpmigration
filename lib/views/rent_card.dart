@@ -152,7 +152,7 @@ void settingModalBottomSheet(context, amountDue) {
 Future _sendPayment(mobile, amountDue,accName ,ctx) async {
 
   final FirebaseMessaging _fcm = FirebaseMessaging();
-  //String useracccount = userBox.get("ewewe",defaultValue:"Error");
+  //v2 work with paymentapi responses
   PaymentResponse data;
   Flushbar(
     title:" Processing Payment ⏲...",
@@ -163,20 +163,9 @@ Future _sendPayment(mobile, amountDue,accName ,ctx) async {
       color: Colors.yellow,
     ),
     leftBarIndicatorColor: Colors.yellowAccent,
-    duration:Duration(seconds:5)
+    duration:Duration(seconds:8),
+    forwardAnimationCurve: Curves.easeInOutBack,
   )..show(ctx);
-  // showDialog(
-  //   //Text(message['notification']['title']
-  //   context: ctx,
-  //   builder: (ctx) => AlertDialog(
-  //       title:Text("Request Sent"),
-  //       content: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           Text("Amount :Ksh.$amountDue \nTo :$mobile"),
-  //         ],
-  //       )),
-  // );
   try {
     String fcmToken = await _fcm.getToken();
     final response = await http.post(
