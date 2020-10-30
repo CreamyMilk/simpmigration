@@ -74,7 +74,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                     })
               ],
               leading: IconButton(
-                  icon: Icon(Icons.account_circle),
+                  icon: Icon(Icons.build),
                   color: Colors.white,
                   onPressed: () {
                     Navigator.of(context).pushNamed('/');
@@ -237,10 +237,11 @@ class _CardListingsState extends State<CardListings> {
                 title: Text(item["month"]),
                 subtitle: Text("${item["time"]}"),
                 leading: CircleAvatar(
-                radius: 20,
-                backgroundImage:
-                    NetworkImage('https://via.placeholder.com/150'),
-                ),
+                  backgroundColor: Colors.lightGreen[200],
+                  foregroundColor: Colors.transparent,
+                  child:Icon(Icons.bubble_chart),
+                radius: 20,  
+                ),             
                 trailing: Text("Ksh.${(item["rec"]["amount"].toString()).replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 children: [
