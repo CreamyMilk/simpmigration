@@ -1,0 +1,37 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '1.20.4'
+    # Runs a set of commands using the runners shell
+    - name: Run a multi-line script
+      run: |
+        echo Add other actions to build,
+        echo and deploy your project.  
+    - name: Getting all dependencies 🍂
+      run: flutter pub get
+    - name: Building appbunlde 📚
+      run: flutter build appbundle --target-platform android-arm,android-arm64,android-x64
+    - name: Building android release Apk 🎁
+      uses: actions/upload-artifact@v2
+      with:
+        name: Releasebundle
+        path: build/app/outputs/flutter-apk/app-release.apk
