@@ -63,7 +63,7 @@ class AwesomeFAB extends StatelessWidget {
                 //getLatestTrans();
                 //userBox.put('rentStats',!(userBox.get('rentStats')));
                 updateTransactions();
-                upadateRentCard("October",true,2);
+                upadateRentCard("January",false,2);
                 //print("eee${userBox.get('rentStats')}");
                 //print('Receipts');
                 },

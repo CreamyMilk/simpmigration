@@ -237,9 +237,9 @@ class _CardListingsState extends State<CardListings> {
                 title: Text(item["month"]),
                 subtitle: Text("${item["time"]}"),
                 leading: CircleAvatar(
-                  backgroundColor: Colors.lightGreen[200],
+                  backgroundColor: Colors.greenAccent[100],
                   foregroundColor: Colors.transparent,
-                  child:Icon(Icons.bubble_chart),
+                  child:Icon(Icons.call_merge,color:Colors.black),
                 radius: 20,  
                 ),             
                 trailing: Text("Ksh.${(item["rec"]["amount"].toString()).replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
@@ -247,6 +247,7 @@ class _CardListingsState extends State<CardListings> {
                 children: [
                   Row(
                     children: [
+                      SizedBox(width:15),
                       CreatePdfStatefulWidget(
                         transData: item["rec"]),
                        ],

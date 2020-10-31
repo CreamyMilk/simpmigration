@@ -182,7 +182,8 @@ class MapSampleState extends State<MapSample> {
         ],
       ),
       floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton.extended(
+        builder: (context) => FloatingActionButton(
+          mini:true,
           onPressed: () {
             _goToTheLake(widget.initialPosition.latitude,
                 widget.initialPosition.longitude);
@@ -197,8 +198,8 @@ class MapSampleState extends State<MapSample> {
             // );
             print('me');
           },
-          label: Text('My Location!'),
-          icon: Icon(Icons.directions_boat),
+          //label: Text('My Location!'),
+          child: Icon(Icons.directions_boat),
         ),
       ),
     );

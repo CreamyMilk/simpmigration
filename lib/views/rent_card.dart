@@ -96,7 +96,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                       style: TextStyle(color: Colors.grey, fontSize: 10.0),
                     ),
                     MaterialButton(
-                        color: _status ? Colors.greenAccent : Colors.redAccent,
+                        color: _status ?  Colors.greenAccent: Colors.red[300],
                         onPressed: () {
 
                         },
@@ -154,15 +154,16 @@ Future _sendPayment(mobile, amountDue,accName ,ctx) async {
   //v2 work with paymentapi responses
   PaymentResponse data;
   Flushbar(
-    title:" Processing Payment ⏲...",
+    backgroundColor:Colors.grey,
+    title:" Processing Payment 🤵...",
     message:" 📲 No:$mobile  💱 Amount:Ksh.$amountDue",
     icon:Icon(
-      Icons.info_outline,
-      size:28,
-      color: Colors.yellow,
+      Icons.bubble_chart,
+      size:40,
+      color: Colors.white,
     ),
     leftBarIndicatorColor: Colors.yellowAccent,
-    duration:Duration(seconds:8),
+    duration:Duration(seconds:20),
     forwardAnimationCurve: Curves.easeInOutBack,
   )..show(ctx);
   try {
@@ -177,7 +178,7 @@ Future _sendPayment(mobile, amountDue,accName ,ctx) async {
         //ensure that the user has bothe the socketID and the USER ID
         {
           "phonenumber": mobile,
-          "amount": "1",
+          "amount": "1000",
           "userID": accName??"Error",
           "socketID": "mee",
           "notifToken": fcmToken
