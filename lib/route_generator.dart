@@ -1,7 +1,7 @@
 import 'package:clone/archive/urllearn.dart';
 import 'package:clone/archive/users_data.dart';
-// import 'package:clone/enums/connectivity_status.dart';
-// import 'package:clone/services/connectivity_service.dart';
+import 'package:clone/enums/connectivity_status.dart';
+import 'package:clone/services/connectivity_service.dart';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:clone/views/complainsForm.dart';
 import 'package:clone/views/home_cards_layouts.dart';
@@ -74,12 +74,12 @@ class StartUpScreenProvider extends StatelessWidget {
   // v2 use the connectivity package for all api negotions
   @override
   Widget build(BuildContext context) {
-    return MyMessageHandler();
-    // return MultiProvider(providers: [
-    //   StreamProvider<ConnectivityStatus>(
-    //       create: (context) =>
-    //           ConnectivityService().connectionStatusController.stream),
-    // ], child: MyMessageHandler());
+    //return MyMessageHandler();
+    return MultiProvider(providers: [
+      StreamProvider<ConnectivityStatus>(
+          create: (context) =>
+              ConnectivityService().connectionStatusController.stream),
+    ], child: MyMessageHandler());
   }
 }
 

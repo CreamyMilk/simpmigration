@@ -116,7 +116,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                         _testvar ? Theme.of(context).primaryColor : Colors.grey,
                     child: Row(
                       children: [
-                        Text("Pay now", style: TextStyle(color: Colors.white)),
+                         Text("Pay now", style: TextStyle(color: Colors.white)),
                       ],
                     ),
                     onPressed: () {
@@ -360,7 +360,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Running low on Cash?",
+                  "Running low on Cash ?",
                   style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                 ),
               ),
@@ -399,23 +399,23 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  child: MaterialButton(
-                    height: 40,
-                    minWidth: MediaQuery.of(context).size.width * .95,
-                    onPressed: () async {
-                      Navigator.pop(context);
-                    
-                      await _sendPayment(mobile, amountDue,accountName, context);
-                    },
-                    color: Colors.black,
-                    child: Text(
-                      "Pay $amountDue",
-                      style: TextStyle(color: Colors.white),
+                      child: MaterialButton(
+                      height: 45,
+                      minWidth: MediaQuery.of(context).size.width * .95,
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        await _sendPayment(mobile, amountDue,accountName, context);
+                      },
+                      color: Colors.black,
+                      child: Text(
+                        "Pay $amountDue",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      autofocus: true,
                     ),
-                    autofocus: true,
                   ),
                 ),
-              )
+            
             ],
           ),
         ),

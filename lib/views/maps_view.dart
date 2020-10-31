@@ -178,6 +178,13 @@ class MapSampleState extends State<MapSample> {
                 },
               ),
             ),
+          ),
+          SafeArea(
+            child: Positioned(
+              top:10,
+              child:ChoiceChips(),
+              
+            ),
           )
         ],
       ),
@@ -187,15 +194,15 @@ class MapSampleState extends State<MapSample> {
           onPressed: () {
             _goToTheLake(widget.initialPosition.latitude,
                 widget.initialPosition.longitude);
-            // showBottomSheet(
-            //   context: context,
-            //   builder: (BuildContext context) {
-            //     return Container(
-            //       color: Colors.redAccent,
-            //       height: MediaQuery.of(context).size.height * 0.225,
-            //     );
-            //   },
-            // );
+            showBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                  color: Colors.redAccent,
+                  height: MediaQuery.of(context).size.height * 0.225,
+                );
+              },
+            );
             print('me');
           },
           //label: Text('My Location!'),
@@ -231,3 +238,39 @@ class MapSampleState extends State<MapSample> {
         MarkerId(coffeeShops[_pageController.page.toInt()].shopName));
   }
 }
+
+class ChoiceChips extends StatefulWidget {
+  @override
+  _ChoiceChipsState createState() => _ChoiceChipsState();
+}
+
+class _ChoiceChipsState extends State<ChoiceChips> {
+  int indexSelected=-1;
+  List<String> services=["Gas","Washing","Gorceries"];
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      children:[
+      for (final service in services)
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ChoiceChip(
+              selectedColor: Colors.lightBlue[50],
+              label:Text(service,style:TextStyle(color: indexSelected == services.indexOf(service)? Colors.blue:Colors.black)),
+              selected: indexSelected == services.indexOf(service),
+              onSelected: (value){
+                //Do a lookup for all services that feet the criteria
+                setState((){
+                  indexSelected = value ? services.indexOf(service) :-1;
+                });
+              },),
+              const SizedBox(width:8),
+          ],
+        ),               
+      ]
+    );
+  }
+}
+
+//*148*1*9228#
