@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Bundler
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
@@ -28,10 +28,10 @@ jobs:
         echo and deploy your project.  
     - name: Getting all dependencies 🍂
       run: flutter pub get
-    - name: Building Personal android-arm64 APK 🍏
-      run: flutter build apk --target-platform android-arm64 --release
-    - name: Building android release Apk 🤖
+    - name: Building appbunlde 📚
+      run: flutter build appbundle --target-platform android-arm,android-arm64,android-x64
+    - name: Building android release Apk 🎁
       uses: actions/upload-artifact@v2
       with:
-        name: ReleaseApk
-        path: build/app/outputs/flutter-apk/app-release.apk
+        name: Releasebundle
+        path: build/app/outputs/bundle/release/app-release.aab
