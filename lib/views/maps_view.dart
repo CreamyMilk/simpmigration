@@ -4,6 +4,7 @@ import 'package:clone/model/cofee_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MapSample extends StatefulWidget {
@@ -47,7 +48,7 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  _coffeeShopList(index) {
+  _coffeeShopList(index,panelCon) {
     return AnimatedBuilder(
       animation: _pageController,
       builder: (BuildContext context, Widget widget) {
@@ -65,7 +66,8 @@ class MapSampleState extends State<MapSample> {
         );
       },
       child: InkWell(
-        onTap: () {
+        onDoubleTap: () {
+          panelCon.animatePanelToPosition(0.9);
           //moveCamera();
         },
         child: Stack(
@@ -147,43 +149,75 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
+    final PanelController panellConteoller = PanelController();
     return Scaffold(
       body: Stack(
         children: [
           Text("Search here"),
-          // GoogleMap(
-          //     markers: Set.from(allMarkers),
-          //     myLocationEnabled: true,
-          //     zoomControlsEnabled: false,
-          //     mapType: MapType.normal,
-          //     mapToolbarEnabled: false,
-          //     myLocationButtonEnabled: false,
-          //     initialCameraPosition: CameraPosition(
-          //         bearing: 192.8334901395799,
-          //         target: LatLng(widget.initialPosition.latitude,
-          //             widget.initialPosition.longitude),
-          //         tilt: 59.440717697143555,
-          //         zoom: 16),
-          //     onMapCreated: mapCreated),
-          Positioned(
-            bottom: 10.0,
-            child: Container(
-              height: 200.0,
-              width: MediaQuery.of(context).size.width,
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: coffeeShops.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _coffeeShopList(index);
-                },
+          // Align(
+          //   child:DraggableScrollableSheet(
+          //   minChildSize:0.1,
+          //   initialChildSize: 0.2,
+          //   maxChildSize:0.2,
+          //   builder: (BuildContext context, ScrollController scrollController) { 
+          //     return SingleChildScrollView(
+          //       controller: scrollController,
+          //         child: Container(
+          //         height: 200.0,
+          //         width: MediaQuery.of(context).size.width,
+          //         child: PageView.builder(
+          //           controller: _pageController,
+          //           itemCount: coffeeShops.length,
+          //           itemBuilder: (BuildContext context, int index) {
+          //             return _coffeeShopList(index);
+          //           },
+          //         ),
+          //       ),
+          //     );
+          //      },
+          //     ),
+          // ),
+            SlidingUpPanel(
+            color:Colors.transparent,
+            controller:panellConteoller,
+            boxShadow:[],
+            maxHeight: MediaQuery.of(context).size.height *.24,
+            minHeight: MediaQuery.of(context).size.height * .11,
+            panel:SingleChildScrollView(
+                  child: Container(
+                  height: 200.0,
+                  width: MediaQuery.of(context).size.width,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: coffeeShops.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _coffeeShopList(index,panellConteoller);
+                    },
+                  ),
+                ),
               ),
-            ),
+            body:GoogleMap(
+              markers: Set.from(allMarkers),
+              myLocationEnabled: true,
+              zoomControlsEnabled: false,
+              mapType: MapType.normal,
+              mapToolbarEnabled: false,
+              myLocationButtonEnabled: false,
+              initialCameraPosition: CameraPosition(
+                  bearing: 192.8334901395799,
+                  target: LatLng(widget.initialPosition.latitude,
+                      widget.initialPosition.longitude),
+                  tilt: 59.440717697143555,
+                  zoom: 16),
+              onMapCreated: mapCreated),
           ),
+
           SafeArea(
-            child: Positioned(
-              top:10,
-              child:ChoiceChips(),
-              
+            child: Align(
+              alignment: Alignment.topCenter,
+              child:ChoiceChips(
+                panelCon:panellConteoller,
+              ),
             ),
           )
         ],
@@ -192,18 +226,19 @@ class MapSampleState extends State<MapSample> {
         builder: (context) => FloatingActionButton(
           mini:true,
           onPressed: () {
-            _goToTheLake(widget.initialPosition.latitude,
-                widget.initialPosition.longitude);
-            showBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                  color: Colors.redAccent,
-                  height: MediaQuery.of(context).size.height * 0.225,
-                );
-              },
-            );
-            print('me');
+            panellConteoller.animatePanelToPosition(0.01);
+            // _goToTheLake(widget.initialPosition.latitude,
+            //     widget.initialPosition.longitude);
+            // showBottomSheet(
+            //   context: context,
+            //   builder: (BuildContext context) {
+            //     return Container(
+            //       color: Colors.redAccent,
+            //       height: MediaQuery.of(context).size.height * 0.225,
+            //     );
+            //   },
+            // );
+            // print('me');
           },
           //label: Text('My Location!'),
           child: Icon(Icons.directions_boat),
@@ -237,14 +272,18 @@ class MapSampleState extends State<MapSample> {
     controller.showMarkerInfoWindow(
         MarkerId(coffeeShops[_pageController.page.toInt()].shopName));
   }
+
 }
 
 class ChoiceChips extends StatefulWidget {
+  PanelController panelCon;
+  ChoiceChips({@required this.panelCon});
   @override
   _ChoiceChipsState createState() => _ChoiceChipsState();
 }
 
 class _ChoiceChipsState extends State<ChoiceChips> {
+
   int indexSelected=-1;
   List<String> services=["Gas","Washing","Gorceries"];
   @override
@@ -261,6 +300,7 @@ class _ChoiceChipsState extends State<ChoiceChips> {
               selected: indexSelected == services.indexOf(service),
               onSelected: (value){
                 //Do a lookup for all services that feet the criteria
+                widget.panelCon.animatePanelToPosition(0.01);
                 setState((){
                   indexSelected = value ? services.indexOf(service) :-1;
                 });
