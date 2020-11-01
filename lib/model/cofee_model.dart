@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hive/hive.dart';
 
 class Coffee {
   int rank;
@@ -18,8 +19,34 @@ class Coffee {
       this.contact,
       this.locationCoords});
 }
+List<Coffee> coffeeShops ;
+//get form db
+makeShops(){
+  List<Coffee> coffeeShop = [];
+  var serveBox = Hive.box("serves");
+  List<dynamic> servicesJson = serveBox.get("servicesD",defaultValue:[{
+    "rank":"1",
+    "shopName":"No Service available",
+    "address":"NhcLangata",
+    "contact":"0797678252",
+    "description":"Available from 10 to 2",
+    "Lat":"50.00",
+    "Long":"10.00"
+  }]);
+  //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
+  for(dynamic s in servicesJson){ 
+  coffeeShop.add(Coffee(
+      rank: int.parse(s["rank"]),
+      shopName: s["shopName"],
+      address: s["address"],
+      contact: 'tel:${s["contact"]}',
+      description:s["description"],
+      locationCoords: LatLng(double.parse(s["Lat"]), double.parse(s["Long"]))));
+  }
+  coffeeShops= coffeeShop;
+}
 
-final List<Coffee> coffeeShops = [
+final List<Coffee> coffeeShop = [
   Coffee(
       rank: 1,
       shopName: 'Stumptown Coffee Roasters',

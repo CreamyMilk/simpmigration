@@ -26,7 +26,7 @@ class HomeViewCardLayout extends StatefulWidget {
 class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   Box<dynamic> userHiveBox;
   String _username;
-  Map<String,dynamic> soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":4384}};
+  dynamic soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":4384}};
   Map<String, dynamic> defaulttransactions;
   Map<String, dynamic> defaultcomplains = {
     'title': "Expenses",

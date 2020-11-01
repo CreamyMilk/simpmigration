@@ -159,8 +159,7 @@ _cacheUserDetails(apidata){
   userHiveBox.put("mobile",apidata["mobile"]); 
   userHiveBox.put("rent",apidata["rent"]); 
   userHiveBox.put("uid",apidata["uid"]); 
-
-
+  
   //userHiveBox.putAll(apidata);  
   print("Inserting login info");
 }

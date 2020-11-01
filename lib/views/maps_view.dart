@@ -4,6 +4,8 @@ import 'package:clone/model/cofee_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,6 +29,7 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
+    makeShops();
     coffeeShops.forEach((element) {
       allMarkers.add(Marker(
           markerId: MarkerId(element.shopName),
@@ -146,37 +149,12 @@ class MapSampleState extends State<MapSample> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final PanelController panellConteoller = PanelController();
     return Scaffold(
       body: Stack(
         children: [
-          Text("Search here"),
-          // Align(
-          //   child:DraggableScrollableSheet(
-          //   minChildSize:0.1,
-          //   initialChildSize: 0.2,
-          //   maxChildSize:0.2,
-          //   builder: (BuildContext context, ScrollController scrollController) { 
-          //     return SingleChildScrollView(
-          //       controller: scrollController,
-          //         child: Container(
-          //         height: 200.0,
-          //         width: MediaQuery.of(context).size.width,
-          //         child: PageView.builder(
-          //           controller: _pageController,
-          //           itemCount: coffeeShops.length,
-          //           itemBuilder: (BuildContext context, int index) {
-          //             return _coffeeShopList(index);
-          //           },
-          //         ),
-          //       ),
-          //     );
-          //      },
-          //     ),
-          // ),
             SlidingUpPanel(
             color:Colors.transparent,
             controller:panellConteoller,
@@ -187,15 +165,19 @@ class MapSampleState extends State<MapSample> {
                   child: Container(
                   height: 200.0,
                   width: MediaQuery.of(context).size.width,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: coffeeShops.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _coffeeShopList(index,panellConteoller);
-                    },
+                  child: ValueListenableBuilder(
+                    valueListenable: Hive.box('serves').listenable(),
+                      builder: (context, box, widget){
+                        return PageView.builder(
+                        controller: _pageController,
+                        itemCount: coffeeShops.length,
+                        itemBuilder: (BuildContext context, int index) {
+                        return _coffeeShopList(index,panellConteoller);
+                      });
+                      },
+                    ),
                   ),
                 ),
-              ),
             body:GoogleMap(
               markers: Set.from(allMarkers),
               myLocationEnabled: true,
@@ -211,7 +193,6 @@ class MapSampleState extends State<MapSample> {
                   zoom: 16),
               onMapCreated: mapCreated),
           ),
-
           SafeArea(
             child: Align(
               alignment: Alignment.topCenter,
@@ -227,18 +208,20 @@ class MapSampleState extends State<MapSample> {
           mini:true,
           onPressed: () {
             panellConteoller.animatePanelToPosition(0.01);
-            // _goToTheLake(widget.initialPosition.latitude,
-            //     widget.initialPosition.longitude);
-            // showBottomSheet(
-            //   context: context,
-            //   builder: (BuildContext context) {
-            //     return Container(
-            //       color: Colors.redAccent,
-            //       height: MediaQuery.of(context).size.height * 0.225,
-            //     );
-            //   },
-            // );
-            // print('me');
+            addFakeService();
+            makeShops();
+            _goToTheLake(widget.initialPosition.latitude,
+                widget.initialPosition.longitude);
+            showBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                  color: Colors.redAccent,
+                  height: MediaQuery.of(context).size.height * 0.225,
+                );
+              },
+            );
+            print('me');
           },
           //label: Text('My Location!'),
           child: Icon(Icons.directions_boat),
@@ -246,7 +229,21 @@ class MapSampleState extends State<MapSample> {
       ),
     );
   }
+  Future<void> addFakeService(){
+  var serveBox = Hive.box("serves");
+  List<dynamic> servicesJson = [{
+    "rank":"1",
+    "shopName":"NEW available",
+    "address":"NhcLangata",
+    "contact":"0797678252",
+    "description":"Available from 10 to 2",
+    "Lat":"10.00",
+    "Long":"50.00"
+  }];
+  //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
 
+  serveBox.put("servicesD",servicesJson);
+  }
   Future<void> _goToTheLake(double lat, double long) async {
     final GoogleMapController controller = await _controller.future;
     final CameraPosition _kLake = CameraPosition(
@@ -276,7 +273,7 @@ class MapSampleState extends State<MapSample> {
 }
 
 class ChoiceChips extends StatefulWidget {
-  PanelController panelCon;
+  final PanelController panelCon;
   ChoiceChips({@required this.panelCon});
   @override
   _ChoiceChipsState createState() => _ChoiceChipsState();
@@ -300,6 +297,7 @@ class _ChoiceChipsState extends State<ChoiceChips> {
               selected: indexSelected == services.indexOf(service),
               onSelected: (value){
                 //Do a lookup for all services that feet the criteria
+              
                 widget.panelCon.animatePanelToPosition(0.01);
                 setState((){
                   indexSelected = value ? services.indexOf(service) :-1;

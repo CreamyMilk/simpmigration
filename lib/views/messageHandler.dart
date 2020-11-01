@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 // import 'package:clone/enums/connectivity_status.dart';
+import 'package:clone/model/cofee_model.dart';
 import 'package:clone/model/updateTrans_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -22,8 +23,8 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   @override
   void initState() {
     super.initState();
-
-    //v2 register ios push notification service
+    makeShops();
+    //v2 reg.ister ios push notification service
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(
         IosNotificationSettings(),

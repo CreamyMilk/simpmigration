@@ -16,6 +16,7 @@ void main(){
           analytics = FirebaseAnalytics();
           await Hive.initFlutter();
           await Hive.openBox('user');
+          await Hive.openBox('serves');
           runApp(MyApp());
   });
 }

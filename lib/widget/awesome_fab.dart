@@ -1,9 +1,12 @@
 import 'dart:convert';
+//import 'package:clone/model/cofee_model.dart';
+import 'package:clone/model/cofee_model.dart';
 import 'package:clone/views/rent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +16,30 @@ void upadateRentCard(String month,bool status,int amount){
   Map<String,dynamic> rent = {"month":month,"rentDue":amount,"rentStatus":status};
   userBox.put("rent",rent);
 }
+  Future<void> addFakeService(){
+      List<Coffee> coffeeShop = [];
+  var serveBox = Hive.box("serves");
+  List<dynamic> servicesJson = [{
+    "rank":"1",
+    "shopName":"NEW available",
+    "address":"NhcLangata",
+    "contact":"0797678252",
+    "description":"Available from 10 to 2",
+    "Lat":"10.00",
+    "Long":"50.00"
+  }];
+  //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
+  for(dynamic s in servicesJson){ 
+  coffeeShop.add(Coffee(
+      rank: int.parse(s["rank"]),
+      shopName: s["shopName"],
+      address: s["address"],
+      contact: 'tel:${s["contact"]}',
+      description:s["description"],
+      locationCoords: LatLng(double.parse(s["Lat"]), double.parse(s["Long"]))));
+  }
+  serveBox.put("servicesD",servicesJson);
+  }
 void updateTransactions()async {
       final prefs = await SharedPreferences.getInstance();
   var userBox = Hive.box('user');
@@ -59,6 +86,9 @@ class AwesomeFAB extends StatelessWidget {
               child: Icon(Icons.brush, color: Colors.white),
               backgroundColor: Colors.green,
               onTap: () {
+                addFakeService();
+                makeShops();
+                //makeShops();
                 //var userBox = Hive.box('user');
                 //getLatestTrans();
                 //userBox.put('rentStats',!(userBox.get('rentStats')));
