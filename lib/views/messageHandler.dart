@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:clone/enums/connectivity_status.dart';
+// import 'package:clone/enums/connectivity_status.dart';
 import 'package:clone/model/updateTrans_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:clone/model/payment_update.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -90,7 +90,8 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   Widget build(BuildContext context) {
     _getStartUpPage(context);
     return Container(
-      color: _getStartUpColor(context),
+      // color: _getStartUpColor(context),
+      color:Color(0x000E1F),
       child: Center(
         child: Hero(
           tag: 'house', 
@@ -200,16 +201,16 @@ _getStartUpPage(BuildContext context) async {
   });
 }
 
-_getStartUpColor(context) {
-  var connectionStatus = Provider.of<ConnectivityStatus>(context);
-  switch (connectionStatus) {
-    case ConnectivityStatus.Cellular:
-      return Color(0x000E1F);
-    case ConnectivityStatus.WiFi:
-      return Color(0x000E1F);
-    case ConnectivityStatus.Offline:
-      return Color(0x000E1F);
-    default:
-      return Color(0x000E1F);
-  }
-}
+// _getStartUpColor(context) {
+//   var connectionStatus = Provider.of<ConnectivityStatus>(context);
+//   switch (connectionStatus) {
+//     case ConnectivityStatus.Cellular:
+//       return Color(0x000E1F);
+//     case ConnectivityStatus.WiFi:
+//       return Color(0x000E1F);
+//     case ConnectivityStatus.Offline:
+//       return Color(0x000E1F);
+//     default:
+//       return Color(0x000E1F);
+// }
+//}

@@ -35,7 +35,7 @@ dependencies:
   flushbar: ^1.10.4
   clipboard: ^0.1.2+8
   http:
-  connectivity: ^2.0.0
+  # connectivity: ^2.0.0
   sms_consent: ^0.0.6
   sms_autofill: ^1.2.5
   url_launcher: 

@@ -151,20 +151,20 @@ class MapSampleState extends State<MapSample> {
       body: Stack(
         children: [
           Text("Search here"),
-          GoogleMap(
-              markers: Set.from(allMarkers),
-              myLocationEnabled: true,
-              zoomControlsEnabled: false,
-              mapType: MapType.normal,
-              mapToolbarEnabled: false,
-              myLocationButtonEnabled: false,
-              initialCameraPosition: CameraPosition(
-                  bearing: 192.8334901395799,
-                  target: LatLng(widget.initialPosition.latitude,
-                      widget.initialPosition.longitude),
-                  tilt: 59.440717697143555,
-                  zoom: 16),
-              onMapCreated: mapCreated),
+          // GoogleMap(
+          //     markers: Set.from(allMarkers),
+          //     myLocationEnabled: true,
+          //     zoomControlsEnabled: false,
+          //     mapType: MapType.normal,
+          //     mapToolbarEnabled: false,
+          //     myLocationButtonEnabled: false,
+          //     initialCameraPosition: CameraPosition(
+          //         bearing: 192.8334901395799,
+          //         target: LatLng(widget.initialPosition.latitude,
+          //             widget.initialPosition.longitude),
+          //         tilt: 59.440717697143555,
+          //         zoom: 16),
+          //     onMapCreated: mapCreated),
           Positioned(
             bottom: 10.0,
             child: Container(
