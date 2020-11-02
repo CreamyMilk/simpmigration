@@ -1,5 +1,8 @@
 import 'dart:async';
-
+import 'dart:convert';
+import 'package:app_settings/app_settings.dart';
+import 'package:clone/model/services_http_model.dart';
+import 'package:http/http.dart' as http;
 import 'package:clone/model/cofee_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -229,7 +232,7 @@ class MapSampleState extends State<MapSample> {
       ),
     );
   }
-  Future<void> addFakeService(){
+  Future<void> addFakeService() async{
   var serveBox = Hive.box("serves");
   List<dynamic> servicesJson = [{
     "rank":"1",
@@ -297,7 +300,7 @@ class _ChoiceChipsState extends State<ChoiceChips> {
               selected: indexSelected == services.indexOf(service),
               onSelected: (value){
                 //Do a lookup for all services that feet the criteria
-              
+                getServices(value,"0","0",context);                
                 widget.panelCon.animatePanelToPosition(0.01);
                 setState((){
                   indexSelected = value ? services.indexOf(service) :-1;
@@ -310,5 +313,39 @@ class _ChoiceChipsState extends State<ChoiceChips> {
     );
   }
 }
-
+Future getServices(serviceName, lat,long,context) async {
+  final serveBox = Hive.box('serves');
+  ServicesNet data;
+  print('Service requested for is  $serviceName');
+  if (serviceName != null) {
+    print("Got Data from api");
+    try{
+    final response = await http.post(
+      ("https://auth.i-crib.co.ke/" + "service"),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          'name': serviceName,
+          'lat': lat,
+          'long':long
+        },
+      ),
+    );
+    var myjson = json.decode(response.body);
+    data = ServicesNet.fromJson(myjson);
+    var t =data.toJson();
+    serveBox.put("servicesD",t["servicesArray"]);
+    makeShops();
+  }catch(SocketException){
+showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+        title: Text("Network error."),
+        actions: [MaterialButton(color:Colors.black,onPressed:(){AppSettings.openWIFISettings();},child:Text("Turn on",style:TextStyle(color:Colors.white)))],));
+    }
+  }
+}
 //*148*1*9228#

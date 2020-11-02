@@ -16,7 +16,7 @@ void upadateRentCard(String month,bool status,int amount){
   Map<String,dynamic> rent = {"month":month,"rentDue":amount,"rentStatus":status};
   userBox.put("rent",rent);
 }
-  Future<void> addFakeService(){
+  Future<void> addFakeService()async {
       List<Coffee> coffeeShop = [];
   var serveBox = Hive.box("serves");
   List<dynamic> servicesJson = [{
