@@ -227,7 +227,10 @@ class MapSampleState extends State<MapSample> {
               duration: Duration(microseconds: 500), curve: Curves.decelerate),
             infoWindow:
               InfoWindow(title: element.shopName, snippet: element.address),
-          position: element.locationCoords));
+          position: element.locationCoords))
+          ;         setState(() {
+                    
+                    });
       });
 
 
