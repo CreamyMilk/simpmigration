@@ -183,6 +183,7 @@ class MapSampleState extends State<MapSample> {
                 ),
             body:GoogleMap(
               markers: Set.from(allMarkers),
+          
               myLocationEnabled: true,
               zoomControlsEnabled: false,
               mapType: MapType.normal,
@@ -210,9 +211,25 @@ class MapSampleState extends State<MapSample> {
         builder: (context) => FloatingActionButton(
           mini:true,
           onPressed: () {
+          coffeeShops.forEach((element) {
+          allMarkers.add(Marker(
+            markerId: MarkerId(element.shopName),
+            draggable: false,
+            onTap: () => _pageController.animateToPage(element.rank - 1,
+              duration: Duration(microseconds: 500), curve: Curves.decelerate),
+            infoWindow:
+              InfoWindow(title: element.shopName, snippet: element.address),
+          position: element.locationCoords));
+      });
+
+
+
+
+
+
             panellConteoller.animatePanelToPosition(0.01);
             addFakeService();
-            makeShops();
+            
             _goToTheLake(widget.initialPosition.latitude,
                 widget.initialPosition.longitude);
             showBottomSheet(
@@ -244,7 +261,6 @@ class MapSampleState extends State<MapSample> {
     "Long":"50.00"
   }];
   //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
-
   serveBox.put("servicesD",servicesJson);
   }
   Future<void> _goToTheLake(double lat, double long) async {
@@ -260,7 +276,9 @@ class MapSampleState extends State<MapSample> {
   void mapCreated(GoogleMapController controller) {
     _controller.complete(controller);
   }
+  void rerenderMarkers(GoogleMapController controller)async {
 
+  }
   moveCamera() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -339,6 +357,7 @@ Future getServices(serviceName, lat,long,context) async {
     var t =data.toJson();
     serveBox.put("servicesD",t["servicesArray"]);
     makeShops();
+    
   }catch(SocketException){
 showDialog(
     context: context,
