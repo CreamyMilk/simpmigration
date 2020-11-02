@@ -22,7 +22,7 @@ void upadateRentCard(String month,bool status,int amount){
   List<dynamic> servicesJson = [{
     "rank":"1",
     "shopName":"NEW available",
-    "address":"NhcLangata",
+    "address":"NhcLangata", 
     "contact":"0797678252",
     "description":"Available from 10 to 2",
     "Lat":"10.00",

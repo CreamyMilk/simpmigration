@@ -219,6 +219,9 @@ class MapSampleState extends State<MapSample> {
         builder: (context) => FloatingActionButton(
           mini:true,
           onPressed: () {
+
+          setState(() {
+                          allMarkers.clear();
           coffeeShops.forEach((element) {
           allMarkers.add(Marker(
             markerId: MarkerId(element.shopName),
@@ -227,10 +230,9 @@ class MapSampleState extends State<MapSample> {
               duration: Duration(microseconds: 500), curve: Curves.decelerate),
             infoWindow:
               InfoWindow(title: element.shopName, snippet: element.address),
-          position: element.locationCoords))
-          ;         setState(() {
-                    
-                    });
+          position: element.locationCoords));
+                 allMarkers=allMarkers;
+          });
       });
 
 
