@@ -33,16 +33,7 @@ class MapSampleState extends State<MapSample> {
   void initState() {
     super.initState();
     makeShops();
-    coffeeShops.forEach((element) {
-      allMarkers.add(Marker(
-          markerId: MarkerId(element.shopName),
-          draggable: false,
-          onTap: () => _pageController.animateToPage(element.rank - 1,
-              duration: Duration(microseconds: 500), curve: Curves.decelerate),
-          infoWindow:
-              InfoWindow(title: element.shopName, snippet: element.address),
-          position: element.locationCoords));
-    });
+    
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
       ..addListener(_onScroll);
   }
@@ -171,6 +162,16 @@ class MapSampleState extends State<MapSample> {
                   child: ValueListenableBuilder(
                     valueListenable: Hive.box('serves').listenable(),
                       builder: (context, box, widget){
+                      coffeeShops.forEach((element) {
+                          allMarkers.add(Marker(
+                              markerId: MarkerId(element.shopName),
+                              draggable: false,
+                              onTap: () => _pageController.animateToPage(element.rank - 1,
+                                  duration: Duration(microseconds: 500), curve: Curves.decelerate),
+                              infoWindow:
+                                  InfoWindow(title: element.shopName, snippet: element.address),
+                              position: element.locationCoords));
+                        });
                         return PageView.builder(
                         controller: _pageController,
                         itemCount: coffeeShops.length,
@@ -183,7 +184,6 @@ class MapSampleState extends State<MapSample> {
                 ),
             body:GoogleMap(
               markers: Set.from(allMarkers),
-          
               myLocationEnabled: true,
               zoomControlsEnabled: false,
               mapType: MapType.normal,
@@ -204,7 +204,15 @@ class MapSampleState extends State<MapSample> {
                 panelCon:panellConteoller,
               ),
             ),
-          )
+          ),
+          MaterialButton(
+            child:Text("REFRESH EVRYTHING WITh SET STATE"),
+            onPressed: (){
+         setState(() {
+                    
+                    });
+            },
+          ),
         ],
       ),
       floatingActionButton: Builder(
@@ -249,6 +257,7 @@ class MapSampleState extends State<MapSample> {
       ),
     );
   }
+  
   Future<void> addFakeService() async{
   var serveBox = Hive.box("serves");
   List<dynamic> servicesJson = [{
