@@ -205,14 +205,7 @@ class MapSampleState extends State<MapSample> {
               ),
             ),
           ),
-          MaterialButton(
-            child:Text("REFRESH EVRYTHING WITh SET STATE"),
-            onPressed: (){
-         setState(() {
-                    
-                    });
-            },
-          ),
+          
         ],
       ),
       floatingActionButton: Builder(
@@ -245,19 +238,19 @@ class MapSampleState extends State<MapSample> {
             
             _goToTheLake(widget.initialPosition.latitude,
                 widget.initialPosition.longitude);
-            showBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                  color: Colors.redAccent,
-                  height: MediaQuery.of(context).size.height * 0.225,
-                );
-              },
-            );
+            // showBottomSheet(
+            //   context: context,
+            //   builder: (BuildContext context) {
+            //     return Container(
+            //       color: Colors.redAccent,
+            //       height: MediaQuery.of(context).size.height * 0.225,
+            //     );
+            //   },
+            // );
             print('me');
           },
           //label: Text('My Location!'),
-          child: Icon(Icons.directions_boat),
+          child: Icon(Icons.refresh),
         ),
       ),
     );

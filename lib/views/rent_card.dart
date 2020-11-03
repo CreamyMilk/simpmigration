@@ -178,7 +178,7 @@ Future _sendPayment(mobile, amountDue,accName ,ctx) async {
         //ensure that the user has bothe the socketID and the USER ID
         {
           "phonenumber": mobile,
-          "amount": "1000",
+          "amount": "1",
           "userID": accName??"Error",
           "socketID": "mee",
           "notifToken": fcmToken

@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:clone/model/otpresponse.dart';
 import 'package:clone/route_generator.dart';
 import 'package:app_settings/app_settings.dart';
-//import 'package:clone/widget/intro_video.dart';
+import 'package:flushbar/flushbar.dart';
+import 'package:clone/widget/intro_video.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -37,7 +38,7 @@ class _LoginOTPState extends State<LoginOTP> {
       onWillPop: () async => false,
       child: Stack(
         children: [
-          //IntroVideo(),
+          IntroVideo(),
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
@@ -48,7 +49,8 @@ class _LoginOTPState extends State<LoginOTP> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/url');
+                  Flushbar(message:"Comming Soon");
+                  //Navigator.of(context).pushNamed('/url');
                 },
               ),
               title: Center(
@@ -72,9 +74,10 @@ class _LoginOTPState extends State<LoginOTP> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/home');
+                    //Navigator.of(context).pushNamed('/home');
                     print(MediaQuery.of(context).size.height / 210);
                     print(MediaQuery.of(context).size.height / 105);
+                    Flushbar(message:"Comming Soon");
                     //Navigator.of(context).pushNamed('/home');
                     // final url = 'https://google.com';
                     // if (await canLaunch(url)) {

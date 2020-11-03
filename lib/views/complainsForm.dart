@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:ui';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -26,6 +25,7 @@ class _ComplainsFormState extends State<ComplainsForm> {
   }
   @override
   Widget build(BuildContext context) {
+    bool _loading = false;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -90,8 +90,13 @@ class _ComplainsFormState extends State<ComplainsForm> {
                       color: Colors.black,
                       onPressed: () {
                           validateForm();
+                          setState((){
+                          if(formkey.currentState.validate()){
+                            _loading=true;
+                          }
+                          });
                       },
-                      child: Text(
+                      child: _loading?CircularProgressIndicator():Text(
                         "Submit",
                         style: TextStyle(color: Colors.white),
                       ),
