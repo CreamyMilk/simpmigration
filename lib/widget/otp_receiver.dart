@@ -77,7 +77,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
               onCodeChanged: (val) {
                 print(val);
                 if (val.length == 4) {
-                  Flushbar(message:"🔐 Vefifying OTP...")..show(context);
+                  Flushbar(message:"🔐 Verifying OTP...")..show(context);
                   print("doing some naviagion here $val");
                   confirmOTP(widget.phonenumber, val, context);
                   //Navigator.of(context).pop();
