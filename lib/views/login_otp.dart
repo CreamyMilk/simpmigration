@@ -49,7 +49,7 @@ class _LoginOTPState extends State<LoginOTP> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Flushbar(message:"Comming Soon");
+                   Flushbar(message:"👷‍♂️ Comming Soon...")..show(context);
                   //Navigator.of(context).pushNamed('/url');
                 },
               ),
@@ -77,7 +77,7 @@ class _LoginOTPState extends State<LoginOTP> {
                     //Navigator.of(context).pushNamed('/home');
                     print(MediaQuery.of(context).size.height / 210);
                     print(MediaQuery.of(context).size.height / 105);
-                    Flushbar(message:"Comming Soon");
+                    Flushbar(message:"👷‍♂️ Comming Soon...")..show(context);
                     //Navigator.of(context).pushNamed('/home');
                     // final url = 'https://google.com';
                     // if (await canLaunch(url)) {
