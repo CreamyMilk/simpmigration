@@ -9,8 +9,8 @@ class IssuesCard extends StatefulWidget {
 }
 
 class _IssuesCardState extends State<IssuesCard> {
-  String _houseNumber = "A2";
-  int _compains = 4;
+  String _houseNumber = "-";
+  int _compains = 0;
 
   List<String> option = ["Details", "Contact Us"];
   @override

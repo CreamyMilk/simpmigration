@@ -1,4 +1,3 @@
-import 'package:clone/archive/users_data.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +10,7 @@ class ServiceCard extends StatefulWidget {
 }
 
 class _ServiceCardState extends State<ServiceCard> {
-  String _houseNumber = "A2";
+  String _houseNumber = "-";
   int _compains = 1;
   bool _testvar = true;
   List<String> option = ["Maps", "History"];
@@ -114,6 +113,7 @@ class _ServiceCardState extends State<ServiceCard> {
                 ],
               )
             ],
+
           ),
           //Kama uma
         );
@@ -124,10 +124,10 @@ class _ServiceCardState extends State<ServiceCard> {
   void choiceAction(String choice, BuildContext context) {
     print(choice);
     //todo
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => UserTest(appTitle: choice)),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (_) => UserTest(appTitle: choice)),
+    // );
   }
 
   void navigateToMap(BuildContext context, Position pos) {

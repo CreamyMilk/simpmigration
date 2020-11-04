@@ -86,14 +86,14 @@ class AwesomeFAB extends StatelessWidget {
               child: Icon(Icons.brush, color: Colors.white),
               backgroundColor: Colors.green,
               onTap: () {
-                addFakeService();
-                makeShops();
+                //addFakeService();
+                //makeShops();
                 //makeShops();
                 //var userBox = Hive.box('user');
                 //getLatestTrans();
                 //userBox.put('rentStats',!(userBox.get('rentStats')));
-                updateTransactions();
-                upadateRentCard("January",false,2);
+                //updateTransactions();
+                //upadateRentCard("January",false,2);
                 //print("eee${userBox.get('rentStats')}");
                 //print('Receipts');
                 },

@@ -212,9 +212,10 @@ class MapSampleState extends State<MapSample> {
         builder: (context) => FloatingActionButton(
           mini:true,
           onPressed: () {
-
+            _goToTheLake(widget.initialPosition.latitude,
+                widget.initialPosition.longitude);
           setState(() {
-                          allMarkers.clear();
+          allMarkers.clear();
           coffeeShops.forEach((element) {
           allMarkers.add(Marker(
             markerId: MarkerId(element.shopName),
