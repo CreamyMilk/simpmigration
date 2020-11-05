@@ -394,13 +394,6 @@ class _PopupFormState extends State<PopupForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Spacer(flex: 2),
-                      Column( 
-                        children: [
-                          Container(color: Colors.transparent, child: Text(" ")),
-                          Container(child: Text("+254")),
-                        ],
-                      ),
-                      Spacer(flex: 2),
                       Expanded(
                         flex: 20,
                         child: TextField(

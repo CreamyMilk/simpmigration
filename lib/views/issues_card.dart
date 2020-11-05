@@ -8,11 +8,10 @@ class IssuesCard extends StatefulWidget {
   _IssuesCardState createState() => _IssuesCardState();
 }
 
-class _IssuesCardState extends State<IssuesCard> {   
-
-  
+class _IssuesCardState extends State<IssuesCard> {
   String _houseNumber = "-";
-  int _compains =0;
+  int _compains = 0;
+
   List<String> option = ["Details", "Contact Us"];
   @override
   Widget build(BuildContext context) {
