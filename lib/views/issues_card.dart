@@ -1,5 +1,4 @@
 import 'package:clone/archive/users_data.dart';
-import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
 
 class IssuesCard extends StatefulWidget {
@@ -10,17 +9,11 @@ class IssuesCard extends StatefulWidget {
 }
 
 class _IssuesCardState extends State<IssuesCard> {   
-  Box<dynamic> userHiveBox;
+
   
   String _houseNumber = "-";
-  int _compains;
+  int _compains =0;
   List<String> option = ["Details", "Contact Us"];
-  @override
-  void initState(){
-        super.initState();
-        userHiveBox = Hive.box('user');
-         _compains = userHiveBox.get("lastIssue",defaultValue:"0");
-  }
   @override
   Widget build(BuildContext context) {
     return Container(
