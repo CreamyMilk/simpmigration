@@ -8,11 +8,18 @@ class IssuesCard extends StatefulWidget {
   _IssuesCardState createState() => _IssuesCardState();
 }
 
-class _IssuesCardState extends State<IssuesCard> {
+class _IssuesCardState extends State<IssuesCard> {   
+  Box<dynamic> userHiveBox;
+  
   String _houseNumber = "-";
-  int _compains = 0;
-
+  int _compains;
   List<String> option = ["Details", "Contact Us"];
+  @override
+  void initState(){
+        super.initState();
+        userHiveBox = Hive.box('user');
+         _compains = userHiveBox.get("lastIssue",defaultValue:"0");
+  }
   @override
   Widget build(BuildContext context) {
     return Container(

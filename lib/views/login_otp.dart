@@ -250,7 +250,7 @@ class _ThreeBButtons extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4.0),
                         child: GestureDetector(
                           onTap: () async {
-                            final url = 'tel:0797678252';
+                            final url = 'https://i-crib.co.ke';
                             if (await canLaunch(url)) {
                               await launch(url);
                             } else {

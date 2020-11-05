@@ -29,7 +29,7 @@ void makeShops() async {
     "rank":"1",
     "shopName":"No Service available",
     "address":"NhcLangata",
-    "contact":"0797678252",
+    "contact":"000",
     "description":"Available from 10 to 2",
     "Lat":"50.00",
     "Long":"10.00"
