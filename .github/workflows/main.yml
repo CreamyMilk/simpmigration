@@ -29,7 +29,7 @@ jobs:
     - name: Getting all dependencies 🍂
       run: flutter pub get
     - name: Building Personal android-arm64 APK 🍏
-      run: flutter build apk --target-platform android-arm64 --release
+      run: flutter build apk --release
     - name: Building android release Apk 🤖
       uses: actions/upload-artifact@v2
       with:
