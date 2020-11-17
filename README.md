@@ -96,7 +96,7 @@ transaction
 ]
 
 {
-    "type":"Mpesa",//Help
+    "type":"Mpesa",
     "transAmount":3000,
     "transactionBy":"Jotham Kabasa Kinyua",
     "time":"12/20/2020",
