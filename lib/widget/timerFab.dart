@@ -14,7 +14,7 @@ class _TimerFabState extends State<TimerFab> {
   @override
   void initState() {
     fabColor = Colors.grey;
-    endtim = DateTime.now().millisecondsSinceEpoch + 1000 * 10;
+    endtim = DateTime.now().millisecondsSinceEpoch + 1000 * 20;
     super.initState();
   }
 

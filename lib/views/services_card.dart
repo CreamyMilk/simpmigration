@@ -136,7 +136,16 @@ class _ServiceCardState extends State<ServiceCard> {
       Navigator.of(context).pushNamed('/map', arguments: pos);
     } else {
       Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text("Turn on location service")));
+          .showSnackBar(SnackBar(
+                            content:Text("Turn on location service"),
+                            action: SnackBarAction(
+                              textColor: Colors.yellow,
+                              label:"Turn On",
+                              onPressed:(){
+                                AppSettings.openLocationSettings();
+                                print("Opening Settings");
+                              }
+                            ),));
     }
   }
 }
