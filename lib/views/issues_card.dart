@@ -1,5 +1,7 @@
 import 'package:clone/archive/users_data.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class IssuesCard extends StatefulWidget {
   IssuesCard({Key key}) : super(key: key);
@@ -10,8 +12,9 @@ class IssuesCard extends StatefulWidget {
 
 class _IssuesCardState extends State<IssuesCard> {
   String _houseNumber = "-";
-  int _compains = 0;
-
+  //lastIssue
+  //int _compains = 0;
+  
   List<String> option = ["Details", "Contact Us"];
   @override
   Widget build(BuildContext context) {
@@ -46,13 +49,18 @@ class _IssuesCardState extends State<IssuesCard> {
               ),
             ],
           ),
-          Text(
-            "${_compains.toString()}",
-            style: TextStyle(
-              fontWeight: FontWeight.w200,
-              fontSize: 35.0,
-            ),
-          ),
+          ValueListenableBuilder(
+          valueListenable: Hive.box('user').listenable(),
+          builder: (context, box, widget) {
+              var noofcomplains = box.get('lastIssue');
+              return Text(
+                "$noofcomplains",
+                style: TextStyle(
+                  fontWeight: FontWeight.w200,
+                  fontSize: 35.0,
+                ),
+              );
+              }),
           Text(
             "complains",
             style: TextStyle(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-
+import 'package:app_settings/app_settings.dart';
 class ServiceCard extends StatefulWidget {
   ServiceCard({Key key}) : super(key: key);
 
