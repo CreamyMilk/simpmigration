@@ -171,7 +171,8 @@ Future<void> getLatestTrans() async {
   data = PaymentUpdateModel.fromJson(myjson);
   userBox.put("rent",data.rent.toJson());
   transaction = jsonEncode(data.transaction.toJson());
-  userBox.put("transaction",transaction);
+  userBox.put("transaction",transaction);//lastIssue
+  userBox.put("lastIssue",myjson["lastIssue"]);
   prefs.setString("user_transactions",transaction);
   print("Transactions Added");
   }

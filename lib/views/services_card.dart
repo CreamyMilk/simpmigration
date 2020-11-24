@@ -53,15 +53,8 @@ class _ServiceCardState extends State<ServiceCard> {
               Text(
                 "${_compains.toString()}",
                 style: TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 40.0,
-                ),
-              ),
-              Text(
-                "Service Requests",
-                style: TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 20.0,
+                  //fontWeight: FontWeight.w200,
+                  fontSize: 25.0,
                 ),
               ),
               Divider(),

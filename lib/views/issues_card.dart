@@ -31,7 +31,7 @@ class _IssuesCardState extends State<IssuesCard> {
                 "HouseNo  :$_houseNumber",
                 style: TextStyle(
                     fontSize: 10.0,
-                    fontWeight: FontWeight.w300,
+                    //ontWeight: FontWeight.w300,
                     color: Colors.black),
               ),
               Container(child: Text("Issues")),
@@ -57,17 +57,10 @@ class _IssuesCardState extends State<IssuesCard> {
                 "$noofcomplains",
                 style: TextStyle(
                   fontWeight: FontWeight.w200,
-                  fontSize: 35.0,
+                  fontSize: 25.0,
                 ),
               );
               }),
-          Text(
-            "complains",
-            style: TextStyle(
-              fontWeight: FontWeight.w200,
-              fontSize: 20.0,
-            ),
-          ),
           Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

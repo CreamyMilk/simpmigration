@@ -72,7 +72,7 @@ class AwesomeFAB extends StatelessWidget {
           children: [
             SpeedDialChild(
               child: Icon(Icons.monochrome_photos, color: Colors.white),
-              backgroundColor: Colors.deepOrange,
+              backgroundColor: Colors.green,
               onTap: () {
                 settingModalBottomSheet(context, '1');
                 print("STK push sent");
@@ -82,26 +82,26 @@ class AwesomeFAB extends StatelessWidget {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               labelBackgroundColor: Colors.deepOrangeAccent,
             ),
-            SpeedDialChild(
-              child: Icon(Icons.brush, color: Colors.white),
-              backgroundColor: Colors.green,
-              onTap: () {
-                //addFakeService();
-                //makeShops();
-                //makeShops();
-                //var userBox = Hive.box('user');
-                //getLatestTrans();
-                //userBox.put('rentStats',!(userBox.get('rentStats')));
-                //updateTransactions();
-                //upadateRentCard("January",false,2);
-                //print("eee${userBox.get('rentStats')}");
-                //print('Receipts');
-                },
-              label: 'Receipts',
-              labelStyle:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-              labelBackgroundColor: Colors.green,
-            ),
+            // SpeedDialChild(
+            //   child: Icon(Icons.brush, color: Colors.white),
+            //   backgroundColor: Colors.green,
+            //   onTap: () {
+            //     //addFakeService();
+            //     //makeShops();
+            //     //makeShops();
+            //     //var userBox = Hive.box('user');
+            //     //getLatestTrans();
+            //     //userBox.put('rentStats',!(userBox.get('rentStats')));
+            //     //updateTransactions();
+            //     //upadateRentCard("January",false,2);
+            //     //print("eee${userBox.get('rentStats')}");
+            //     //print('Receipts');
+            //     },
+            //   label: 'Receipts',
+            //   labelStyle:
+            //       TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+            //   labelBackgroundColor: Colors.green,
+            // ),
             SpeedDialChild(
               child: Icon(Icons.map, color: Colors.white),
               backgroundColor: Colors.blue,

@@ -303,7 +303,8 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                         child: Text(
                           "$visualAmount",
                           style: TextStyle(
-                              fontWeight: FontWeight.w100, fontSize: 25),
+                              //fontWeight: FontWeight.w100,
+                               fontSize: 25,),
                         ),
                       ),
                     ],
