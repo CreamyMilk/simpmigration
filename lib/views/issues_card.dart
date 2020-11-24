@@ -56,8 +56,8 @@ class _IssuesCardState extends State<IssuesCard> {
               return Text(
                 "$noofcomplains",
                 style: TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 25.0,
+                  fontWeight: FontWeight.w100,
+                  fontSize: 30.0,
                 ),
               );
               }),

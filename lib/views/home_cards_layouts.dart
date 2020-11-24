@@ -96,20 +96,19 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                         "Hello, $_username",
                         style: TextStyle(
                           letterSpacing: 2.0,
-                          fontSize: 30.0,
+                          fontSize: 20.0,
                           fontWeight: FontWeight.w100,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 1.0),
                   //Slider area
                   SlidingContainer(
                     initialOffsetX: 5,
                     intervalStart: 0,
                     intervalEnd: 0.5,
                     childs: Container(
-                      margin: EdgeInsets.all(16.0),
+                      margin: EdgeInsets.all(10.0),
                       //color: Colors.red[50],
                       height: MediaQuery.of(context).size.height *
                           0.2915941154086502, //Cards Height

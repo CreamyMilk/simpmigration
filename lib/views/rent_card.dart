@@ -81,8 +81,8 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
             Text(
               "Ksh.$_visualAmount",
               style: TextStyle(
-                fontWeight: FontWeight.w200,
-                fontSize: 35.0,
+                fontWeight: FontWeight.w100,
+                fontSize: 30.0,
               ),
             ),
             Divider(),
@@ -303,8 +303,8 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                         child: Text(
                           "$visualAmount",
                           style: TextStyle(
-                              //fontWeight: FontWeight.w100,
-                               fontSize: 25,),
+                            fontWeight: FontWeight.w100,
+                            fontSize: 20,),
                         ),
                       ),
                     ],

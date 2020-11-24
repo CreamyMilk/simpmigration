@@ -80,7 +80,7 @@ class AwesomeFAB extends StatelessWidget {
               label: 'Pay Rent',
               labelStyle:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-              labelBackgroundColor: Colors.deepOrangeAccent,
+              labelBackgroundColor: Colors.green,
             ),
             // SpeedDialChild(
             //   child: Icon(Icons.brush, color: Colors.white),
