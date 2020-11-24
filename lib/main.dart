@@ -34,10 +34,10 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
         darkTheme: ThemeData(
-          textTheme: Theme.of(context).textTheme.apply(
-          fontSizeFactor: 0.75,
-          fontSizeDelta: 1.0,
-        ),
+        //   textTheme: Theme.of(context).textTheme.apply(
+        //   fontSizeFactor: 0.75,
+        //   fontSizeDelta: 1.0,
+        // ),
           primaryColor: Colors.black,
           accentColor: Colors.black38,
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
