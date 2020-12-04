@@ -118,6 +118,7 @@ class Rec {
   String house;
   String receiptNumber;
   String description;
+  String time;
   int amount;
 
   Rec(
@@ -126,6 +127,7 @@ class Rec {
       this.house,
       this.receiptNumber,
       this.description,
+      this.time,
       this.amount});
 
   Rec.fromJson(Map<String, dynamic> json) {
@@ -134,6 +136,7 @@ class Rec {
     house = json['house'];
     receiptNumber = json['receiptNumber'];
     description = json['description'];
+    time = json['time'];
     amount = json['amount'];
   }
 
@@ -145,6 +148,7 @@ class Rec {
     data['receiptNumber'] = this.receiptNumber;
     data['description'] = this.description;
     data['amount'] = this.amount;
+    data['time'] = this.time;
     return data;
   }
 }
