@@ -118,8 +118,8 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
             lineAlignment: PdfVerticalAlignment.bottom));
     //Create data foramt and convert it to text.
     final DateFormat format = DateFormat.yMMMMd('en_US');
-    final String receiptNumber = 'Receipt Number: ${tra["receiptNumber"]}\r\n\r\nDate: ' +
-        format.format(DateTime.now());
+    final String receiptNumber = 'Receipt Number: ${tra["receiptNumber"]}\r\n\r\nGenerated: ' +
+        format.format(DateTime.now())+'\r\n\r\nPaid on:${tra["time"]}';
     final Size contentSize = contentFont.measureString(receiptNumber);
     final String address = '''
         \r\nBill To     : ${tra["username"]}. 
