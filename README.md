@@ -9,5 +9,4 @@ Flutter version 1.20.4
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-inital jsonpayload required fomr login 
+samples, guidance on mobile development, and a full API reference
