@@ -104,7 +104,7 @@ Future confirmOTP(mobile, code, context) async {
     },
     body: jsonEncode(
       {
-        'phonenumber': mobile,//mobile,
+        'phonenumber': mobile,
         'otp': code,
       },
     ),
@@ -112,7 +112,7 @@ Future confirmOTP(mobile, code, context) async {
   var myjson = json.decode(response.body);
   //print(myjson);
   data = Otploginresponse.fromJson(myjson);
-  print(data.info.toJson());
+  //print(data.info);
   if (data.message == 0) {
     _cacheUserDetails(data.info.toJson());
     final prefs = await SharedPreferences.getInstance();

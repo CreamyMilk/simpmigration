@@ -135,24 +135,27 @@ class Data {
 
 class Rec {
   String username;
-  String branch;
   String house;
+  String time;
+  String branch;
   String receiptNumber;
   String description;
   int amount;
 
   Rec(
       {this.username,
-      this.branch,
       this.house,
+      this.time,
+      this.branch,
       this.receiptNumber,
       this.description,
       this.amount});
 
   Rec.fromJson(Map<String, dynamic> json) {
     username = json['username'];
-    branch = json['branch'];
     house = json['house'];
+    time = json['time'];
+    branch = json['branch'];
     receiptNumber = json['receiptNumber'];
     description = json['description'];
     amount = json['amount'];
@@ -161,8 +164,9 @@ class Rec {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['username'] = this.username;
-    data['branch'] = this.branch;
     data['house'] = this.house;
+    data['time'] = this.time;
+    data['branch'] = this.branch;
     data['receiptNumber'] = this.receiptNumber;
     data['description'] = this.description;
     data['amount'] = this.amount;
