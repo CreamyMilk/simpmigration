@@ -253,6 +253,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.6"
+  flinq:
+    dependency: transitive
+    description:
+      name: flinq
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   flushbar:
     dependency: "direct main"
     description:
@@ -286,6 +293,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+  flutter_google_maps:
+    dependency: "direct main"
+    description:
+      name: flutter_google_maps
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -373,6 +387,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  google_directions_api:
+    dependency: transitive
+    description:
+      name: google_directions_api
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
+  google_maps:
+    dependency: transitive
+    description:
+      name: google_maps
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.4.5"
   google_maps_flutter:
     dependency: "direct main"
     description:
@@ -387,6 +415,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  google_polyline_algorithm:
+    dependency: transitive
+    description:
+      name: google_polyline_algorithm
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   hive:
     dependency: "direct main"
     description:
@@ -450,6 +485,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.2"
+  js_wrapping:
+    dependency: transitive
+    description:
+      name: js_wrapping
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   libphonenumber:
     dependency: transitive
     description:

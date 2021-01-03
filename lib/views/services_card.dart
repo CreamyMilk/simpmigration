@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:app_settings/app_settings.dart';
+
 class ServiceCard extends StatefulWidget {
   ServiceCard({Key key}) : super(key: key);
 
@@ -75,7 +76,8 @@ class _ServiceCardState extends State<ServiceCard> {
                         ],
                       ),
                       onPressed: () {
-                        navigateToMap(context, position);
+                        Navigator.of(context).pushNamed("/newMap");
+                        //navigateToMap(context, position);
                       },
                     ),
                   ),
@@ -106,7 +108,6 @@ class _ServiceCardState extends State<ServiceCard> {
                 ],
               )
             ],
-
           ),
           //Kama uma
         );
@@ -128,17 +129,16 @@ class _ServiceCardState extends State<ServiceCard> {
     if (pos != null) {
       Navigator.of(context).pushNamed('/map', arguments: pos);
     } else {
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(
-                            content:Text("Turn on location service"),
-                            action: SnackBarAction(
-                              textColor: Colors.yellow,
-                              label:"Turn On",
-                              onPressed:(){
-                                AppSettings.openLocationSettings();
-                                print("Opening Settings");
-                              }
-                            ),));
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Turn on location service"),
+        action: SnackBarAction(
+            textColor: Colors.yellow,
+            label: "Turn On",
+            onPressed: () {
+              AppSettings.openLocationSettings();
+              print("Opening Settings");
+            }),
+      ));
     }
   }
 }

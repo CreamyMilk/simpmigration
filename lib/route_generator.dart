@@ -8,6 +8,7 @@ import 'package:clone/views/home_cards_layouts.dart';
 import 'package:clone/views/login_otp.dart';
 import 'package:clone/views/maps_view.dart';
 import 'package:clone/views/messageHandler.dart';
+import 'package:clone/views/newMaps.dart';
 import 'package:clone/widget/otp_receiver.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,8 @@ class RouteGenerator {
             builder: (ctx) => MapSample(initialPosition: args));
       case '/login':
         return MaterialPageRoute(builder: (ctx) => LoginOTP());
+      case '/newMap':
+        return MaterialPageRoute(builder: (ctx) => NewMap());
       case '/url':
         return MaterialPageRoute(builder: (ctx) => UrlTest());
       case '/complain':
@@ -42,11 +45,10 @@ class RouteGenerator {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondAnimation) {
             return ListenableProvider(
-              create: (context) => animation,
-              child: HomeViewCardLayout(
-                transitionAnime: animation,
-              )
-            );
+                create: (context) => animation,
+                child: HomeViewCardLayout(
+                  transitionAnime: animation,
+                ));
           },
           transitionDuration: const Duration(seconds: 2),
         );
