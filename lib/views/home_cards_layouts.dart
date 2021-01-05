@@ -26,7 +26,17 @@ class HomeViewCardLayout extends StatefulWidget {
 class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   Box<dynamic> userHiveBox;
   String _username;
-  dynamic soletrans={"month":"Jan","rec":{"username":"boom","branch":"Kahawa Sukari,Kenya","house":"A12","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":4384}};
+  dynamic soletrans = {
+    "month": "Jan",
+    "rec": {
+      "username": "boom",
+      "branch": "Kahawa Sukari,Kenya",
+      "house": "A12",
+      "receiptNumber": "WC2340923409",
+      "description": "Mpesa Express 9.30am by 254797678353",
+      "amount": 4384
+    }
+  };
   Map<String, dynamic> defaulttransactions;
   Map<String, dynamic> defaultcomplains = {
     'title': "Expenses",
@@ -41,6 +51,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
     _username = userHiveBox.get('username', defaultValue: "JohnDoe");
     fadeswitch = true;
   }
+
   @override
   Widget build(BuildContext context) {
     final GeolocatorService geoService = GeolocatorService();
@@ -74,18 +85,18 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                     })
               ],
               leading: IconButton(
-                  icon: Icon(Icons.build),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/');
-                  },           
+                icon: Icon(Icons.build),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/');
+                },
               )),
           //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, _complains: _complains, _transactions: _transactions),
-            floatingActionButton: AwesomeFAB(),
+          floatingActionButton: AwesomeFAB(),
           body: SafeArea(
             child: RefreshIndicator(
-              onRefresh:getLatestTrans,
-                child: ListView(
+              onRefresh: getLatestTrans,
+              child: ListView(
                 children: [
                   SizedBox(
                     height: 10,
@@ -140,9 +151,8 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                     initialOffsetX: -1,
                     intervalStart: 0.5,
                     intervalEnd: 1,
-                    childs: Container(
-                      child: CardListings()),
-                    ),
+                    childs: Container(child: CardListings()),
+                  ),
                 ],
               ),
             ),
@@ -152,14 +162,16 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
     );
   }
 }
+
 class CardListings extends StatefulWidget {
   CardListings({
     Key key,
   }) : super(key: key);
-  
+
   @override
   _CardListingsState createState() => _CardListingsState();
 }
+
 // void uTransactions()async{
 //   final prefs = await SharedPreferences.getInstance();
 //   final jsonTrans = prefs.getString('user_transactions') ?? '';
@@ -167,7 +179,7 @@ class CardListings extends StatefulWidget {
 //   var userBox = Hive.box('user');
 //   userBox.put("transaction",tt.toJson());
 //   print("Transactions Added ${tt.toJson()}");
-// } 
+// }
 class _CardListingsState extends State<CardListings> {
   @override
   void initState() {
@@ -176,88 +188,90 @@ class _CardListingsState extends State<CardListings> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: Hive.box('user').listenable(),
-      builder: (context, box, widget) {
-        var temp =  box.get('transaction');
-        var local  = json.decode(temp);
-        print("SDSSD$local");
-        if(true){
-        return Container(
-        color: Colors.white70,
-        //Bottom Listing size 400
-        height: MediaQuery.of(context).size.height *  (0.8-0.2915941154086502),
-        //height:400,
-        child: ReorderableListView(
-          header: Column(
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      local['title'],
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w300,
-                          letterSpacing: 4.0),
+        valueListenable: Hive.box('user').listenable(),
+        builder: (context, box, widget) {
+          var temp = box.get('transaction');
+          var local = json.decode(temp);
+          print("SDSSD$local");
+          if (true) {
+            return Container(
+              color: Colors.white70,
+              //Bottom Listing size 400
+              height: MediaQuery.of(context).size.height *
+                  (0.9 - 0.2915941154086502),
+              //height:400,
+              child: ReorderableListView(
+                header: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            local['title'],
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: 4.0),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-              
-                ],
-                
-              ),
-              Divider(height:1),
-            ],
-          ),
-          onReorder: (oldIndex, newIndex) {
-            print(oldIndex);
-            print(newIndex);
-            setState(() {
-              if (newIndex > oldIndex) {
-                newIndex -= 1;
-              }
-              final item = local['data'].removeAt(oldIndex);
-  
-              local['data'].insert(newIndex, item);
-              box.put("transaction",jsonEncode(local));
-            });
-          },
-          children: [
-            for (final item in local['data'])
-              ExpansionTile(
-                key: ValueKey(Random().nextInt(10000)),
-                title: Text(item["month"]),
-                subtitle: Text("${item["time"]}"),
-                leading: CircleAvatar(
-                  backgroundColor: Colors.greenAccent[100],
-                  foregroundColor: Colors.transparent,
-                  child:Icon(Icons.call_merge,color:Colors.black),
-                radius: 20,  
-                ),             
-                trailing: Text("Ksh.${(item["rec"]["amount"].toString()).replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                    Divider(height: 1),
+                  ],
+                ),
+                onReorder: (oldIndex, newIndex) {
+                  print(oldIndex);
+                  print(newIndex);
+                  setState(() {
+                    if (newIndex > oldIndex) {
+                      newIndex -= 1;
+                    }
+                    final item = local['data'].removeAt(oldIndex);
+
+                    local['data'].insert(newIndex, item);
+                    box.put("transaction", jsonEncode(local));
+                  });
+                },
                 children: [
-                  Row(
-                    children: [
-                      SizedBox(width:15),
-                      CreatePdfStatefulWidget(
-                        transData: item["rec"]),
-                       ],
-                  )
+                  for (final item in local['data'])
+                    ExpansionTile(
+                      key: ValueKey(Random().nextInt(10000)),
+                      title: Text(item["month"]),
+                      subtitle: Text("${item["time"]}"),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.greenAccent[100],
+                        foregroundColor: Colors.transparent,
+                        child: Icon(Icons.call_merge, color: Colors.black),
+                        radius: 20,
+                      ),
+                      trailing: Text(
+                          "Ksh.${(item["rec"]["amount"].toString()).replaceAllMapped(new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold)),
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(width: 15),
+                            CreatePdfStatefulWidget(transData: item["rec"]),
+                          ],
+                        )
+                      ],
+                    ),
                 ],
               ),
-          ],
-        ),
-      );}});
+            );
+          }
+        });
   }
 }
+
 class PageCard extends StatelessWidget {
   final Widget childwidget;
   final List<Color> gradients;

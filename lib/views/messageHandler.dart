@@ -1,22 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
-// import 'package:clone/enums/connectivity_status.dart';
-import 'package:clone/model/cofee_model.dart';
-import 'package:clone/model/updateTrans_model.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter_fadein/flutter_fadein.dart';
+
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
+import 'package:clone/model/cofee_model.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:clone/model/payment_update.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
+import 'package:clone/model/updateTrans_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyMessageHandler extends StatefulWidget {
   @override
   _MyMessageHandlerState createState() => _MyMessageHandlerState();
 }
+
 class _MyMessageHandlerState extends State<MyMessageHandler> {
   String userToken;
   final FirebaseMessaging _fcm = FirebaseMessaging();
@@ -31,9 +31,9 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       );
     } else {
       //_saveDeviceToken();
-    }    
+    }
     //Subscribe to topic frontEND
-    _fcm.subscribeToTopic("tenant"); 
+    _fcm.subscribeToTopic("tenant");
     //Unsubscribe to topic
     //_fcm.unsubscribeFromTopic("Teneant");
     _fcm.configure(
@@ -41,42 +41,42 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage :$message");
         var ms = message["data"];
-        var type=ms["type"];
-        var desc=ms["desc"];
-        if(type == "0"){
+        var type = ms["type"];
+        var desc = ms["desc"];
+        if (type == "0") {
           showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                title: AspectRatio(
+                  aspectRatio: 1.5,
+                  child: FlareActor(
+                    'assets/tick.flr',
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    animation: 'go',
+                  ),
+                ),
+                content: Text("$desc", textAlign: TextAlign.center)),
+          );
+          getLatestTrans();
+        } else {
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
               title: AspectRatio(
                 aspectRatio: 1.5,
                 child: FlareActor(
-                  'assets/tick.flr',
+                  'assets/fail.flr',
                   alignment: Alignment.center,
                   fit: BoxFit.contain,
-                  animation: 'go',
+                  animation: 'Failure',
                 ),
               ),
-              content: Text("$desc",textAlign: TextAlign.center)),
-        );
-        getLatestTrans();
-        }else{
-        showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(          
-            title: AspectRatio(
-                    aspectRatio: 1.5,
-                    child: FlareActor(
-                      'assets/fail.flr',
-                      alignment: Alignment.center,
-                      fit: BoxFit.contain,
-                      animation: 'Failure',
-                    ),
-                  ),
-            content: Text("$desc",textAlign: TextAlign.center),
-          ),
-        );
-         getLatestTrans();
-      }
+              content: Text("$desc", textAlign: TextAlign.center),
+            ),
+          );
+          getLatestTrans();
+        }
       },
       onResume: (Map<String, dynamic> message) async {
         print("onMessage :$message");
@@ -87,28 +87,27 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     _getStartUpPage(context);
     return Container(
       // color: _getStartUpColor(context),
-      color:Color(0x000E1F),
+      color: Color(0x000E1F),
       child: Center(
         child: Hero(
-          tag: 'house', 
-          child: FadeIn(
+            tag: 'house',
+            child: FadeIn(
               child: Image(
-              fit: BoxFit.scaleDown,
-              image: AssetImage('assets/images/house_logo.jpeg'),
-            ),
-            duration: Duration(seconds: 5),
-            curve: Curves.easeIn,
-          )
-        ),
+                fit: BoxFit.scaleDown,
+                image: AssetImage('assets/images/house_logo.jpeg'),
+              ),
+              duration: Duration(seconds: 4),
+              curve: Curves.easeIn,
+            )),
       ),
     );
   }
-
 
   // ignore: unused_element
   _saveDeviceToken() async {
@@ -129,33 +128,34 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       _sendTokenHTTP(data);
     }
   }
- 
-Future updateRent() async {
-  UpdateTransModel data;
-  final prefs = await SharedPreferences.getInstance();
-  final userHiveBox = Hive.box('user');
-  var userID = userHiveBox.get("uid",defaultValue: "no");
-  final response = await http.post(
-    ("https://auth.i-crib.co.ke/" + "gettrans"),
-    headers: {
-      "Accept": "application/json",
-      "content-type": "application/json",
-    },
-    body: jsonEncode(
-      {
-        'uid': userID,//mobile,
+
+  Future updateRent() async {
+    UpdateTransModel data;
+    final prefs = await SharedPreferences.getInstance();
+    final userHiveBox = Hive.box('user');
+    var userID = userHiveBox.get("uid", defaultValue: "no");
+    final response = await http.post(
+      ("https://auth.i-crib.co.ke/" + "gettrans"),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
       },
-    ),
-  );
-  var myjson = json.decode(response.body);
-  data = UpdateTransModel.fromJson(myjson);
-  var transactions = data.transaction.toJson();
-  var rent = data.rent.toJson();
-  userHiveBox.put("rent",jsonEncode(rent));
-  userHiveBox.put("transaction",jsonEncode(transactions));
-  prefs.setString("user_transactions",jsonEncode(transactions));
-  print("Transactions Added by a push notification");
-}
+      body: jsonEncode(
+        {
+          'uid': userID, //mobile,
+        },
+      ),
+    );
+    var myjson = json.decode(response.body);
+    data = UpdateTransModel.fromJson(myjson);
+    var transactions = data.transaction.toJson();
+    var rent = data.rent.toJson();
+    userHiveBox.put("rent", jsonEncode(rent));
+    userHiveBox.put("transaction", jsonEncode(transactions));
+    prefs.setString("user_transactions", jsonEncode(transactions));
+    print("Transactions Added by a push notification");
+  }
+
   _sendTokenHTTP(final data) async {
     return http.post(
       "https://googlesecureotp.herokuapp.com/fmctoken",
@@ -166,17 +166,18 @@ Future updateRent() async {
     );
   }
 }
-_cacheUserDetails(jsonString){
+
+_cacheUserDetails(jsonString) {
   final userHiveBox = Hive.box('user');
-  if(jsonString =="no"){
+  if (jsonString == "no") {
     print("THEIR IS NO DATA TO STORED DATA");
-  }else{
-    userHiveBox.put("transaction",jsonString);
+  } else {
+    userHiveBox.put("transaction", jsonString);
   }
-  
+
   //dd Map<String, dynamic> transactions = {
   //  "title": "Transactions",
-   // "data": [{"month":"Febuary","time":"99/99/99","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}],
+  // "data": [{"month":"Febuary","time":"99/99/99","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}],
   //};
   //   Map<String, dynamic> complains = {
   //   'title': "Expenses",
@@ -186,16 +187,15 @@ _cacheUserDetails(jsonString){
   // final jstring =jsonEncode(data);
   // print(jstring);
   //userHiveBox.put('trs',transactions);
-  
-  
 }
+
 _getStartUpPage(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final userToken = prefs.getString('user_token') ?? "";
   final userTrans = prefs.getString('user_transactions') ?? "no";
   _cacheUserDetails(userTrans);
   print("UserToken ilikuwa $userToken");
-  Future.delayed(Duration(seconds: 6), () {
+  Future.delayed(Duration(seconds: 4), () {
     userToken == "0"
         ? Navigator.of(context).pushNamed('/home')
         : Navigator.of(context).pushNamed('/login');
