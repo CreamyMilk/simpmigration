@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
 class PaymentUpdateModel {
   Rent rent;
   Transaction transaction;
@@ -62,6 +63,7 @@ class Transaction {
   Transaction.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     if (json['data'] != null) {
+      // ignore: deprecated_member_use
       data = new List<Data>();
       json['data'].forEach((v) {
         data.add(new Data.fromJson(v));
@@ -152,32 +154,33 @@ class Rec {
     return data;
   }
 }
+
 Future<void> getLatestTrans() async {
   PaymentUpdateModel data;
   String transaction;
   var userBox = Hive.box('user');
   final prefs = await SharedPreferences.getInstance();
-  var uid = userBox.get("uid",defaultValue:0);
-  if(uid !=0){
+  var uid = userBox.get("uid", defaultValue: 0);
+  if (uid != 0) {
     final response = await http.post(
-    ("https://auth.i-crib.co.ke/" + "getnewtrans"),
-    headers: {
-      "Accept": "application/json",
-      "content-type": "application/json",
-    },
-    body: jsonEncode(
-      {
-        'uid': uid,//mobile,
+      ("http://192.168.0.13:9003/" + "getnewtrans"),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
       },
-    ),
-  );
-  var myjson = json.decode(response.body);
-  data = PaymentUpdateModel.fromJson(myjson);
-  userBox.put("rent",data.rent.toJson());
-  transaction = jsonEncode(data.transaction.toJson());
-  userBox.put("transaction",transaction);//lastIssue
-  userBox.put("lastIssue",myjson["lastIssue"]);
-  prefs.setString("user_transactions",transaction);
-  print("Transactions Added");
+      body: jsonEncode(
+        {
+          'uid': uid, //mobile,
+        },
+      ),
+    );
+    var myjson = json.decode(response.body);
+    data = PaymentUpdateModel.fromJson(myjson);
+    userBox.put("rent", data.rent.toJson());
+    transaction = jsonEncode(data.transaction.toJson());
+    userBox.put("transaction", transaction); //lastIssue
+    userBox.put("lastIssue", myjson["lastIssue"]);
+    prefs.setString("user_transactions", transaction);
+    print("Transactions Added");
   }
 }

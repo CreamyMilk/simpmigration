@@ -14,7 +14,7 @@ class _IssuesCardState extends State<IssuesCard> {
   String _houseNumber = "-";
   //lastIssue
   //int _compains = 0;
-  
+
   List<String> option = ["Details", "Contact Us"];
   @override
   Widget build(BuildContext context) {
@@ -50,16 +50,16 @@ class _IssuesCardState extends State<IssuesCard> {
             ],
           ),
           ValueListenableBuilder(
-          valueListenable: Hive.box('user').listenable(),
-          builder: (context, box, widget) {
-              var noofcomplains = box.get('lastIssue');
-              return Text(
-                "$noofcomplains",
-                style: TextStyle(
-                  fontWeight: FontWeight.w100,
-                  fontSize: 30.0,
-                ),
-              );
+              valueListenable: Hive.box('user').listenable(),
+              builder: (context, box, widget) {
+                var noofcomplains = box.get('lastIssue');
+                return Text(
+                  "$noofcomplains",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w100,
+                    fontSize: 30.0,
+                  ),
+                );
               }),
           Divider(),
           Row(
@@ -71,11 +71,10 @@ class _IssuesCardState extends State<IssuesCard> {
                 alignment: Alignment.bottomLeft,
                 padding: EdgeInsets.all(5.0),
                 child: MaterialButton(
-                  color: Colors.white ,
+                  color: Colors.white,
                   child: Row(
                     children: [
-                      Text("Past Complains",
-                          style: TextStyle(color: Colors.black)),
+                      Text("Inquiry", style: TextStyle(color: Colors.black)),
                     ],
                   ),
                   onPressed: () {
@@ -93,10 +92,9 @@ class _IssuesCardState extends State<IssuesCard> {
                 alignment: Alignment.bottomRight,
                 padding: EdgeInsets.all(5.0),
                 child: Hero(
-                  tag:"report",
-                                  child: MaterialButton(
-                    color:
-                        Theme.of(context).primaryColor,
+                  tag: "report",
+                  child: MaterialButton(
+                    color: Theme.of(context).primaryColor,
                     child: Row(
                       children: [
                         Text("Report !", style: TextStyle(color: Colors.white)),

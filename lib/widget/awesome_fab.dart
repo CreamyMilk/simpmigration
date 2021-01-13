@@ -1,6 +1,8 @@
 import 'dart:convert';
 //import 'package:clone/model/cofee_model.dart';
 import 'package:clone/model/cofee_model.dart';
+import 'package:clone/providers/list_switcher_provider.dart';
+import 'package:clone/views/kplc_card.dart';
 import 'package:clone/views/rent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,122 +13,161 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-void upadateRentCard(String month,bool status,int amount){
+
+void upadateRentCard(String month, bool status, int amount) {
   var userBox = Hive.box('user');
-  Map<String,dynamic> rent = {"month":month,"rentDue":amount,"rentStatus":status};
-  userBox.put("rent",rent);
+  Map<String, dynamic> rent = {
+    "month": month,
+    "rentDue": amount,
+    "rentStatus": status
+  };
+  userBox.put("rent", rent);
 }
-  Future<void> addFakeService()async {
-      List<Coffee> coffeeShop = [];
+
+Future<void> addFakeService() async {
+  List<Coffee> coffeeShop = [];
   var serveBox = Hive.box("serves");
-  List<dynamic> servicesJson = [{
-    "rank":"1",
-    "shopName":"NEW available",
-    "address":"NhcLangata", 
-    "contact":"0797678252",
-    "description":"Available from 10 to 2",
-    "Lat":"10.00",
-    "Long":"50.00"
-  }];
+  List<dynamic> servicesJson = [
+    {
+      "rank": "1",
+      "shopName": "NEW available",
+      "address": "NhcLangata",
+      "contact": "0797678252",
+      "description": "Available from 10 to 2",
+      "Lat": "10.00",
+      "Long": "50.00"
+    }
+  ];
   //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
-  for(dynamic s in servicesJson){ 
-  coffeeShop.add(Coffee(
-      rank: int.parse(s["rank"]),
-      shopName: s["shopName"],
-      address: s["address"],
-      contact: 'tel:${s["contact"]}',
-      description:s["description"],
-      locationCoords: LatLng(double.parse(s["Lat"]), double.parse(s["Long"]))));
+  for (dynamic s in servicesJson) {
+    coffeeShop.add(Coffee(
+        rank: int.parse(s["rank"]),
+        shopName: s["shopName"],
+        address: s["address"],
+        contact: 'tel:${s["contact"]}',
+        description: s["description"],
+        locationCoords:
+            LatLng(double.parse(s["Lat"]), double.parse(s["Long"]))));
   }
-  serveBox.put("servicesD",servicesJson);
-  }
-void updateTransactions()async {
-      final prefs = await SharedPreferences.getInstance();
+  serveBox.put("servicesD", servicesJson);
+}
+
+void updateTransactions() async {
+  final prefs = await SharedPreferences.getInstance();
   var userBox = Hive.box('user');
-    List<Map<String,dynamic>> newtrans=[{"month":"Febuary","time":"99/99/99","rec":{"username":"New Trans","branch":"SomeWhere Sukari,Kenya","house":"B22","receiptNumber":"WC2340923409","description":"Mpesa Express 9.30am by 254797678353","amount":10020}}];
-    Map<String, dynamic> transactions = {
+  List<Map<String, dynamic>> newtrans = [
+    {
+      "month": "Febuary",
+      "time": "99/99/99",
+      "rec": {
+        "username": "New Trans",
+        "branch": "SomeWhere Sukari,Kenya",
+        "house": "B22",
+        "receiptNumber": "WC2340923409",
+        "description": "Mpesa Express 9.30am by 254797678353",
+        "amount": 10020
+      }
+    }
+  ];
+  Map<String, dynamic> transactions = {
     'title': "Transactions",
     'data': newtrans,
   };
-  userBox.put("transaction",jsonEncode(transactions));
-  prefs.setString("user_transactions",jsonEncode(transactions));
+  userBox.put("transaction", jsonEncode(transactions));
+  prefs.setString("user_transactions", jsonEncode(transactions));
   print("Transactions Added");
 }
 
-
 class AwesomeFAB extends StatelessWidget {
   const AwesomeFAB({Key key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return Consumer<Position>(
       builder: (context, position, children) {
-        return SpeedDial(
-          animatedIcon: AnimatedIcons.menu_close,
-          animatedIconTheme: IconThemeData(size: 22.0),
-          // child: Icon(Icons.add),
-          onOpen: () => print('OPENING DIAL'),
-          onClose: () => print('DIAL CLOSED'),
-          //visible: dialVisible,
-          curve: Curves.easeIn,
-          children: [
-            SpeedDialChild(
-              child: Icon(Icons.monochrome_photos, color: Colors.white),
-              backgroundColor: Colors.green,
-              onTap: () {
-                settingModalBottomSheet(context, '1');
-                print("STK push sent");
-              },
-              label: 'Pay Rent',
-              labelStyle:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-              labelBackgroundColor: Colors.green,
-            ),
-            // SpeedDialChild(
-            //   child: Icon(Icons.brush, color: Colors.white),
-            //   backgroundColor: Colors.green,
-            //   onTap: () {
-            //     //addFakeService();
-            //     //makeShops();
-            //     //makeShops();
-            //     //var userBox = Hive.box('user');
-            //     //getLatestTrans();
-            //     //userBox.put('rentStats',!(userBox.get('rentStats')));
-            //     //updateTransactions();
-            //     //upadateRentCard("January",false,2);
-            //     //print("eee${userBox.get('rentStats')}");
-            //     //print('Receipts');
-            //     },
-            //   label: 'Receipts',
-            //   labelStyle:
-            //       TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-            //   labelBackgroundColor: Colors.green,
-            // ),
-            SpeedDialChild(
-              child: Icon(Icons.map, color: Colors.white),
-              backgroundColor: Colors.blue,
-              onTap: () {
-                if (position != null) {
-                  Navigator.of(context).pushNamed('/map', arguments: position);
-                } else {
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text("Turn on location service")));
-                }
-              },
-              label: 'Services',
-              labelStyle:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-              labelBackgroundColor: Colors.blue,
-            ),
-          ],
-        );
+        return Consumer<ListSwitcherProvider>(
+            builder: (context, storeP, children) {
+          return SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            animatedIconTheme: IconThemeData(size: 22.0),
+            // child: Icon(Icons.add),
+            onOpen: () => print('OPENING DIAL'),
+            onClose: () => print('DIAL CLOSED'),
+            //visible: dialVisible,
+            curve: Curves.easeIn,
+            children: [
+              SpeedDialChild(
+                child: Icon(Icons.monochrome_photos, color: Colors.white),
+                backgroundColor: Colors.green,
+                onTap: () {
+                  storeP.switchRents();
+                  settingModalBottomSheet(context, '1');
+                  print("STK push sent");
+                },
+                label: 'Pay Rent',
+                labelStyle:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                labelBackgroundColor: Colors.green,
+              ),
+
+              // SpeedDialChild(
+              //   child: Icon(Icons.brush, color: Colors.white),
+              //   backgroundColor: Colors.green,
+              //   onTap: () {
+              //     //addFakeService();
+              //     //makeShops();
+              //     //makeShops();
+              //     //var userBox = Hive.box('user');
+              //     //getLatestTrans();
+              //     //userBox.put('rentStats',!(userBox.get('rentStats')));
+              //     //updateTransactions();
+              //     //upadateRentCard("January",false,2);
+              //     //print("eee${userBox.get('rentStats')}");
+              //     //print('Receipts');
+              //     },
+              //   label: 'Receipts',
+              //   labelStyle:
+              //       TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+              //   labelBackgroundColor: Colors.green,
+              // ),
+              SpeedDialChild(
+                child: Icon(Icons.map, color: Colors.white),
+                backgroundColor: Colors.blue,
+                onTap: () {
+                  if (position != null) {
+                    Navigator.of(context)
+                        .pushNamed('/map', arguments: position);
+                  } else {
+                    // ignore: deprecated_member_use
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text("Turn on location service")));
+                  }
+                },
+                label: 'Services',
+                labelStyle:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                labelBackgroundColor: Colors.blue,
+              ),
+              SpeedDialChild(
+                child: Icon(Icons.bolt, color: Colors.black),
+                backgroundColor: Colors.yellowAccent,
+                onTap: () {
+                  kplcModalBottomSheet(context, '10');
+                  print("STK push sent");
+                },
+                label: 'Buy Tokens',
+                labelStyle:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                labelBackgroundColor: Colors.yellowAccent,
+              ),
+            ],
+          );
+        });
       },
     );
   }
-
 }
 //WEB SOCKETS TO DO THIS OR A PULL TO REFRESH
-
 
 // class OlfFAB extends StatefulWidget {
 //   const OlfFAB({

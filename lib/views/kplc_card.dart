@@ -7,19 +7,19 @@ import 'package:flushbar/flushbar.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:clone/widget/payments_selections.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:provider/provider.dart';
 
-class RentPaymentCard extends StatefulWidget {
-  RentPaymentCard({Key key}) : super(key: key);
+class KplcCard extends StatefulWidget {
+  KplcCard({Key key}) : super(key: key);
 
   @override
-  _RentPaymentCardState createState() => _RentPaymentCardState();
+  _KplcCardState createState() => _KplcCardState();
 }
 
-class _RentPaymentCardState extends State<RentPaymentCard> {
+class _KplcCardState extends State<KplcCard> {
   Box<dynamic> userHiveBox;
   Map<String, dynamic> defrent = {
     "month": "October",
@@ -28,26 +28,16 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
     "rentStatus": false
   };
   //Map<String,dynamic> rent;
-  String _month;
-  int _rentDue;
+
   bool _testvar = true;
-  bool _status = false;
-  List<String> option = [
-    "Past Transactions",
-  ];
+
+  List<String> option = ["Latest Receipt", "All Tokens"];
 
   @override
   void initState() {
     super.initState();
     userHiveBox = Hive.box('user');
-    var temp = userHiveBox.get('rent', defaultValue: {
-      'rentDue': 0,
-      'month': "October",
-      "rentStatus": false
-    }); //Add default for non complains
-    _month = temp["month"];
-    _rentDue = temp['rentDue'];
-    _status = temp["rentStatus"];
+
     print("DTAT");
   }
 
@@ -56,17 +46,9 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
     return ValueListenableBuilder(
       valueListenable: Hive.box('user').listenable(),
       builder: (context, box, widget) {
-        var local = userHiveBox.get('rent', defaultValue: {
-          'rentDue': 0,
-          'month': "October",
-          "rentStatus": false
-        });
-        _month = local["month"];
-        _rentDue = local['rentDue'];
-        _status = local["rentStatus"];
-        String _visualAmount = _rentDue.toString().replaceAllMapped(
-            new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-            (Match m) => '${m[1]},');
+        // String _visualAmount = _rentDue.toString().replaceAllMapped(
+        //     new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+        //     (Match m) => '${m[1]},');
         return Container(
           padding: EdgeInsets.all(8.0),
           color: Colors.transparent,
@@ -77,86 +59,90 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Month  :",
+                    " ",
                     style: TextStyle(
                         fontSize: 10.0,
                         fontWeight: FontWeight.w300,
                         color: Colors.black),
                   ),
-                  Container(child: Text("$_month")),
+                  Container(child: Text("🔩 KPLC")),
                   Consumer<ListSwitcherProvider>(
-                      builder: (context, storeP, child) {
-                    return PopupMenuButton(
-                      onSelected: (String choice) {
-                        print(choice);
-                        storeP.switchRents();
-                      },
-                      icon: Icon(Icons.more_horiz),
-                      itemBuilder: (BuildContext context) {
-                        return option.map((String choice) {
-                          return PopupMenuItem(
-                            value: choice,
-                            child: Text(choice),
-                          );
-                        }).toList();
-                      },
-                    );
-                  }),
+                    builder: (context, storeP, child) {
+                      return PopupMenuButton(
+                        onSelected: (String choice) {
+                          print(choice);
+                          if (choice == "All Tokens") {
+                            storeP.switchElec();
+                          } else {
+                            Navigator.of(context)
+                                .pushNamed("/tokens", arguments: 0);
+                          }
+                        },
+                        icon: Icon(Icons.more_horiz),
+                        itemBuilder: (BuildContext context) {
+                          return option.map((String choice) {
+                            return PopupMenuItem(
+                              value: choice,
+                              child: Text(choice),
+                            );
+                          }).toList();
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
               Text(
-                "Ksh.$_visualAmount",
+                "Get Tokens",
                 style: TextStyle(
                   fontWeight: FontWeight.w100,
-                  fontSize: 30.0,
+                  fontSize: 25.0,
                 ),
               ),
               Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        "RentStatus",
-                        style: TextStyle(color: Colors.grey, fontSize: 10.0),
-                      ),
-                      MaterialButton(
-                          color: _status ? Colors.greenAccent : Colors.red[300],
-                          onPressed: () {},
-                          child: Text(
-                            _status ? "Paid" : "Due",
-                            style: TextStyle(color: Colors.black),
-                          ))
-                    ],
-                  ),
-                  AnimatedContainer(
-                    duration: Duration(seconds: 100),
-                    color: Colors.transparent,
-                    alignment: Alignment.bottomRight,
-                    padding: EdgeInsets.all(5.0),
-                    child: Consumer<ListSwitcherProvider>(
-                        builder: (context, storeP, children) {
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Column(
+                  children: [
+                    Consumer<ListSwitcherProvider>(
+                        builder: (context, storeP, child) {
                       return MaterialButton(
-                        color: _testvar
-                            ? Theme.of(context).primaryColor
-                            : Colors.grey,
-                        child: Row(
-                          children: [
-                            Text("Pay now",
-                                style: TextStyle(color: Colors.white)),
-                          ],
-                        ),
-                        onPressed: () {
-                          storeP.switchRents();
-                          settingModalBottomSheet(context, _rentDue.toString());
-                          print("STK push sent");
-                        },
-                      );
-                    }),
-                  ),
-                ],
-              )
+                          color: Colors.white,
+                          onPressed: () {
+                            storeP.switchElec();
+                          },
+                          child: Text(
+                            "Past Tokens",
+                            style: TextStyle(color: Colors.black),
+                          ));
+                    })
+                  ],
+                ),
+                AnimatedContainer(
+                  duration: Duration(seconds: 100),
+                  color: Colors.transparent,
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.all(5.0),
+                  child: Consumer<ListSwitcherProvider>(
+                      builder: (context, storeP, children) {
+                    return MaterialButton(
+                      color: _testvar
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey,
+                      child: Row(
+                        children: [
+                          Text("Buy Now",
+                              style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                      onPressed: () {
+                        storeP.switchElec();
+                        kplcModalBottomSheet(context, "10");
+                        print("STK push sent");
+                      },
+                    );
+                  }),
+                )
+              ])
             ],
           ),
         );
@@ -165,7 +151,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   }
 }
 
-void settingModalBottomSheet(context, amountDue) {
+void kplcModalBottomSheet(context, amountDue) {
   showModalBottomSheet(
     isScrollControlled: true,
     shape: RoundedRectangleBorder(
@@ -184,14 +170,10 @@ Future _sendPayment(mobile, amountDue, accName, ctx) async {
   //v2 work with paymentapi responses
   PaymentResponse data;
   Flushbar(
-    backgroundColor: Colors.grey,
-    title: " Processing Payment 🤵...",
-    message: " 📲 No:$mobile  💱 Amount:Ksh.$amountDue",
-    icon: Icon(
-      Icons.bubble_chart,
-      size: 40,
-      color: Colors.white,
-    ),
+    backgroundColor: Colors.grey[400],
+    title: " Processing Payment 👷...",
+    message: " 📲 No:$mobile  🔩 Amount:Ksh.$amountDue",
+    icon: Icon(Icons.bolt, size: 35, color: Colors.yellow),
     leftBarIndicatorColor: Colors.yellowAccent,
     duration: Duration(seconds: 20),
     forwardAnimationCurve: Curves.easeInOutBack,
@@ -261,6 +243,16 @@ void choiceAction(String choice) {
   Navigator.of(null).pushNamed('/randomUser');
 }
 
+String validateAmount(String value) {
+  if (!(value.length > 4) && value.isNotEmpty) {
+    if (value[0] != "0") {
+      return "Allow purchases up to Ksh 9,999";
+    }
+    return null;
+  }
+  return null;
+}
+
 String validatePassword(String value) {
   if (!(value.length > 9) && value.isNotEmpty) {
     if (value[0] != "0") {
@@ -278,9 +270,10 @@ class PaymentBottomSheet extends StatefulWidget {
 
 class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
   Box<dynamic> userHiveBox;
-  final TextEditingController _testcontroller = TextEditingController();
+  final TextEditingController _phoneficontroller = TextEditingController();
+  final TextEditingController _amountficontroller = TextEditingController();
   String mobile;
-  String amountDue;
+  String amountDue = "10";
   String visualAmount;
   String accountName;
   @override
@@ -293,8 +286,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
       "rentStatus": false
     }); //Add default for non complains
     mobile = userHiveBox.get('mobile', defaultValue: "");
-    amountDue = temp["rentDue"].toString();
-    accountName = temp["account"];
+    accountName = "#po" + temp["account"];
     visualAmount = amountDue.replaceAllMapped(
         new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
     super.initState();
@@ -314,9 +306,9 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.arrow_downward),
+                  Icon(Icons.bolt),
                   Text(
-                    "Rent Payment",
+                    "Token Purchase",
                     style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
                   ),
                   SizedBox()
@@ -331,9 +323,11 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Amount:",
+                          "Ksh :",
                           style: TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 20),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                       Align(
@@ -341,8 +335,8 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                         child: Text(
                           "$visualAmount",
                           style: TextStyle(
-                            fontWeight: FontWeight.w100,
-                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 15,
                           ),
                         ),
                       ),
@@ -356,7 +350,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                         child: Text(
                           "Number:",
                           style: TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 20),
+                              fontWeight: FontWeight.w400, fontSize: 16),
                         ),
                       ),
                       Align(
@@ -364,38 +358,62 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                         child: Text(
                           mobile,
                           style: TextStyle(
-                              fontWeight: FontWeight.w100, fontSize: 20),
+                              fontWeight: FontWeight.w300, fontSize: 15),
                         ),
                       ),
                     ],
                   ),
                 ],
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Select Payment Method",
-                  style: TextStyle(fontWeight: FontWeight.w800),
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  PaymentTile(),
-                  // SizedBox(
-                  //   width: 10,
-                  // ),
-                  // PaymentTile(),
-                ],
-              ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Text(
+              //     "Select Payment Method",
+              //     style: TextStyle(fontWeight: FontWeight.w800),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 5,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     PaymentTile(),
+              //     // SizedBox(
+              //     //   width: 10,
+              //     // ),
+              //     // PaymentTile(),
+              //   ],
+              // ),
               SizedBox(
                 height: 20,
+              ),
+
+              TextField(
+                autofocus: true,
+                onChanged: (value) {
+                  print(value);
+                  setState(() {
+                    visualAmount = value;
+                    amountDue = value;
+                  });
+                },
+                controller: _amountficontroller,
+                decoration: InputDecoration(
+                  isDense: true,
+                  border: OutlineInputBorder(gapPadding: 0.9),
+                  labelText: 'Amount',
+                  hintText: 'In shillings',
+                  errorText: validateAmount(_phoneficontroller.text),
+                  prefixText: "",
+                ),
+                keyboardType: TextInputType.numberWithOptions(),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Align(
                 alignment: Alignment.centerLeft,
@@ -412,7 +430,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                     mobile = value;
                   });
                 },
-                controller: _testcontroller,
+                controller: _phoneficontroller,
                 decoration: InputDecoration(
                   isDense: true,
                   suffixIcon: IconButton(
@@ -422,15 +440,15 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                           await FlutterContactPicker.pickPhoneContact();
 
                       setState(() {
-                        _testcontroller.text =
+                        _phoneficontroller.text =
                             convertTo07(contact.phoneNumber.number);
                         mobile = convertTo07(contact.phoneNumber.number);
                       });
                     },
                   ),
-                  border: OutlineInputBorder(gapPadding: 0.5),
+                  border: OutlineInputBorder(gapPadding: 0.2),
                   hintText: 'Ask somone else to pay',
-                  errorText: validatePassword(_testcontroller.text),
+                  errorText: validatePassword(_phoneficontroller.text),
                   prefixText: "",
                 ),
                 keyboardType: TextInputType.numberWithOptions(),
@@ -440,14 +458,14 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   child: MaterialButton(
-                    height: 45,
+                    height: 40,
                     minWidth: MediaQuery.of(context).size.width * .95,
                     onPressed: () async {
                       Navigator.pop(context);
                       await _sendPayment(
                           mobile, amountDue, accountName, context);
                     },
-                    color: Colors.black,
+                    color: Colors.orangeAccent,
                     child: Text(
                       "Pay $amountDue",
                       style: TextStyle(color: Colors.white),
@@ -456,6 +474,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
                   ),
                 ),
               ),
+              SizedBox(height: 5),
             ],
           ),
         ),

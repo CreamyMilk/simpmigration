@@ -33,7 +33,7 @@ class MapSampleState extends State<MapSample> {
   void initState() {
     super.initState();
     makeShops();
-    
+
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
       ..addListener(_onScroll);
   }
@@ -45,7 +45,7 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  _coffeeShopList(index,panelCon) {
+  _coffeeShopList(index, panelCon) {
     return AnimatedBuilder(
       animation: _pageController,
       builder: (BuildContext context, Widget widget) {
@@ -143,100 +143,99 @@ class MapSampleState extends State<MapSample> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final PanelController panellConteoller = PanelController();
     return Scaffold(
       body: Stack(
         children: [
-            SlidingUpPanel(
-            color:Colors.transparent,
-            controller:panellConteoller,
-            boxShadow:[],
-            maxHeight: MediaQuery.of(context).size.height *.24,
+          SlidingUpPanel(
+            color: Colors.transparent,
+            controller: panellConteoller,
+            boxShadow: [],
+            maxHeight: MediaQuery.of(context).size.height * .24,
             minHeight: MediaQuery.of(context).size.height * .11,
-            panel:SingleChildScrollView(
-                  child: Container(
-                  height: 200.0,
-                  width: MediaQuery.of(context).size.width,
-                  child: ValueListenableBuilder(
-                    valueListenable: Hive.box('serves').listenable(),
-                      builder: (context, box, widget){
-                      coffeeShops.forEach((element) {
-                          allMarkers.add(Marker(
-                              markerId: MarkerId(element.shopName),
-                              draggable: false,
-                              onTap: () => _pageController.animateToPage(element.rank - 1,
-                                  duration: Duration(microseconds: 500), curve: Curves.decelerate),
-                              infoWindow:
-                                  InfoWindow(title: element.shopName, snippet: element.address),
-                              position: element.locationCoords));
-                        });
-                        return PageView.builder(
+            panel: SingleChildScrollView(
+              child: Container(
+                height: 200.0,
+                width: MediaQuery.of(context).size.width,
+                child: ValueListenableBuilder(
+                  valueListenable: Hive.box('serves').listenable(),
+                  builder: (context, box, widget) {
+                    coffeeShops.forEach((element) {
+                      allMarkers.add(Marker(
+                          markerId: MarkerId(element.shopName),
+                          draggable: false,
+                          onTap: () => _pageController.animateToPage(
+                              element.rank - 1,
+                              duration: Duration(microseconds: 500),
+                              curve: Curves.decelerate),
+                          infoWindow: InfoWindow(
+                              title: element.shopName,
+                              snippet: element.address),
+                          position: element.locationCoords));
+                    });
+                    return PageView.builder(
                         controller: _pageController,
                         itemCount: coffeeShops.length,
                         itemBuilder: (BuildContext context, int index) {
-                        return _coffeeShopList(index,panellConteoller);
-                      });
-                      },
-                    ),
-                  ),
+                          return _coffeeShopList(index, panellConteoller);
+                        });
+                  },
                 ),
-            body:GoogleMap(
-              markers: Set.from(allMarkers),
-              myLocationEnabled: true,
-              zoomControlsEnabled: false,
-              mapType: MapType.normal,
-              mapToolbarEnabled: false,
-              myLocationButtonEnabled: false,
-              initialCameraPosition: CameraPosition(
-                  bearing: 192.8334901395799,
-                  target: LatLng(widget.initialPosition.latitude,
-                      widget.initialPosition.longitude),
-                  tilt: 59.440717697143555,
-                  zoom: 16),
-              onMapCreated: mapCreated),
+              ),
+            ),
+            body: GoogleMap(
+                markers: Set.from(allMarkers),
+                myLocationEnabled: true,
+                zoomControlsEnabled: false,
+                mapType: MapType.normal,
+                mapToolbarEnabled: false,
+                myLocationButtonEnabled: false,
+                initialCameraPosition: CameraPosition(
+                    bearing: 192.8334901395799,
+                    target: LatLng(widget.initialPosition.latitude,
+                        widget.initialPosition.longitude),
+                    tilt: 59.440717697143555,
+                    zoom: 16),
+                onMapCreated: mapCreated),
           ),
           SafeArea(
             child: Align(
               alignment: Alignment.topCenter,
-              child:ChoiceChips(
-                panelCon:panellConteoller,
+              child: ChoiceChips(
+                panelCon: panellConteoller,
               ),
             ),
           ),
-          
         ],
       ),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
-          mini:true,
+          mini: true,
           onPressed: () {
             _goToTheLake(widget.initialPosition.latitude,
                 widget.initialPosition.longitude);
-          setState(() {
-          allMarkers.clear();
-          coffeeShops.forEach((element) {
-          allMarkers.add(Marker(
-            markerId: MarkerId(element.shopName),
-            draggable: false,
-            onTap: () => _pageController.animateToPage(element.rank - 1,
-              duration: Duration(microseconds: 500), curve: Curves.decelerate),
-            infoWindow:
-              InfoWindow(title: element.shopName, snippet: element.address),
-          position: element.locationCoords));
-                 allMarkers=allMarkers;
-          });
-      });
-
-
-
-
-
+            setState(() {
+              allMarkers.clear();
+              coffeeShops.forEach((element) {
+                allMarkers.add(Marker(
+                    markerId: MarkerId(element.shopName),
+                    draggable: false,
+                    onTap: () => _pageController.animateToPage(element.rank - 1,
+                        duration: Duration(microseconds: 500),
+                        curve: Curves.decelerate),
+                    infoWindow: InfoWindow(
+                        title: element.shopName, snippet: element.address),
+                    position: element.locationCoords));
+                allMarkers = allMarkers;
+              });
+            });
 
             panellConteoller.animatePanelToPosition(0.01);
             addFakeService();
-            
+
             _goToTheLake(widget.initialPosition.latitude,
                 widget.initialPosition.longitude);
             // showBottomSheet(
@@ -256,21 +255,24 @@ class MapSampleState extends State<MapSample> {
       ),
     );
   }
-  
-  Future<void> addFakeService() async{
-  var serveBox = Hive.box("serves");
-  List<dynamic> servicesJson = [{
-    "rank":"1",
-    "shopName":"NEW available",
-    "address":"NhcLangata",
-    "contact":"0797678252",
-    "description":"Available from 10 to 2",
-    "Lat":"10.00",
-    "Long":"50.00"
-  }];
-  //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
-  serveBox.put("servicesD",servicesJson);
+
+  Future<void> addFakeService() async {
+    var serveBox = Hive.box("serves");
+    List<dynamic> servicesJson = [
+      {
+        "rank": "1",
+        "shopName": "NEW available",
+        "address": "NhcLangata",
+        "contact": "0797678252",
+        "description": "Available from 10 to 2",
+        "Lat": "10.00",
+        "Long": "50.00"
+      }
+    ];
+    //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
+    serveBox.put("servicesD", servicesJson);
   }
+
   Future<void> _goToTheLake(double lat, double long) async {
     final GoogleMapController controller = await _controller.future;
     final CameraPosition _kLake = CameraPosition(
@@ -284,9 +286,8 @@ class MapSampleState extends State<MapSample> {
   void mapCreated(GoogleMapController controller) {
     _controller.complete(controller);
   }
-  void rerenderMarkers(GoogleMapController controller)async {
 
-  }
+  void rerenderMarkers(GoogleMapController controller) async {}
   moveCamera() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -298,7 +299,6 @@ class MapSampleState extends State<MapSample> {
     controller.showMarkerInfoWindow(
         MarkerId(coffeeShops[_pageController.page.toInt()].shopName));
   }
-
 }
 
 class ChoiceChips extends StatefulWidget {
@@ -309,69 +309,76 @@ class ChoiceChips extends StatefulWidget {
 }
 
 class _ChoiceChipsState extends State<ChoiceChips> {
-
-  int indexSelected=-1;
-  List<String> services=["Gas","Washing","Gorceries"];
+  int indexSelected = -1;
+  List<String> services = ["Gas", "Washing", "Gorceries"];
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children:[
+    return Wrap(children: [
       for (final service in services)
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             ChoiceChip(
               selectedColor: Colors.lightBlue[50],
-              label:Text(service,style:TextStyle(color: indexSelected == services.indexOf(service)? Colors.blue:Colors.black)),
+              label: Text(service,
+                  style: TextStyle(
+                      color: indexSelected == services.indexOf(service)
+                          ? Colors.blue
+                          : Colors.black)),
               selected: indexSelected == services.indexOf(service),
-              onSelected: (value){
+              onSelected: (value) {
                 //Do a lookup for all services that feet the criteria
-                getServices(value,"0","0",context);                
+                getServices(value, "0", "0", context);
                 widget.panelCon.animatePanelToPosition(0.01);
-                setState((){
-                  indexSelected = value ? services.indexOf(service) :-1;
+                setState(() {
+                  indexSelected = value ? services.indexOf(service) : -1;
                 });
-              },),
-              const SizedBox(width:8),
+              },
+            ),
+            const SizedBox(width: 8),
           ],
-        ),               
-      ]
-    );
+        ),
+    ]);
   }
 }
-Future getServices(serviceName, lat,long,context) async {
+
+Future getServices(serviceName, lat, long, context) async {
   final serveBox = Hive.box('serves');
   ServicesNet data;
   print('Service requested for is  $serviceName');
   if (serviceName != null) {
     print("Got Data from api");
-    try{
-    final response = await http.post(
-      ("https://auth.i-crib.co.ke/" + "service"),
-      headers: {
-        "Accept": "application/json",
-        "content-type": "application/json",
-      },
-      body: jsonEncode(
-        {
-          'name': serviceName,
-          'lat': lat,
-          'long':long
+    try {
+      final response = await http.post(
+        ("http://192.168.0.13:9003/" + "service"),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
         },
-      ),
-    );
-    var myjson = json.decode(response.body);
-    data = ServicesNet.fromJson(myjson);
-    var t =data.toJson();
-    serveBox.put("servicesD",t["servicesArray"]);
-    makeShops();
-    
-  }catch(SocketException){
-showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-        title: Text("Network error."),
-        actions: [MaterialButton(color:Colors.black,onPressed:(){AppSettings.openWIFISettings();},child:Text("Turn on",style:TextStyle(color:Colors.white)))],));
+        body: jsonEncode(
+          {'name': serviceName, 'lat': lat, 'long': long},
+        ),
+      );
+      var myjson = json.decode(response.body);
+      data = ServicesNet.fromJson(myjson);
+      var t = data.toJson();
+      serveBox.put("servicesD", t["servicesArray"]);
+      makeShops();
+    } catch (SocketException) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("Network error."),
+                actions: [
+                  MaterialButton(
+                      color: Colors.black,
+                      onPressed: () {
+                        AppSettings.openWIFISettings();
+                      },
+                      child: Text("Turn on",
+                          style: TextStyle(color: Colors.white)))
+                ],
+              ));
     }
   }
 }

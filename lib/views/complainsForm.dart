@@ -11,18 +11,20 @@ class ComplainsForm extends StatefulWidget {
   _ComplainsFormState createState() => _ComplainsFormState();
 }
 
+GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
 class _ComplainsFormState extends State<ComplainsForm> {
-  GlobalKey<FormState> formkey =GlobalKey<FormState>();
   final typeController = TextEditingController();
   final descController = TextEditingController();
 
-  void validateForm(){
-    if(formkey.currentState.validate()){
+  void validateForm() {
+    if (formkey.currentState.validate()) {
       var ty = typeController.text;
       var ds = descController.text;
-      sendComplain(ty,ds,context);
+      sendComplain(ty, ds, context);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     bool _loading = false;
@@ -36,8 +38,8 @@ class _ComplainsFormState extends State<ComplainsForm> {
       body: Container(
         padding: EdgeInsets.all(16),
         child: Form(
-          key:formkey,
-                  child: Column(
+          key: formkey,
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -45,14 +47,14 @@ class _ComplainsFormState extends State<ComplainsForm> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
               SizedBox(height: 10),
               TextFormField(
-                validator: (value){
-                  if(value.isEmpty){
+                validator: (value) {
+                  if (value.isEmpty) {
                     return "Required";
-                  }else{
+                  } else {
                     return null;
                   }
                 },
-                controller:typeController,
+                controller: typeController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Kindly enter a category',
@@ -66,10 +68,10 @@ class _ComplainsFormState extends State<ComplainsForm> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
               SizedBox(height: 10),
               TextFormField(
-                validator: (value){
-                  if(value.isEmpty){
+                validator: (value) {
+                  if (value.isEmpty) {
                     return "Required";
-                  }else{
+                  } else {
                     return null;
                   }
                 },
@@ -85,21 +87,23 @@ class _ComplainsFormState extends State<ComplainsForm> {
               Row(
                 children: [
                   Hero(
-                    tag:'report',
-                     child:MaterialButton(
+                    tag: 'report',
+                    child: MaterialButton(
                       color: Colors.black,
                       onPressed: () {
-                          validateForm();
-                          setState((){
-                          if(formkey.currentState.validate()){
-                            _loading=true;
+                        validateForm();
+                        setState(() {
+                          if (formkey.currentState.validate()) {
+                            _loading = true;
                           }
-                          });
+                        });
                       },
-                      child: _loading?CircularProgressIndicator():Text(
-                        "Submit",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      child: _loading
+                          ? CircularProgressIndicator()
+                          : Text(
+                              "Submit",
+                              style: TextStyle(color: Colors.white),
+                            ),
                     ),
                   ),
                   Spacer(),
@@ -119,51 +123,58 @@ class _ComplainsFormState extends State<ComplainsForm> {
     );
   }
 }
+
 Future sendComplain(type, desc, context) async {
   final userHiveBox = Hive.box('user');
-  final uid = userHiveBox.get("uid",defaultValue:"1");
-  try{
-  final response = await http.post(
-    ("https://auth.i-crib.co.ke/" + "complain"),
-    headers: {
-      "Accept": "application/json",
-      "content-type": "application/json",
-    },
-    body: jsonEncode(
-       {
-          "type":type,
-          "description":desc,
-          "uid":uid,
-          "bid":"8"
-        },
-    ),
-  );
-  var myjson = json.decode(response.body);
-  if(myjson["message"] == "1"){
-        showDialog(
-      //Text(message['notification']['title']
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Complain Submitted"),
-        content:
-            Text("It will be resolved in due time\nThank You."),
-        actions: [
-          MaterialButton(child:Text("Close",style: TextStyle(color:Colors.white)),color:Theme.of(context).primaryColor,onPressed: () { Navigator.of(context).pushNamed('/home'); },),
-        ],
+  final uid = userHiveBox.get("uid", defaultValue: "1");
+  try {
+    final response = await http.post(
+      ("http://192.168.0.13:9003" + "/complain"),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+      body: jsonEncode(
+        {"type": type, "description": desc, "uid": uid, "bid": "8"},
       ),
     );
-  }}catch(SocketException){
+    var myjson = json.decode(response.body);
+    if (myjson["message"] == "1") {
       showDialog(
+        //Text(message['notification']['title']
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Complain Submitted"),
+          content: Text("It will be resolved in due time\nThank You."),
+          actions: [
+            MaterialButton(
+              child: Text("Close", style: TextStyle(color: Colors.white)),
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                Navigator.of(context).pushNamed('/home');
+              },
+            ),
+          ],
+        ),
+      );
+    }
+  } catch (SocketException) {
+    showDialog(
       //Text(message['notification']['title']
       context: context,
       builder: (context) => AlertDialog(
         title: Text("Error on Submittion"),
-        content:
-            Text("Please try later with a stable\nConnection."),
+        content: Text("Please try later with a stable\nConnection."),
         actions: [
-          MaterialButton(child:Text("Close",style: TextStyle(color:Colors.white)),color:Theme.of(context).primaryColor,onPressed: () { Navigator.of(context).pushNamed('/home'); },),
+          MaterialButton(
+            child: Text("Close", style: TextStyle(color: Colors.white)),
+            color: Theme.of(context).primaryColor,
+            onPressed: () {
+              Navigator.of(context).pushNamed('/home');
+            },
+          ),
         ],
       ),
     );
   }
-  }
+}

@@ -20,7 +20,6 @@ version: 0.2.0+beta
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
-
 dependencies:
   video_player: ^0.11.0
   firebase_core:

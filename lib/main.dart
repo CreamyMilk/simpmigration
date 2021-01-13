@@ -1,3 +1,4 @@
+import 'package:clone/providers/list_switcher_provider.dart';
 import 'package:clone/route_generator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:clone/services/geolocation_service.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 const userBoxName = 'user';
 FirebaseAnalytics analytics;
@@ -27,24 +29,30 @@ class MyApp extends StatelessWidget {
   final String appTitle = 'Icrib Tenant';
   final GeolocatorService geoService = GeolocatorService();
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        title: appTitle,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: Colors.black,
-          accentColor: Colors.black38,
-          scaffoldBackgroundColor: Color(0xFFF3F5F7),
+  Widget build(BuildContext context) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider<ListSwitcherProvider>(
+              create: (context) => ListSwitcherProvider()),
+        ],
+        child: MaterialApp(
+          title: appTitle,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primaryColor: Colors.black,
+            accentColor: Colors.black38,
+            scaffoldBackgroundColor: Color(0xFFF3F5F7),
+          ),
+          darkTheme: ThemeData(
+            //   textTheme: Theme.of(context).textTheme.apply(
+            //   fontSizeFactor: 0.75,
+            //   fontSizeDelta: 1.0,
+            // ),
+            primaryColor: Colors.black,
+            accentColor: Colors.black38,
+            scaffoldBackgroundColor: Color(0xFFF3F5F7),
+          ),
+          onGenerateRoute: RouteGenerator.generateRoute,
+          initialRoute: '/',
         ),
-        darkTheme: ThemeData(
-          //   textTheme: Theme.of(context).textTheme.apply(
-          //   fontSizeFactor: 0.75,
-          //   fontSizeDelta: 1.0,
-          // ),
-          primaryColor: Colors.black,
-          accentColor: Colors.black38,
-          scaffoldBackgroundColor: Color(0xFFF3F5F7),
-        ),
-        onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: '/',
       );
 }

@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:clone/model/payment_update.dart';
+import 'package:clone/providers/list_switcher_provider.dart';
 import 'package:clone/services/geolocation_service.dart';
+import 'package:clone/views/TokensList.dart';
+import 'package:clone/views/kplc_card.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:clone/views/issues_card.dart';
 import 'package:clone/views/rent_card.dart';
@@ -138,6 +141,11 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                           ),
                           SizedBox(width: 10),
                           PageCard(
+                            childwidget: KplcCard(),
+                            gradients: [Colors.white, Colors.yellow[400]],
+                          ),
+                          SizedBox(width: 10),
+                          PageCard(
                             childwidget: ServiceCard(),
                             gradients: [Colors.white, Colors.lightBlue[200]],
                           ),
@@ -163,31 +171,47 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   }
 }
 
-class CardListings extends StatefulWidget {
-  CardListings({
-    Key key,
-  }) : super(key: key);
-
+class CardListings extends StatelessWidget {
   @override
-  _CardListingsState createState() => _CardListingsState();
+  Widget build(BuildContext context) {
+    return Consumer<ListSwitcherProvider>(builder: (context, storeP, child) {
+      return AnimatedSwitcher(
+        switchInCurve: Curves.easeInOutBack,
+        duration: Duration(seconds: 3),
+        child: storeP.showTrans ? TransList() : TokenList(),
+      );
+    });
+  }
 }
 
-// void uTransactions()async{
-//   final prefs = await SharedPreferences.getInstance();
-//   final jsonTrans = prefs.getString('user_transactions') ?? '';
-//   Transaction tt = Transaction.fromJson(json.decode(jsonTrans));
-//   var userBox = Hive.box('user');
-//   userBox.put("transaction",tt.toJson());
-//   print("Transactions Added ${tt.toJson()}");
-// }
-class _CardListingsState extends State<CardListings> {
+class PageCard extends StatelessWidget {
+  final Widget childwidget;
+  final List<Color> gradients;
+  const PageCard({@required this.childwidget, @required this.gradients});
   @override
-  void initState() {
-    //uTransactions();
-    //();
-    super.initState();
+  Widget build(BuildContext context) {
+    return Container(
+        height: 1,
+        width: MediaQuery.of(context).size.width * 0.8,
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: gradients),
+          //color: Colors.lightBlue[100],
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: this.childwidget);
   }
+}
 
+class TransList extends StatefulWidget {
+  @override
+  _TransListState createState() => _TransListState();
+}
+
+class _TransListState extends State<TransList> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -269,27 +293,5 @@ class _CardListingsState extends State<CardListings> {
             );
           }
         });
-  }
-}
-
-class PageCard extends StatelessWidget {
-  final Widget childwidget;
-  final List<Color> gradients;
-  const PageCard({@required this.childwidget, @required this.gradients});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: 1,
-        width: MediaQuery.of(context).size.width * 0.8,
-        padding: EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: gradients),
-          //color: Colors.lightBlue[100],
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: this.childwidget);
   }
 }

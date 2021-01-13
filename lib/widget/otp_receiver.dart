@@ -30,23 +30,26 @@ class _OtpReceiverState extends State<OtpReceiver> {
     super.initState();
     initSMSState();
   }
-    Future<void> initSMSState() async {
+
+  Future<void> initSMSState() async {
     String receivedCode;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       String temp = await SmsConsent.startSMSConsent();
-      receivedCode = temp.substring(0, 4); 
+      receivedCode = temp.substring(0, 4);
     } on PlatformException {
       receivedCode = '';
     }
     if (!mounted) return;
     setState(() => _receivedCode = receivedCode);
   }
+
   @override
   void dispose() {
     SmsConsent.stopSMSConsent();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,13 +74,13 @@ class _OtpReceiverState extends State<OtpReceiver> {
               vertical: 10,
             ),
             child: PinFieldAutoFill(
-              currentCode:_receivedCode,
+              currentCode: _receivedCode,
               autofocus: false,
               codeLength: 4,
               onCodeChanged: (val) {
                 print(val);
                 if (val.length == 4) {
-                  Flushbar(message:"🔐 Verifying OTP...")..show(context);
+                  Flushbar(message: "🔐 Verifying OTP...")..show(context);
                   print("doing some naviagion here $val");
                   confirmOTP(widget.phonenumber, val, context);
                   //Navigator.of(context).pop();
@@ -97,7 +100,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
 Future confirmOTP(mobile, code, context) async {
   Otploginresponse data;
   final response = await http.post(
-    ("https://auth.i-crib.co.ke/" + "verifyotp"),
+    ("http://192.168.0.13:9003/" + "verifyotp"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",
@@ -123,7 +126,7 @@ Future confirmOTP(mobile, code, context) async {
     //   'title': "Transactions",
     //   'data': newtrans,
     // };
-    prefs.setString("user_transactions",jsonEncode(tempStore));
+    prefs.setString("user_transactions", jsonEncode(tempStore));
     prefs.setString("user_token", data.message.toString()).then((bool success) {
       if (success) {
         Navigator.of(context).pushNamed('/home');
@@ -131,38 +134,38 @@ Future confirmOTP(mobile, code, context) async {
         //Show that storage
       }
     });
-  }else if(data.message ==34){
+  } else if (data.message == 34) {
     print("Show snackbar that the otp supplied is invalid");
   } else {
     Navigator.of(context).pushNamed('/home');
   }
-  
 }
-_cacheUserDetails(apidata){
+
+_cacheUserDetails(apidata) {
   final userHiveBox = Hive.box('user');
   print("AAPI$apidata");
-  var newtrans=apidata["transaction"];
+  var newtrans = apidata["transaction"];
   // Map<String, dynamic> transactions = {
   //   'title': "Transactions",
   //   'data': newtrans,
   // };
-  
-  userHiveBox.put("transaction",jsonEncode(newtrans));
+
+  userHiveBox.put("transaction", jsonEncode(newtrans));
   //con.data=transactions;
-    //Map<String, dynamic> complains = {
-    //'title': "Expenses",
-    //'data': ["Water", "Painting", "Gas"]
+  //Map<String, dynamic> complains = {
+  //'title': "Expenses",
+  //'data': ["Water", "Painting", "Gas"]
   //};
   //Map<String,dynamic> rent = {"month":'January',"rentDue":77,"rentStatus":false};
   //Map<String,dynamic> data = {'username':"LOGGEDIN",'uid': '34','mobile':'0797678252','transaction':transactions,'lastIssue':'number AND ARRAY','lastService':'number and'};
-  
-  //trBox.put("transaction",transactions); 
-  userHiveBox.put("username",apidata["username"]); 
-  userHiveBox.put("mobile",apidata["mobile"]); 
-  userHiveBox.put("rent",apidata["rent"]); 
-  userHiveBox.put("uid",apidata["uid"]); 
+
+  //trBox.put("transaction",transactions);
+  userHiveBox.put("username", apidata["username"]);
+  userHiveBox.put("mobile", apidata["mobile"]);
+  userHiveBox.put("rent", apidata["rent"]);
+  userHiveBox.put("uid", apidata["uid"]);
   //new
-  userHiveBox.put("lastIssue",apidata["lastIssue"]); 
-  //userHiveBox.putAll(apidata);  
+  userHiveBox.put("lastIssue", apidata["lastIssue"]);
+  //userHiveBox.putAll(apidata);
   print("Inserting login info");
 }

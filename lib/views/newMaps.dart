@@ -159,6 +159,7 @@ class _NewMapState extends State<NewMap> {
                 mapStyle: _mapStyle,
                 interactive: true,
                 onTap: (coord) =>
+                    // ignore: deprecated_member_use
                     _scaffoldKey.currentState.showSnackBar(SnackBar(
                   content: Text(coord?.toString()),
                   duration: const Duration(seconds: 2),
