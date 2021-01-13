@@ -62,7 +62,7 @@ class _MainWidgetState extends State<MainWidget> {
                 final granted = await FlutterContactPicker.hasPermission();
                 showDialog(
                     context: context,
-                    // ignore: deprecated_member_use
+                   
                     child: AlertDialog(
                         title: const Text('Granted: '),
                         content: Text('$granted')));
@@ -74,7 +74,7 @@ class _MainWidgetState extends State<MainWidget> {
                 final granted = await FlutterContactPicker.requestPermission();
                 showDialog(
                     context: context,
-                    // ignore: deprecated_member_use
+                   
                     child: AlertDialog(
                         title: const Text('Granted: '),
                         content: Text('$granted')));

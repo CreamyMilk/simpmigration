@@ -49,7 +49,7 @@ class _TransCardState extends State<TransCard> {
                 icon: Icon(Icons.content_copy),
                 onPressed: () {
                   FlutterClipboard.copy(transId).then(
-                    // ignore: deprecated_member_use
+                   
                     (value) => Scaffold.of(context).showSnackBar(
                       SnackBar(
                         duration: Duration(milliseconds: 500),

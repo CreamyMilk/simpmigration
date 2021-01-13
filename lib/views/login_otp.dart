@@ -181,7 +181,7 @@ class _ThreeBButtons extends StatelessWidget {
                         Navigator.of(context)
                             .pushNamed('/map', arguments: position);
                       } else {
-                        // ignore: deprecated_member_use
+                       
                         Scaffold.of(context).showSnackBar(SnackBar(
                           content: Text("Turn on location service"),
                           action: SnackBarAction(

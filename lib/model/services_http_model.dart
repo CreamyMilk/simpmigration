@@ -5,7 +5,7 @@ class ServicesNet {
 
   ServicesNet.fromJson(Map<String, dynamic> json) {
     if (json['servicesArray'] != null) {
-      // ignore: deprecated_member_use
+     
       servicesArray = new List<ServicesArray>();
       json['servicesArray'].forEach((v) {
         servicesArray.add(new ServicesArray.fromJson(v));
