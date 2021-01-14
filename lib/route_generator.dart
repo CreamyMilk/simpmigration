@@ -1,4 +1,3 @@
-import 'package:clone/archive/urllearn.dart';
 import 'package:clone/archive/users_data.dart';
 // import 'package:clone/enums/connectivity_status.dart';
 // import 'package:clone/services/connectivity_service.dart';
@@ -10,6 +9,7 @@ import 'package:clone/views/maps_view.dart';
 import 'package:clone/views/messageHandler.dart';
 import 'package:clone/views/newMaps.dart';
 import 'package:clone/widget/otp_receiver.dart';
+import 'package:clone/widget/transactionmessage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -33,12 +33,12 @@ class RouteGenerator {
       case '/map':
         return MaterialPageRoute(
             builder: (ctx) => MapSample(initialPosition: args));
+      case '/tokenView':
+        return MaterialPageRoute(builder: (ctx) => TransCard());
       case '/login':
         return MaterialPageRoute(builder: (ctx) => LoginOTP());
       case '/newMap':
         return MaterialPageRoute(builder: (ctx) => NewMap());
-      case '/url':
-        return MaterialPageRoute(builder: (ctx) => UrlTest());
       case '/complain':
         return MaterialPageRoute(builder: (ctx) => ComplainsForm());
       case '/home':

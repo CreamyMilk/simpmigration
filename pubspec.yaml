@@ -30,9 +30,8 @@ dependencies:
   flutter_local_notifications: ^1.4.4+4
   flare_flutter: ^2.0.6
   provider:
-  fluttertoast: ^7.1.0
   flushbar: ^1.10.4
-  clipboard: ^0.1.2+8
+  clipboard:
   http:
   # connectivity: ^2.0.0
   sms_consent: ^0.0.6
@@ -69,16 +68,11 @@ dev_dependencies:
   flutter_launcher_icons:
   flutter_test:
     sdk: flutter
-flutter_icons:
-  image_path: 'assets/images/house_logo.pdf'
-  android: true
-  ios: true
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

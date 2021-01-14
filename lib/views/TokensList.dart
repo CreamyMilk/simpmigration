@@ -18,7 +18,7 @@ class _TokenListState extends State<TokenList> {
         builder: (context, box, widget) {
           var temp = box.get('tokens');
           var local = json.decode(temp);
-      
+
           if (true) {
             return Container(
               color: Colors.white70,
@@ -96,10 +96,11 @@ class _TokenListState extends State<TokenList> {
                               onPressed: () {
                                 //Add ID to token
                                 Navigator.of(context)
-                                    .pushNamed("/tokens", arguments: 1);
+                                    .pushNamed("/tokenView", arguments: 1);
                                 print(item);
                               },
                             ),
+                            Text("No :${item["tokenNo"]}"),
                           ],
                         )
                       ],
