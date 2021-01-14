@@ -23,6 +23,7 @@ class Info {
   String username;
   String uid;
   String mobile;
+  Token token;
   Transaction transaction;
   List<String> complains;
   List<String> services;
@@ -34,6 +35,7 @@ class Info {
       {this.username,
       this.uid,
       this.mobile,
+      this.token,
       this.transaction,
       this.complains,
       this.services,
@@ -45,6 +47,7 @@ class Info {
     username = json['username'];
     uid = json['uid'];
     mobile = json['mobile'];
+    token = json['token'] != null ? new Token.fromJson(json['token']) : null;
     transaction = json['transaction'] != null
         ? new Transaction.fromJson(json['transaction'])
         : null;
@@ -60,6 +63,9 @@ class Info {
     data['username'] = this.username;
     data['uid'] = this.uid;
     data['mobile'] = this.mobile;
+    if (this.token != null) {
+      data['token'] = this.token.toJson();
+    }
     if (this.transaction != null) {
       data['transaction'] = this.transaction.toJson();
     }
@@ -74,6 +80,124 @@ class Info {
   }
 }
 
+class Token {
+  Null accountReference;
+  String fullName;
+  int idService;
+  int idPaymentForm;
+  List<ColPrepayment> colPrepayment;
+  bool prepayment;
+
+  Token(
+      {this.accountReference,
+      this.fullName,
+      this.idService,
+      this.idPaymentForm,
+      this.colPrepayment,
+      this.prepayment});
+
+  Token.fromJson(Map<String, dynamic> json) {
+    accountReference = json['accountReference'];
+    fullName = json['fullName'];
+    idService = json['idService'];
+    idPaymentForm = json['idPaymentForm'];
+    if (json['colPrepayment'] != null) {
+      colPrepayment = new List<ColPrepayment>();
+      json['colPrepayment'].forEach((v) {
+        colPrepayment.add(new ColPrepayment.fromJson(v));
+      });
+    }
+    prepayment = json['prepayment'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['accountReference'] = this.accountReference;
+    data['fullName'] = this.fullName;
+    data['idService'] = this.idService;
+    data['idPaymentForm'] = this.idPaymentForm;
+    if (this.colPrepayment != null) {
+      data['colPrepayment'] =
+          this.colPrepayment.map((v) => v.toJson()).toList();
+    }
+    data['prepayment'] = this.prepayment;
+    return data;
+  }
+}
+
+class ColPrepayment {
+  String servicePointNo;
+  int trnTimestamp;
+  String tokenNo;
+  String accountNumber;
+  String custName;
+  String customerNumber;
+  int transactionId;
+  Null recptNo;
+  String msno;
+  String pMethod;
+  Null debtRefNo;
+  int codUnicom;
+  double trnUnits;
+  int trnAmount;
+  Null coConcepto;
+
+  ColPrepayment(
+      {this.servicePointNo,
+      this.trnTimestamp,
+      this.tokenNo,
+      this.accountNumber,
+      this.custName,
+      this.customerNumber,
+      this.transactionId,
+      this.recptNo,
+      this.msno,
+      this.pMethod,
+      this.debtRefNo,
+      this.codUnicom,
+      this.trnUnits,
+      this.trnAmount,
+      this.coConcepto});
+
+  ColPrepayment.fromJson(Map<String, dynamic> json) {
+    servicePointNo = json['servicePointNo'];
+    trnTimestamp = json['trnTimestamp'];
+    tokenNo = json['tokenNo'];
+    accountNumber = json['accountNumber'];
+    custName = json['custName'];
+    customerNumber = json['customerNumber'];
+    transactionId = json['transactionId'];
+    recptNo = json['recptNo'];
+    msno = json['msno'];
+    pMethod = json['pMethod'];
+    debtRefNo = json['debtRefNo'];
+    codUnicom = json['codUnicom'];
+    trnUnits = json['trnUnits'];
+    trnAmount = json['trnAmount'];
+    coConcepto = json['coConcepto'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['servicePointNo'] = this.servicePointNo;
+    data['trnTimestamp'] = this.trnTimestamp;
+    data['tokenNo'] = this.tokenNo;
+    data['accountNumber'] = this.accountNumber;
+    data['custName'] = this.custName;
+    data['customerNumber'] = this.customerNumber;
+    data['transactionId'] = this.transactionId;
+    data['recptNo'] = this.recptNo;
+    data['msno'] = this.msno;
+    data['pMethod'] = this.pMethod;
+    data['debtRefNo'] = this.debtRefNo;
+    data['codUnicom'] = this.codUnicom;
+    data['trnUnits'] = this.trnUnits;
+    data['trnAmount'] = this.trnAmount;
+    data['coConcepto'] = this.coConcepto;
+    return data;
+  }
+}
+
 class Transaction {
   String title;
   List<Data> data;
@@ -83,7 +207,6 @@ class Transaction {
   Transaction.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     if (json['data'] != null) {
-     
       data = new List<Data>();
       json['data'].forEach((v) {
         data.add(new Data.fromJson(v));

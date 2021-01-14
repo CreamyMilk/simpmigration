@@ -5,26 +5,71 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class PaymentUpdateModel {
+  Token token;
   Rent rent;
   Transaction transaction;
+  String lastIssue;
 
-  PaymentUpdateModel({this.rent, this.transaction});
+  PaymentUpdateModel({this.token, this.rent, this.transaction, this.lastIssue});
 
   PaymentUpdateModel.fromJson(Map<String, dynamic> json) {
+    token = json['token'] != null ? new Token.fromJson(json['token']) : null;
     rent = json['rent'] != null ? new Rent.fromJson(json['rent']) : null;
     transaction = json['transaction'] != null
         ? new Transaction.fromJson(json['transaction'])
         : null;
+    lastIssue = json['lastIssue'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.token != null) {
+      data['token'] = this.token.toJson();
+    }
     if (this.rent != null) {
       data['rent'] = this.rent.toJson();
     }
     if (this.transaction != null) {
       data['transaction'] = this.transaction.toJson();
     }
+    data['lastIssue'] = this.lastIssue;
+    return data;
+  }
+}
+
+class Token {
+  Null accountReference;
+  String fullName;
+  int idService;
+  int idPaymentForm;
+  Null colPrepayment;
+  bool prepayment;
+
+  Token(
+      {this.accountReference,
+      this.fullName,
+      this.idService,
+      this.idPaymentForm,
+      this.colPrepayment,
+      this.prepayment});
+
+  Token.fromJson(Map<String, dynamic> json) {
+    accountReference = json['accountReference'];
+    fullName = json['fullName'];
+    idService = json['idService'];
+    idPaymentForm = json['idPaymentForm'];
+    colPrepayment = json['colPrepayment'];
+    prepayment = json['prepayment'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['accountReference'] = this.accountReference;
+    data['fullName'] = this.fullName;
+    data['idService'] = this.idService;
+    data['idPaymentForm'] = this.idPaymentForm;
+    data['colPrepayment'] = this.colPrepayment;
+    data['prepayment'] = this.prepayment;
     return data;
   }
 }
@@ -63,7 +108,6 @@ class Transaction {
   Transaction.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     if (json['data'] != null) {
-     
       data = new List<Data>();
       json['data'].forEach((v) {
         data.add(new Data.fromJson(v));
@@ -116,41 +160,41 @@ class Data {
 
 class Rec {
   String username;
-  String branch;
   String house;
+  String time;
+  String branch;
   String receiptNumber;
   String description;
-  String time;
   int amount;
 
   Rec(
       {this.username,
-      this.branch,
       this.house,
+      this.time,
+      this.branch,
       this.receiptNumber,
       this.description,
-      this.time,
       this.amount});
 
   Rec.fromJson(Map<String, dynamic> json) {
     username = json['username'];
-    branch = json['branch'];
     house = json['house'];
+    time = json['time'];
+    branch = json['branch'];
     receiptNumber = json['receiptNumber'];
     description = json['description'];
-    time = json['time'];
     amount = json['amount'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['username'] = this.username;
-    data['branch'] = this.branch;
     data['house'] = this.house;
+    data['time'] = this.time;
+    data['branch'] = this.branch;
     data['receiptNumber'] = this.receiptNumber;
     data['description'] = this.description;
     data['amount'] = this.amount;
-    data['time'] = this.time;
     return data;
   }
 }
@@ -158,6 +202,7 @@ class Rec {
 Future<void> getLatestTrans() async {
   PaymentUpdateModel data;
   String transaction;
+  String tokenStore;
   var userBox = Hive.box('user');
   final prefs = await SharedPreferences.getInstance();
   var uid = userBox.get("uid", defaultValue: 0);
@@ -177,10 +222,16 @@ Future<void> getLatestTrans() async {
     var myjson = json.decode(response.body);
     data = PaymentUpdateModel.fromJson(myjson);
     userBox.put("rent", data.rent.toJson());
+    tokenStore = jsonEncode(data.token.toJson());
     transaction = jsonEncode(data.transaction.toJson());
-    userBox.put("transaction", transaction); //lastIssue
+    userBox.put("transaction", transaction);
+    userBox.put("tokens", tokenStore); //lastIssue
+
     userBox.put("lastIssue", myjson["lastIssue"]);
+
     prefs.setString("user_transactions", transaction);
+    prefs.setString("tokens_string", jsonEncode(tokenStore));
+
     print("Transactions Added");
   }
 }

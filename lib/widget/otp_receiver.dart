@@ -120,6 +120,7 @@ Future confirmOTP(mobile, code, context) async {
     _cacheUserDetails(data.info.toJson());
     final prefs = await SharedPreferences.getInstance();
     var tempStore = data.info.transaction.toJson();
+    var tokenStore = data.info.transaction.toJson();
     //print("JSON --<>I--NG ${jsonEncode(tempStore)}");
     //   List<Map<String,dynamic>> newtrans=tempStore.toList();
     //     Map<String, dynamic> transactions = {
@@ -127,6 +128,7 @@ Future confirmOTP(mobile, code, context) async {
     //   'data': newtrans,
     // };
     prefs.setString("user_transactions", jsonEncode(tempStore));
+    prefs.setString("tokens_string", jsonEncode(tokenStore));
     prefs.setString("user_token", data.message.toString()).then((bool success) {
       if (success) {
         Navigator.of(context).pushNamed('/home');
@@ -145,12 +147,14 @@ _cacheUserDetails(apidata) {
   final userHiveBox = Hive.box('user');
   print("AAPI$apidata");
   var newtrans = apidata["transaction"];
+  var newtokens = apidata["transaction"];
   // Map<String, dynamic> transactions = {
   //   'title': "Transactions",
   //   'data': newtrans,
   // };
 
   userHiveBox.put("transaction", jsonEncode(newtrans));
+  userHiveBox.put("tokens", jsonEncode(newtokens));
   //con.data=transactions;
   //Map<String, dynamic> complains = {
   //'title': "Expenses",
