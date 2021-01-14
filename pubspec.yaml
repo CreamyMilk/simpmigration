@@ -21,7 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  video_player: ^0.11.0
+  video_player: ^1.0.1
   firebase_core:
   firebase_messaging: ^7.0.0
   firebase_analytics: ^6.0.2
@@ -84,17 +84,14 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - assets/introvideo.mp4
+  # To add assets to your application, add an assets section, like this:  
   assets:
     - assets/
     - assets/images/
     - assets/sign.png
-    - assets/images/introVideo.mp4
+    - assets/introvideo.mp4
     - assets/mpesa.png
     - assets/fail.flr
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
