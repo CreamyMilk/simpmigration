@@ -12,7 +12,7 @@ class _IntroVideoState extends State<IntroVideo> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset('assets/introVideo.mp4');
+    _controller = VideoPlayerController.asset('assets/images/introVideo.mp4');
 
     _controller.addListener(() {
       setState(() {});
@@ -24,8 +24,13 @@ class _IntroVideoState extends State<IntroVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: VideoPlayer(_controller),
+    return Container(
+      height:300,
+      width:200,
+      color:Colors.transparent,
+      child: Center(
+        child: VideoPlayer(_controller),
+      ),
     );
   }
 

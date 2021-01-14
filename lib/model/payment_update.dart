@@ -42,7 +42,7 @@ class Token {
   String fullName;
   int idService;
   int idPaymentForm;
-  Null colPrepayment;
+  List<dynamic> colPrepayment;
   bool prepayment;
 
   Token(

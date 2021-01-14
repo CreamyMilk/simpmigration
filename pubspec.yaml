@@ -91,7 +91,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/sign.png
-    - assets/introVideo.mp4
+    - assets/images/introVideo.mp4
     - assets/mpesa.png
     - assets/fail.flr
 

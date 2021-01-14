@@ -102,7 +102,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
                 fit: BoxFit.scaleDown,
                 image: AssetImage('assets/images/house_logo.jpeg'),
               ),
-              duration: Duration(seconds: 4),
+              duration: Duration(seconds: 3),
               curve: Curves.easeIn,
             )),
       ),
@@ -178,7 +178,7 @@ _cacheUserDetails(jsonString, jsonStringToken) {
   if (jsonStringToken == "no") {
     print("THEIR IS NO TOKENS TO STORED DATA");
   } else {
-    userHiveBox.put("tokens", jsonString);
+    userHiveBox.put("tokens", jsonStringToken);
   }
   //dd Map<String, dynamic> transactions = {
   //  "title": "Transactions",
@@ -201,7 +201,7 @@ _getStartUpPage(BuildContext context) async {
   final userTokens = prefs.getString('tokens_string') ?? "no";
   _cacheUserDetails(userTrans, userTokens);
   print("UserToken ilikuwa $userToken");
-  Future.delayed(Duration(seconds: 4), () {
+  Future.delayed(Duration(seconds: 3), () {
     userToken == "0"
         ? Navigator.of(context).pushNamed('/home')
         : Navigator.of(context).pushNamed('/login');

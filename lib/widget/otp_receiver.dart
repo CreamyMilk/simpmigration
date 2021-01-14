@@ -120,7 +120,7 @@ Future confirmOTP(mobile, code, context) async {
     _cacheUserDetails(data.info.toJson());
     final prefs = await SharedPreferences.getInstance();
     var tempStore = data.info.transaction.toJson();
-    var tokenStore = data.info.transaction.toJson();
+    var tokenStore = data.info.token.toJson();
     //print("JSON --<>I--NG ${jsonEncode(tempStore)}");
     //   List<Map<String,dynamic>> newtrans=tempStore.toList();
     //     Map<String, dynamic> transactions = {
@@ -147,7 +147,7 @@ _cacheUserDetails(apidata) {
   final userHiveBox = Hive.box('user');
   print("AAPI$apidata");
   var newtrans = apidata["transaction"];
-  var newtokens = apidata["transaction"];
+  var newtokens = apidata["token"];
   // Map<String, dynamic> transactions = {
   //   'title': "Transactions",
   //   'data': newtrans,
