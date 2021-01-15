@@ -69,8 +69,11 @@ class _NewMapState extends State<NewMap> {
 
   @override
   void initState() {
+    final _store = Provider.of<GMapProvider>(context, listen: false);
+    serviceProviders = _store.serviceProviderShops;
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
       ..addListener(_onScroll);
+
     super.initState();
   }
 
