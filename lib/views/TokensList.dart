@@ -87,8 +87,8 @@ class _TokenListState extends State<TokenList> {
                                 children: [
                                   Icon(Icons.money, color: Colors.black),
                                   Text(
-                                    "  Token : ${item["tokenNo"]}",
-                                    style: TextStyle(color: Colors.white),
+                                    " Token :${(item["tokenNo"].toString()).replaceAllMapped(new RegExp(r'(\d{1,4})(?=(\d{4})+(?!\d))'), (Match m) => '${m[1]}-')}",
+                                    style: TextStyle(color: Colors.black),
                                   )
                                 ],
                               ),

@@ -1,3 +1,4 @@
+import 'package:clone/providers/gmapsProvider.dart';
 import 'package:clone/providers/list_switcher_provider.dart';
 import 'package:clone/route_generator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -33,6 +34,8 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<ListSwitcherProvider>(
               create: (context) => ListSwitcherProvider()),
+          ChangeNotifierProvider<GMapProvider>(
+              create: (context) => GMapProvider()),
         ],
         child: MaterialApp(
           title: appTitle,

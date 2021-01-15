@@ -94,7 +94,7 @@ class _NewMapState extends State<NewMap> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Serives Map'),
+          title: Text('Serices Map'),
         ),
         body: Stack(
           children: <Widget>[
@@ -197,8 +197,13 @@ class _NewMapState extends State<NewMap> {
                 ],
               ),
             ),
-            ServiceCardLocation(
-              pageControllerLocal: _pageController,
+            Positioned(
+              bottom: 300,
+              left: 10,
+              right: 10,
+              child: ServiceCardLocation(
+                pageControllerLocal: _pageController,
+              ),
             )
           ],
         ),
