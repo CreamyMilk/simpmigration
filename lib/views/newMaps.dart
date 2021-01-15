@@ -85,8 +85,8 @@ class _NewMapState extends State<NewMap> {
     final target =
         serviceProviders[_pageController.page.toInt()].locationCoords;
     final bounds = GeoCoordBounds(
-      northeast: GeoCoord(target.latitude, target.longitude),
-      southwest: GeoCoord(target.latitude, target.longitude),
+      northeast: GeoCoord(target.latitude * 0.5, target.longitude * 0.5),
+      southwest: GeoCoord(target.latitude / 0.5, target.longitude / 0.5),
     );
     GoogleMap.of(_mapkey).moveCameraBounds(bounds);
   }
@@ -94,7 +94,7 @@ class _NewMapState extends State<NewMap> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Serices Map'),
+          title: Text('Services Map'),
         ),
         body: Stack(
           children: <Widget>[
@@ -198,9 +198,9 @@ class _NewMapState extends State<NewMap> {
               ),
             ),
             Positioned(
-              bottom: 300,
-              left: 10,
-              right: 10,
+              bottom: 10,
+              left: 2,
+              right: 2,
               child: ServiceCardLocation(
                 pageControllerLocal: _pageController,
               ),
@@ -230,7 +230,7 @@ class ServiceCardLocation extends StatelessWidget {
               onTap: (String p) {
                 {
                   pageControllerLocal.animateToPage(element.rank - 1,
-                      duration: Duration(microseconds: 500),
+                      duration: Duration(microseconds: 900),
                       curve: Curves.decelerate);
                 }
               },

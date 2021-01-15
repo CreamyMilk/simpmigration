@@ -95,8 +95,7 @@ class _TokenListState extends State<TokenList> {
                               color: Colors.white,
                               onPressed: () {
                                 //Add ID to token
-                                Navigator.of(context)
-                                    .pushNamed("/tokenView", arguments: 1);
+
                                 print(item);
                               },
                             ),
