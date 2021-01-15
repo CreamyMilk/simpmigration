@@ -223,18 +223,15 @@ class ServiceCardLocation extends StatelessWidget {
       child: Consumer<GMapProvider>(
         builder: (context, storeP, child) {
           storeP.serviceProviderShops.forEach((element) {
-            return GoogleMap.of(_mapkey).addMarkerRaw(
+            return GoogleMap.of(_mapkey).addMarker(Marker(
               element.locationCoords,
-              label: element.shopName,
-              info: element.address,
-              onTap: (String p) {
-                {
-                  pageControllerLocal.animateToPage(element.rank - 1,
-                      duration: Duration(microseconds: 900),
-                      curve: Curves.decelerate);
-                }
-              },
+              info: element.shopName,
+              infoSnippet: element.address,
               onInfoWindowTap: () async {
+                pageControllerLocal.animateToPage(element.rank - 1,
+                    duration: Duration(microseconds: 900),
+                    curve: Curves.decelerate);
+
                 await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -249,7 +246,7 @@ class ServiceCardLocation extends StatelessWidget {
                   ),
                 );
               },
-            );
+            ));
           });
           return PageView.builder(
               controller: pageControllerLocal,
