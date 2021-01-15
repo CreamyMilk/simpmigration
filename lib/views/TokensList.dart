@@ -85,14 +85,14 @@ class _TokenListState extends State<TokenList> {
                             MaterialButton(
                               child: Row(
                                 children: [
-                                  Icon(Icons.money, color: Colors.white),
+                                  Icon(Icons.money, color: Colors.black),
                                   Text(
-                                    " Token",
+                                    "  Token : ${item["tokenNo"]}",
                                     style: TextStyle(color: Colors.white),
                                   )
                                 ],
                               ),
-                              color: Colors.black87,
+                              color: Colors.white,
                               onPressed: () {
                                 //Add ID to token
                                 Navigator.of(context)
@@ -100,7 +100,6 @@ class _TokenListState extends State<TokenList> {
                                 print(item);
                               },
                             ),
-                            Text("No :${item["tokenNo"]}"),
                           ],
                         )
                       ],

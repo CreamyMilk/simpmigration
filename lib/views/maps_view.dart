@@ -118,11 +118,12 @@ class MapSampleState extends State<MapSample> {
                       Spacer(),
                       Container(
                         child: InputChip(
+                          backgroundColor: Colors.white,
                           avatar: Icon(
                             Icons.call,
                             color: Colors.blue,
                           ),
-                          label: Text("Call Now"),
+                          label: Text("Call"),
                           onPressed: () async {
                             final url = coffeeShops[index].contact;
                             if (await canLaunch(url)) {
