@@ -84,11 +84,8 @@ class _NewMapState extends State<NewMap> {
   moveCamera() async {
     final target =
         serviceProviders[_pageController.page.toInt()].locationCoords;
-    final bounds = GeoCoordBounds(
-      northeast: GeoCoord(target.latitude * 0.5, target.longitude * 0.5),
-      southwest: GeoCoord(target.latitude / 0.5, target.longitude / 0.5),
-    );
-    GoogleMap.of(_mapkey).moveCameraBounds(bounds);
+
+    GoogleMap.of(_mapkey).moveCamera(target);
   }
 
   @override
