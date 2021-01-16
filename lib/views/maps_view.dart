@@ -1,7 +1,6 @@
 import 'package:clone/archive/dark_mode_map.dart';
 import 'package:clone/model/locations_model.dart';
 import 'package:clone/providers/gmapsProvider.dart';
-import 'package:clone/model/cofee_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -34,6 +33,7 @@ class MapSampleState extends State<MapSample> {
     final _store = Provider.of<GMapProvider>(context, listen: false);
     serviceProviders = _store.serviceProviderShops;
     allMarkers = _store.markers;
+    _store.addStoredMarkers(_pageController);
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
       ..addListener(_onScroll);
     super.initState();
@@ -132,13 +132,13 @@ class MapSampleState extends State<MapSample> {
   void rerenderMarkers(GoogleMapController controller) async {}
   moveCamera() {
     gcontrol.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: coffeeShops[_pageController.page.toInt()].locationCoords,
+        target: serviceProviders[_pageController.page.toInt()].locationCoords,
         zoom: 14.0,
         bearing: 45.0,
         tilt: 45.0)));
 
     gcontrol.showMarkerInfoWindow(
-        MarkerId(coffeeShops[_pageController.page.toInt()].shopName));
+        MarkerId(serviceProviders[_pageController.page.toInt()].shopName));
   }
 }
 
@@ -154,14 +154,16 @@ class ServiceCardLocation extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Consumer<GMapProvider>(
         builder: (context, storeP, child) {
-          storeP.addStoredMarkers(pageControllerLocal);
           return PageView.builder(
-              controller: pageControllerLocal,
-              itemCount: storeP.serviceProviderShops.length,
-              itemBuilder: (BuildContext context, int index) {
-                return PersonalServiceCard(
-                    index: index, pController: pageControllerLocal);
-              });
+            controller: pageControllerLocal,
+            itemCount: storeP.serviceProviderShops.length,
+            itemBuilder: (BuildContext context, int index) {
+              return PersonalServiceCard(
+                index: index,
+                pController: pageControllerLocal,
+              );
+            },
+          );
         },
       ),
     );
