@@ -181,7 +181,6 @@ class _ThreeBButtons extends StatelessWidget {
                         Navigator.of(context)
                             .pushNamed('/map', arguments: position);
                       } else {
-                       
                         Scaffold.of(context).showSnackBar(SnackBar(
                           content: Text("Turn on location service"),
                           action: SnackBarAction(
@@ -499,7 +498,7 @@ Future getOTP(mobile, appsign, context) async {
   if (mobile != null) {
     try {
       final response = await http.post(
-        ("http://192.168.0.13:9003/" + "getotp"),
+        ("http://92.222.201.138:9003/" + "getotp"),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",

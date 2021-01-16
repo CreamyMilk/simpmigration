@@ -135,7 +135,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     final userHiveBox = Hive.box('user');
     var userID = userHiveBox.get("uid", defaultValue: "no");
     final response = await http.post(
-      ("http://192.168.0.13:9003/" + "gettrans"),
+      ("http://92.222.201.138:9003/" + "gettrans"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
