@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:clone/archive/dark_mode_map.dart';
 import 'package:clone/model/locations_model.dart';
 import 'package:clone/providers/gmapsProvider.dart';
@@ -21,11 +20,12 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController gcontrol;
+
   List<ServiceProvider> serviceProviders = [];
   List<Marker> allMarkers = [];
   PageController _pageController;
-  bool _darkMapStyle = false;
+  bool _darkMapStyle = true;
   int prevPage;
   String _mapStyle;
 
@@ -77,16 +77,14 @@ class MapSampleState extends State<MapSample> {
             child: FloatingActionButton(
               mini: true,
               child: Icon(Icons.person_pin_circle),
-              onPressed: () async {
-                final GoogleMapController controller = await _controller.future;
+              onPressed: () {
                 final CameraPosition _kLake = CameraPosition(
                     bearing: 192.8334901395799,
                     target: LatLng(widget.initialPosition.latitude,
                         widget.initialPosition.longitude),
                     tilt: 59.4407176000097143555,
                     zoom: 19.151926040649414);
-                controller
-                    .animateCamera(CameraUpdate.newCameraPosition(_kLake));
+                gcontrol.animateCamera(CameraUpdate.newCameraPosition(_kLake));
               },
             ),
           ),
@@ -97,15 +95,11 @@ class MapSampleState extends State<MapSample> {
               mini: true,
               onPressed: () async {
                 if (_darkMapStyle) {
-                  final GoogleMapController controller =
-                      await _controller.future;
-                  controller.setMapStyle(null);
+                  gcontrol.setMapStyle(null);
 
                   _mapStyle = null;
                 } else {
-                  final GoogleMapController controller =
-                      await _controller.future;
-                  controller.setMapStyle(darkMapStyle);
+                  gcontrol.setMapStyle(darkMapStyle);
                   _mapStyle = darkMapStyle;
                 }
                 setState(() => _darkMapStyle = !_darkMapStyle);
@@ -131,21 +125,19 @@ class MapSampleState extends State<MapSample> {
   }
 
   void mapCreated(GoogleMapController controller) async {
-    final GoogleMapController controller = await _controller.future;
-    controller.setMapStyle(null);
-    _controller.complete(controller);
+    gcontrol = controller;
+    gcontrol.setMapStyle(null);
   }
 
   void rerenderMarkers(GoogleMapController controller) async {}
-  moveCamera() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+  moveCamera() {
+    gcontrol.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: coffeeShops[_pageController.page.toInt()].locationCoords,
         zoom: 14.0,
         bearing: 45.0,
         tilt: 45.0)));
 
-    controller.showMarkerInfoWindow(
+    gcontrol.showMarkerInfoWindow(
         MarkerId(coffeeShops[_pageController.page.toInt()].shopName));
   }
 }

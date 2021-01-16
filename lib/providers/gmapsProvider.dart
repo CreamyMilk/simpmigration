@@ -62,7 +62,7 @@ class GMapProvider extends ChangeNotifier {
       markerId: MarkerId("sd"),
     ),
     Marker(
-      position: LatLng(34.0469058, -118.3503948),
+      position: LatLng(30.0469058, -108.3503948),
       markerId: MarkerId("sdwewe"),
     )
   ];
