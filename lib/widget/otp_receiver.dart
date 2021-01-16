@@ -168,6 +168,7 @@ _cacheUserDetails(apidata) {
   userHiveBox.put("mobile", apidata["mobile"]);
   userHiveBox.put("rent", apidata["rent"]);
   userHiveBox.put("uid", apidata["uid"]);
+  userHiveBox.put("branchID", "8"); //Swtich when using new building
   //new
   userHiveBox.put("lastIssue", apidata["lastIssue"]);
   //userHiveBox.putAll(apidata);

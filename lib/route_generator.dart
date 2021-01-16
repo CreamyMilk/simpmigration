@@ -2,6 +2,7 @@ import 'package:clone/archive/users_data.dart';
 // import 'package:clone/enums/connectivity_status.dart';
 // import 'package:clone/services/connectivity_service.dart';
 import 'package:clone/services/geolocation_service.dart';
+import 'package:clone/views/choose_service.dart';
 import 'package:clone/views/complainsForm.dart';
 import 'package:clone/views/home_cards_layouts.dart';
 import 'package:clone/views/login_otp.dart';
@@ -9,7 +10,7 @@ import 'package:clone/views/maps_view.dart';
 import 'package:clone/views/messageHandler.dart';
 
 import 'package:clone/widget/otp_receiver.dart';
-import 'package:clone/widget/transactionmessage.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -33,10 +34,13 @@ class RouteGenerator {
       case '/map':
         return MaterialPageRoute(
             builder: (ctx) => MapSample(initialPosition: args));
-      case '/tokenView':
-        return MaterialPageRoute(builder: (ctx) => TransCard());
       case '/login':
         return MaterialPageRoute(builder: (ctx) => LoginOTP());
+      case '/services':
+        return MaterialPageRoute(
+            builder: (ctx) => ServicesGrid(
+                  cordinates: args,
+                ));
 
       case '/complain':
         return MaterialPageRoute(builder: (ctx) => ComplainsForm());

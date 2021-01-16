@@ -121,13 +121,19 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                         "RentStatus",
                         style: TextStyle(color: Colors.grey, fontSize: 10.0),
                       ),
-                      MaterialButton(
-                          color: _status ? Colors.greenAccent : Colors.red[300],
-                          onPressed: () {},
-                          child: Text(
-                            _status ? "Paid" : "Due",
-                            style: TextStyle(color: Colors.black),
-                          ))
+                      Consumer<ListSwitcherProvider>(
+                          builder: (context, storeP, children) {
+                        return MaterialButton(
+                            color:
+                                _status ? Colors.greenAccent : Colors.red[300],
+                            onPressed: () {
+                              storeP.switchRents();
+                            },
+                            child: Text(
+                              _status ? "Paid" : "Due",
+                              style: TextStyle(color: Colors.black),
+                            ));
+                      })
                     ],
                   ),
                   AnimatedContainer(
@@ -184,7 +190,7 @@ Future _sendPayment(mobile, amountDue, accName, ctx) async {
   //v2 work with paymentapi responses
   PaymentResponse data;
   Flushbar(
-    backgroundColor: Colors.grey,
+    backgroundColor: Colors.grey[350],
     title: " Processing Payment 🤵...",
     message: " 📲 No:$mobile  💱 Amount:Ksh.$amountDue",
     icon: Icon(

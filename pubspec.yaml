@@ -55,6 +55,7 @@ dependencies:
   # Caching and local_db
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
+  cached_network_image: ^2.5.0
   # Settings opener
   app_settings: ^4.0.4 
   # Fade in widget

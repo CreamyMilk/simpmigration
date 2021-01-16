@@ -170,7 +170,7 @@ Future _sendPayment(mobile, amountDue, accName, ctx) async {
   //v2 work with paymentapi responses
   PaymentResponse data;
   Flushbar(
-    backgroundColor: Colors.grey[400],
+    backgroundColor: Colors.grey[350],
     title: " Processing Payment 👷...",
     message: " 📲 No:$mobile  🔩 Amount:Ksh.$amountDue",
     icon: Icon(Icons.bolt, size: 35, color: Colors.yellow),

@@ -2,6 +2,7 @@ import 'package:clone/archive/users_data.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class IssuesCard extends StatefulWidget {
   IssuesCard({Key key}) : super(key: key);
@@ -12,10 +13,8 @@ class IssuesCard extends StatefulWidget {
 
 class _IssuesCardState extends State<IssuesCard> {
   String _houseNumber = "-";
-  //lastIssue
-  //int _compains = 0;
 
-  List<String> option = ["Details", "Contact Us"];
+  List<String> option = ["Contact Us"];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,7 +81,6 @@ class _IssuesCardState extends State<IssuesCard> {
                     // setState(() {
                     //   _testvar = !_testvar;
                     // });
-                    print("STK push sent");
                   },
                 ),
               ),
@@ -102,7 +100,6 @@ class _IssuesCardState extends State<IssuesCard> {
                     ),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/complain');
-                      print("STK push sent");
                     },
                   ),
                 ),
@@ -115,8 +112,15 @@ class _IssuesCardState extends State<IssuesCard> {
   }
 }
 
-void choiceAction(String choice) {
-  print(choice);
+void choiceAction(String choice) async {
+  if (choice == "Contact Us") {
+    final url = 'tel:254714164318';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   Navigator.push(
     null,
     MaterialPageRoute(builder: (_) => UserTest(appTitle: "ok")),

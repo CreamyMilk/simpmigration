@@ -219,7 +219,7 @@ class _TransListState extends State<TransList> {
         builder: (context, box, widget) {
           var temp = box.get('transaction');
           var local = json.decode(temp);
-          print("SDSSD$local");
+          //print("SDSSD$local");
           if (true) {
             return Container(
               color: Colors.white70,
@@ -251,8 +251,8 @@ class _TransListState extends State<TransList> {
                   ],
                 ),
                 onReorder: (oldIndex, newIndex) {
-                  print(oldIndex);
-                  print(newIndex);
+                  //print(oldIndex);
+                  //print(newIndex);
                   setState(() {
                     if (newIndex > oldIndex) {
                       newIndex -= 1;

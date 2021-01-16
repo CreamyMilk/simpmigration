@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GMapProvider extends ChangeNotifier {
+  String chosenservice = "Cleaners";
   List<ServiceProvider> serviceProviderShops = [
     ServiceProvider(
         rank: 1,
@@ -97,6 +98,10 @@ class GMapProvider extends ChangeNotifier {
       );
     });
     notifyListeners();
+  }
+
+  void makeServiceList(dynamic apiMap) {
+    chosenservice = "New Name goes here";
   }
 
   void switchElec() {

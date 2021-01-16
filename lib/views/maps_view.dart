@@ -51,7 +51,9 @@ class MapSampleState extends State<MapSample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Services Map'),
+        title: Consumer<GMapProvider>(builder: (context, storeP, child) {
+          return Text('${storeP.chosenservice} near you');
+        }),
       ),
       body: Stack(
         children: [

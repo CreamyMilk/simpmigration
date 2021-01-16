@@ -101,7 +101,7 @@ class _ServiceCardState extends State<ServiceCard> {
                         ],
                       ),
                       onPressed: () {
-                        navigateToMap(context, position);
+                        navigateToService(context, position);
                       },
                     ),
                   ),
@@ -124,12 +124,11 @@ class _ServiceCardState extends State<ServiceCard> {
     // );
   }
 
-  void navigateToMap(BuildContext context, Position pos) {
-    print("Going to map");
+  void navigateToService(BuildContext context, Position pos) {
+    print("Going to Service grid");
     if (pos != null) {
-      Navigator.of(context).pushNamed('/map', arguments: pos);
+      Navigator.of(context).pushNamed('/services', arguments: pos);
     } else {
-     
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text("Turn on location service"),
         action: SnackBarAction(
