@@ -5,7 +5,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:clone/services/geolocation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_google_maps/flutter_google_maps.dart';
+
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +16,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) async {
-    GoogleMap.init('AIzaSyD3ix89sMkF1i8Q2pMZA78ZEm6oDW3eaR4');
     WidgetsFlutterBinding.ensureInitialized();
     analytics = FirebaseAnalytics();
     await Hive.initFlutter();

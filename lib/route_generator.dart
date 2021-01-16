@@ -7,7 +7,7 @@ import 'package:clone/views/home_cards_layouts.dart';
 import 'package:clone/views/login_otp.dart';
 import 'package:clone/views/maps_view.dart';
 import 'package:clone/views/messageHandler.dart';
-import 'package:clone/views/newMaps.dart';
+
 import 'package:clone/widget/otp_receiver.dart';
 import 'package:clone/widget/transactionmessage.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,8 +37,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (ctx) => TransCard());
       case '/login':
         return MaterialPageRoute(builder: (ctx) => LoginOTP());
-      case '/newMap':
-        return MaterialPageRoute(builder: (ctx) => NewMap());
+
       case '/complain':
         return MaterialPageRoute(builder: (ctx) => ComplainsForm());
       case '/home':

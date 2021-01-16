@@ -1,4 +1,4 @@
-import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:hive/hive.dart';
 
@@ -9,7 +9,7 @@ class ServiceProvider {
   String description;
   String thumbNail;
   String contact;
-  GeoCoord locationCoords;
+  LatLng locationCoords;
 
   ServiceProvider(
       {this.rank,
@@ -45,6 +45,6 @@ void makeShops() async {
         contact: 'tel:${s["contact"]}',
         description: s["description"],
         locationCoords:
-            GeoCoord(double.parse(s["Lat"]), double.parse(s["Long"]))));
+            LatLng(double.parse(s["Lat"]), double.parse(s["Long"]))));
   }
 }
