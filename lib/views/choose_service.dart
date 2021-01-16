@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clone/providers/gmapsProvider.dart';
 import 'package:clone/widget/api_service.dart';
