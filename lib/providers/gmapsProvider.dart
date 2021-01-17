@@ -80,6 +80,7 @@ class GMapProvider extends ChangeNotifier {
   }
 
   void addStoredMarkers(PageController pcon) {
+    markers = [];
     serviceProviderShops.forEach((element) {
       markers.add(
         Marker(
@@ -102,22 +103,20 @@ class GMapProvider extends ChangeNotifier {
 
   void makeServiceList(dynamic apiMap) {
     chosenservice = apiMap["short_name"];
-    // List<dynamic> sarr = apiMap["services_providers"];
+    List<dynamic> sarr = apiMap["services_providers"];
     serviceProviderShops = [];
-    for (var i = 0; i < 3; i++) {
-      // dynamic t = sarr[i];
+    for (var i = 0; i < sarr.length; i++) {
+      dynamic t = sarr[i];
       serviceProviderShops.add(ServiceProvider(
           rank: i + 1,
-          shopName: 'Everyman Espresso',
-          address: '301 W Broadway',
-          contact: 'tel:254797678252',
-          description:
-              'Compact ServiceProvider & espresso bar turning out drinks made from direct-trade beans in a low-key setting.',
-          locationCoords: LatLng(40.721622, -74.004308),
-          thumbNail:
-              'https://lh5.googleusercontent.com/p/AF1QipOMNvnrTlesBJwUcVVFBqVF-KnMVlJMi7_uU6lZ=w90-h90-n-k-no'));
+          shopName: t["shopName"],
+          address: t["address"],
+          contact: t["contact"],
+          description: t["description"],
+          locationCoords: LatLng(double.parse(t["locationCoords"]["lat"]),
+              double.parse(t["locationCoords"]["lat"])),
+          thumbNail: t["thumbNail"]));
     }
-
     notifyListeners();
   }
 
