@@ -117,7 +117,7 @@ class GMapProvider extends ChangeNotifier {
           thumbNail: t["thumbNail"]));
     }
 
-    newlist = serviceProviderShops;
+    serviceProviderShops = newlist;
     notifyListeners();
   }
 
