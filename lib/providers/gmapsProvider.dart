@@ -100,12 +100,12 @@ class GMapProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void makeServiceList(Map<dynamic, dynamic> apiMap) {
+  void makeServiceList(dynamic apiMap) {
     List<ServiceProvider> newlist;
     chosenservice = apiMap["short_name"];
     // List<dynamic> sarr = apiMap["services_providers"];
     serviceProviderShops = [];
-    for (var i = 0; i < apiMap.length; i++) {
+    for (var i = 0; i < 3; i++) {
       // dynamic t = sarr[i];
       serviceProviderShops.add(ServiceProvider(
           rank: i + 1,
