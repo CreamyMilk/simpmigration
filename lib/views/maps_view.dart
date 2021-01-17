@@ -20,7 +20,6 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> {
   GoogleMapController gcontrol;
-
   List<ServiceProvider> serviceProviders = [];
   List<Marker> allMarkers = [];
   PageController _pageController;

@@ -17,7 +17,8 @@ Future getAllCategories(BuildContext ctx, Position cords) async {
           'branchid': "8", //Switch in new building
           "lat": cords.latitude,
           "long": cords.longitude,
-          "everyting": "$cords"
+          "everyting":
+              "$cords  altitude:${cords.altitude} speed ${cords.speed} speeed Accuracy ${cords.speedAccuracy} heading ${cords.heading} heading ${cords.heading} mocked ${cords.mocked} ,timestamp ${cords.timestamp} ,accuracy ${cords.accuracy}"
         },
       ),
     );

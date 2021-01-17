@@ -41,6 +41,7 @@ class ServiceCategoryGrid extends StatefulWidget {
 class _ServiceCategoryGridState extends State<ServiceCategoryGrid> {
   List<dynamic> allcategories = [
     Itemtile(
+      usersPosition: Position(longitude: 10, latitude: 10),
       mapofServices: "",
       prodname: "Featured Products\n\n",
       imageUrl:
@@ -48,6 +49,7 @@ class _ServiceCategoryGridState extends State<ServiceCategoryGrid> {
       categoryID: 9000,
     ),
     Itemtile(
+      usersPosition: Position(longitude: 10, latitude: 10),
       mapofServices: "sdsd",
       prodname: "Cement \n\n",
       imageUrl:
@@ -81,16 +83,16 @@ class CategoriesFutureBuilder extends StatelessWidget {
             print("${snapshot.data}");
             return GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisSpacing: 2, crossAxisCount: 3, crossAxisSpacing: 2),
+                    mainAxisSpacing: 3, crossAxisCount: 3, crossAxisSpacing: 3),
                 padding: EdgeInsets.all(8.0),
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   return Itemtile(
-                    prodname: snapshot.data[index]["service_name"],
-                    imageUrl: snapshot.data[index]["service_image"],
-                    categoryID: snapshot.data[index]["service_id"],
-                    mapofServices: snapshot.data[index],
-                  );
+                      prodname: snapshot.data[index]["service_name"],
+                      imageUrl: snapshot.data[index]["service_image"],
+                      categoryID: snapshot.data[index]["service_id"],
+                      mapofServices: snapshot.data[index],
+                      usersPosition: currentPosition);
                 });
           } else {
             //Make UI to act as place holder first
@@ -109,11 +111,14 @@ class Itemtile extends StatelessWidget {
       {@required this.prodname,
       @required this.imageUrl,
       @required this.categoryID,
-      @required this.mapofServices});
+      @required this.mapofServices,
+      @required this.usersPosition});
   final String prodname;
   final String imageUrl;
   final int categoryID;
+  final Position usersPosition;
   final dynamic mapofServices;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<GMapProvider>(builder: (context, storeP, child) {
@@ -121,8 +126,7 @@ class Itemtile extends StatelessWidget {
         footer: InkWell(
           onTap: () {
             storeP.makeServiceList(mapofServices);
-
-            Navigator.of(context).pushNamed('/map', arguments: categoryID);
+            Navigator.of(context).pushNamed('/map', arguments: usersPosition);
           },
           child: Container(
             color: Color(0xffff2f2f2),
@@ -137,7 +141,7 @@ class Itemtile extends StatelessWidget {
         child: InkWell(
           onTap: () {
             storeP.makeServiceList(mapofServices);
-            Navigator.of(context).pushNamed('/map', arguments: categoryID);
+            Navigator.of(context).pushNamed('/map', arguments: usersPosition);
           },
           child: CachedNetworkImage(
             imageUrl: imageUrl,
