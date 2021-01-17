@@ -19,32 +19,36 @@ class Coffee {
       this.contact,
       this.locationCoords});
 }
-List<Coffee> coffeeShops ;
+
+List<Coffee> coffeeShops;
 
 //get form db
 void makeShops() async {
   List<Coffee> coffeeShop = [];
   var serveBox = Hive.box("serves");
-  List<dynamic> servicesJson = serveBox.get("servicesD",defaultValue:[{
-    "rank":"1",
-    "shopName":"No Service available",
-    "address":"NhcLangata",
-    "contact":"000",
-    "description":"Available from 10 to 2",
-    "Lat":"50.00",
-    "Long":"10.00"
-  }]);
+  List<dynamic> servicesJson = serveBox.get("servicesD", defaultValue: [
+    {
+      "rank": "1",
+      "shopName": "No Service available",
+      "address": "NhcLangata",
+      "contact": "000",
+      "description": "Available from 10 to 2",
+      "Lat": "50.00",
+      "Long": "10.00"
+    }
+  ]);
   //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
-  for(dynamic s in servicesJson){ 
-  coffeeShop.add(Coffee(
-      rank: int.parse(s["rank"]),
-      shopName: s["shopName"],
-      address: s["address"],
-      contact: 'tel:${s["contact"]}',
-      description:s["description"],
-      locationCoords: LatLng(double.parse(s["Lat"]), double.parse(s["Long"]))));
+  for (dynamic s in servicesJson) {
+    coffeeShop.add(Coffee(
+        rank: int.parse(s["rank"]),
+        shopName: s["shopName"],
+        address: s["address"],
+        contact: 'tel:${s["contact"]}',
+        description: s["description"],
+        locationCoords:
+            LatLng(double.parse(s["Lat"]), double.parse(s["Long"]))));
   }
-  coffeeShops= coffeeShop;
+  coffeeShops = coffeeShop;
 }
 
 final List<Coffee> coffeeShop = [
@@ -53,7 +57,7 @@ final List<Coffee> coffeeShop = [
       shopName: 'Stumptown Coffee Roasters',
       address: '18 W 29th St',
       //open
-      contact: 'tel:254797678252',
+      contact: 'tel:001001',
       description:
           'Coffee bar chain offering house-roasted direct-trade coffee, along with brewing gear & whole beans',
       locationCoords: LatLng(40.745803, -73.988213),
@@ -63,7 +67,7 @@ final List<Coffee> coffeeShop = [
       rank: 2,
       shopName: 'Andrews Coffee Shop',
       address: '463 7th Ave',
-      contact: 'tel:254797678252',
+      contact: 'tel:001001',
       description:
           'All-day American comfort eats in a basic diner-style setting',
       locationCoords: LatLng(40.751908, -73.989804),
@@ -73,7 +77,7 @@ final List<Coffee> coffeeShop = [
       rank: 3,
       shopName: 'Third Rail Coffee',
       address: '240 Sullivan St',
-      contact: 'tel:254797678252',
+      contact: 'tel:001001',
       description:
           'Small spot draws serious caffeine lovers with wide selection of brews & baked goods.',
       locationCoords: LatLng(40.730148, -73.999639),
@@ -83,7 +87,7 @@ final List<Coffee> coffeeShop = [
       rank: 4,
       shopName: 'Hi-Collar',
       address: '214 E 10th St',
-      contact: 'tel:254797678252',
+      contact: 'tel:001001',
       description:
           'Snazzy, compact Japanese cafe showcasing high-end coffee & sandwiches, plus sake & beer at night.',
       locationCoords: LatLng(40.729515, -73.985927),
@@ -93,7 +97,7 @@ final List<Coffee> coffeeShop = [
       rank: 5,
       shopName: 'Everyman Espresso',
       address: '301 W Broadway',
-      contact: 'tel:254797678252',
+      contact: 'tel:001001',
       description:
           'Compact coffee & espresso bar turning out drinks made from direct-trade beans in a low-key setting.',
       locationCoords: LatLng(40.721622, -74.004308),

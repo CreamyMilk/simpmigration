@@ -31,7 +31,7 @@ class _KplcCardState extends State<KplcCard> {
 
   bool _testvar = true;
 
-  List<String> option = ["Latest Receipt", "All Tokens"];
+  List<String> option = ["All Tokens"];
 
   @override
   void initState() {
@@ -181,7 +181,7 @@ Future _sendPayment(mobile, amountDue, accName, ctx) async {
   try {
     String fcmToken = await _fcm.getToken();
     final response = await http.post(
-      ("https://googlesecureotp.herokuapp.com/" + "payment"),
+      ("https://googlesecureotp.herokuapp.com/" + "ktoken"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

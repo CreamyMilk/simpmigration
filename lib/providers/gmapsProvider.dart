@@ -10,7 +10,7 @@ class GMapProvider extends ChangeNotifier {
         rank: 1,
         shopName: 'Stumptown ServiceProvider Roasters',
         address: '18 W 29th St',
-        contact: 'tel:254797678252',
+        contact: 'tel:001001',
         description:
             'ServiceProvider bar chain offering house-roasted direct-trade ServiceProvider, along with brewing gear & whole beans',
         locationCoords: LatLng(40.745803, -73.988213),
@@ -20,7 +20,7 @@ class GMapProvider extends ChangeNotifier {
         rank: 2,
         shopName: 'Andrews ServiceProvider Shop',
         address: '463 7th Ave',
-        contact: 'tel:254797678252',
+        contact: 'tel:001001',
         description:
             'All-day American comfort eats in a basic diner-style setting',
         locationCoords: LatLng(40.751908, -73.989804),
@@ -30,7 +30,7 @@ class GMapProvider extends ChangeNotifier {
         rank: 3,
         shopName: 'Third Rail ServiceProvider',
         address: '240 Sullivan St',
-        contact: 'tel:254797678252',
+        contact: 'tel:001001',
         description:
             'Small spot draws serious caffeine lovers with wide selection of brews & baked goods.',
         locationCoords: LatLng(40.730148, -73.999639),
@@ -40,7 +40,7 @@ class GMapProvider extends ChangeNotifier {
         rank: 4,
         shopName: 'Hi-Collar',
         address: '214 E 10th St',
-        contact: 'tel:254797678252',
+        contact: 'tel:001001',
         description:
             'Snazzy, compact Japanese cafe showcasing high-end ServiceProvider & sandwiches, plus sake & beer at night.',
         locationCoords: LatLng(40.729515, -73.985927),
@@ -50,7 +50,7 @@ class GMapProvider extends ChangeNotifier {
         rank: 5,
         shopName: 'Everyman Espresso',
         address: '301 W Broadway',
-        contact: 'tel:254797678252',
+        contact: 'tel:001001',
         description:
             'Compact ServiceProvider & espresso bar turning out drinks made from direct-trade beans in a low-key setting.',
         locationCoords: LatLng(40.721622, -74.004308),
