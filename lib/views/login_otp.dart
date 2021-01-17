@@ -179,7 +179,7 @@ class _ThreeBButtons extends StatelessWidget {
                     onTap: () {
                       if (position != null) {
                         Navigator.of(context)
-                            .pushNamed('/map', arguments: position);
+                            .pushNamed('/services', arguments: position);
                       } else {
                         Scaffold.of(context).showSnackBar(SnackBar(
                           content: Text("Turn on location service"),

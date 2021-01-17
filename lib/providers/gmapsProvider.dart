@@ -114,7 +114,7 @@ class GMapProvider extends ChangeNotifier {
           contact: t["contact"],
           description: t["description"],
           locationCoords: LatLng(double.parse(t["locationCoords"]["lat"]),
-              double.parse(t["locationCoords"]["lat"])),
+              double.parse(t["locationCoords"]["long"])),
           thumbNail: t["thumbNail"]));
     }
     notifyListeners();
