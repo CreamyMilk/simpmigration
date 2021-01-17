@@ -101,7 +101,6 @@ class GMapProvider extends ChangeNotifier {
   }
 
   void makeServiceList(dynamic apiMap) {
-    List<ServiceProvider> newlist;
     chosenservice = apiMap["short_name"];
     // List<dynamic> sarr = apiMap["services_providers"];
     serviceProviderShops = [];
@@ -119,7 +118,6 @@ class GMapProvider extends ChangeNotifier {
               'https://lh5.googleusercontent.com/p/AF1QipOMNvnrTlesBJwUcVVFBqVF-KnMVlJMi7_uU6lZ=w90-h90-n-k-no'));
     }
 
-    serviceProviderShops = newlist;
     notifyListeners();
   }
 
