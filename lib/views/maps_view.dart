@@ -23,7 +23,7 @@ class MapSampleState extends State<MapSample> {
   List<ServiceProvider> serviceProviders = [];
   List<Marker> allMarkers = [];
   PageController _pageController;
-  bool _darkMapStyle = true;
+  bool _darkMapStyle = false;
   int prevPage;
   String _mapStyle;
 
@@ -31,8 +31,9 @@ class MapSampleState extends State<MapSample> {
   void initState() {
     final _store = Provider.of<GMapProvider>(context, listen: false);
     serviceProviders = _store.serviceProviderShops;
-    allMarkers = _store.markers;
     _store.addStoredMarkers(_pageController);
+    allMarkers = _store.markers;
+
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
       ..addListener(_onScroll);
     super.initState();
