@@ -77,7 +77,8 @@ class _IssuesCardState extends State<IssuesCard> {
                     ],
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/complain');
+                    Navigator.of(context)
+                        .pushNamed('/complain', arguments: "Inquiry");
                     // setState(() {
                     //   _testvar = !_testvar;
                     // });
@@ -99,7 +100,8 @@ class _IssuesCardState extends State<IssuesCard> {
                       ],
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/complain');
+                      Navigator.of(context)
+                          .pushNamed('/complain', arguments: "Complain");
                     },
                   ),
                 ),

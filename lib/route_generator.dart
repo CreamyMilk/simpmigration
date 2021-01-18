@@ -43,7 +43,10 @@ class RouteGenerator {
                 ));
 
       case '/complain':
-        return MaterialPageRoute(builder: (ctx) => ComplainsForm());
+        return MaterialPageRoute(
+            builder: (ctx) => ComplainsForm(
+                  title: args,
+                ));
       case '/home':
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondAnimation) {

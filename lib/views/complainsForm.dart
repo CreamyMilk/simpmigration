@@ -4,7 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class ComplainsForm extends StatefulWidget {
-  ComplainsForm({Key key}) : super(key: key);
+  final String title;
+  ComplainsForm({Key key, @required this.title}) : super(key: key);
 
   @override
   _ComplainsFormState createState() => _ComplainsFormState();
@@ -30,7 +31,7 @@ class _ComplainsFormState extends State<ComplainsForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Complains Sumbmisson",
+          "${widget.title} Sumbmisson",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -42,8 +43,8 @@ class _ComplainsFormState extends State<ComplainsForm> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Complain Type",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
+              Text("${widget.title} Type",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300)),
               SizedBox(height: 10),
               TextFormField(
                 validator: (value) {
@@ -57,14 +58,13 @@ class _ComplainsFormState extends State<ComplainsForm> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Kindly enter a category',
-                  helperText: 'Complain type',
                   labelText: 'Category',
                 ),
                 maxLines: 1,
               ),
               SizedBox(height: 20),
-              Text("Complain Description",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
+              Text("${widget.title} Description",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300)),
               SizedBox(height: 10),
               TextFormField(
                 validator: (value) {
@@ -143,7 +143,7 @@ Future sendComplain(type, desc, context) async {
         //Text(message['notification']['title']
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Complain Submitted"),
+          title: Text("Form Submitted"),
           content: Text("It will be resolved in due time\nThank You."),
           actions: [
             MaterialButton(

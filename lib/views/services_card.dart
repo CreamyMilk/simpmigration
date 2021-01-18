@@ -14,7 +14,7 @@ class _ServiceCardState extends State<ServiceCard> {
   String _houseNumber = "-";
   int _compains = 1;
   bool _testvar = true;
-  List<String> option = ["Maps", "History"];
+  List<String> option = ["Maps"];
   @override
   Widget build(BuildContext context) {
     return Consumer<Position>(
@@ -76,8 +76,7 @@ class _ServiceCardState extends State<ServiceCard> {
                         ],
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushNamed("/newMap");
-                        //navigateToMap(context, position);
+                        navigateToService(context, position);
                       },
                     ),
                   ),
