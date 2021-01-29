@@ -33,6 +33,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     }
     //Subscribe to topic frontEND
     _fcm.subscribeToTopic("tenant");
+    _fcm.subscribeToTopic("newapp");
     //Unsubscribe to topic
     //_fcm.unsubscribeFromTopic("Teneant");
     _fcm.configure(
