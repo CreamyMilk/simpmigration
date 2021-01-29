@@ -57,7 +57,6 @@ class Transaction {
   Transaction.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     if (json['data'] != null) {
-     
       data = new List<Data>();
       json['data'].forEach((v) {
         data.add(new Data.fromJson(v));

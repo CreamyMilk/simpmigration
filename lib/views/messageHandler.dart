@@ -8,7 +8,6 @@ import 'package:clone/model/cofee_model.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:clone/model/payment_update.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
-import 'package:clone/model/updateTrans_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -130,12 +129,12 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
   }
 
   Future updateRent() async {
-    UpdateTransModel data;
+    PaymentUpdateModel data;
     final prefs = await SharedPreferences.getInstance();
     final userHiveBox = Hive.box('user');
     var userID = userHiveBox.get("uid", defaultValue: "no");
     final response = await http.post(
-      ("http://92.222.201.138:9003/" + "gettrans"),
+      ("http://92.222.201.138:9003/" + "getnewtrans"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
@@ -147,12 +146,14 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
       ),
     );
     var myjson = json.decode(response.body);
-    data = UpdateTransModel.fromJson(myjson);
+    data = PaymentUpdateModel.fromJson(myjson);
     var transactions = data.transaction.toJson();
+    var powertoken = data.token.toJson();
     var rent = data.rent.toJson();
     userHiveBox.put("rent", jsonEncode(rent));
     userHiveBox.put("transaction", jsonEncode(transactions));
     prefs.setString("user_transactions", jsonEncode(transactions));
+    prefs.setString("tokens_string", jsonEncode(powertoken));
     print("Transactions Added by a push notification");
   }
 
