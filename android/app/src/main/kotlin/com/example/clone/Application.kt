@@ -1,4 +1,4 @@
-package com.example.simpmigration
+package com.example.clone
 
 import io.flutter.app.FlutterApplication
 import io.flutter.plugin.common.PluginRegistry
