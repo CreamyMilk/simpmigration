@@ -226,11 +226,10 @@ Future<void> getLatestTrans() async {
     transaction = jsonEncode(data.transaction.toJson());
     userBox.put("transaction", transaction);
     userBox.put("tokens", tokenStore); //lastIssue
-
     userBox.put("lastIssue", myjson["lastIssue"]);
 
     prefs.setString("user_transactions", transaction);
-    prefs.setString("tokens_string", jsonEncode(tokenStore));
+    prefs.setString("tokens_string", tokenStore);
 
     print("Transactions Added");
   }
