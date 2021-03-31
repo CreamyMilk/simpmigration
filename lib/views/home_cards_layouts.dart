@@ -131,7 +131,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                         scrollDirection: Axis.horizontal,
                         children: [
                           
-                          SizedBox(width: 10),
+                          SizedBox(width: 20),
                           PageCard(
                             childwidget: RentPaymentCard(),
                             gradients: [Colors.white, Colors.lightGreen[200]],
