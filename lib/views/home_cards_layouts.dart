@@ -130,26 +130,14 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                         padding: EdgeInsets.all(4.0),
                         scrollDirection: Axis.horizontal,
                         children: [
+                          
+                          SizedBox(width: 10),
                           PageCard(
                             childwidget: RentPaymentCard(),
                             gradients: [Colors.white, Colors.lightGreen[200]],
                           ),
                           SizedBox(width: 10),
-                          PageCard(
-                            childwidget: IssuesCard(),
-                            gradients: [Colors.white, Colors.red[200]],
-                          ),
-                          SizedBox(width: 10),
-                          PageCard(
-                            childwidget: KplcCard(),
-                            gradients: [Colors.white, Colors.yellow[400]],
-                          ),
-                          SizedBox(width: 10),
-                          PageCard(
-                            childwidget: ServiceCard(),
-                            gradients: [Colors.white, Colors.lightBlue[200]],
-                          ),
-                          SizedBox(width: 20),
+                       
                         ],
                       ),
                     ),
