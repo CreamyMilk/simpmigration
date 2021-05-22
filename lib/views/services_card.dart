@@ -128,6 +128,7 @@ class _ServiceCardState extends State<ServiceCard> {
     if (pos != null) {
       Navigator.of(context).pushNamed('/services', arguments: pos);
     } else {
+      // ignore: deprecated_member_use
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text("Turn on location service"),
         action: SnackBarAction(

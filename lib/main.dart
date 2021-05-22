@@ -1,29 +1,33 @@
-import 'package:clone/providers/gmapsProvider.dart';
-import 'package:clone/providers/list_switcher_provider.dart';
-import 'package:clone/route_generator.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:clone/services/geolocation_service.dart';
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:simpmigration/constants.dart';
+import 'package:simpmigration/providers/gmapsProvider.dart';
+import 'package:simpmigration/providers/list_switcher_provider.dart';
+import 'package:simpmigration/route_generator.dart';
+import 'package:simpmigration/services/geolocation_service.dart';
 
-const userBoxName = 'user';
-FirebaseAnalytics analytics;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) async {
     WidgetsFlutterBinding.ensureInitialized();
-    analytics = FirebaseAnalytics();
     await Hive.initFlutter();
-    await Hive.openBox('user');
-    await Hive.openBox('serves');
+    if (Platform.isAndroid) {
+      await Firebase.initializeApp();
+    }
+    await Hive.openBox(Constants.HiveBoxName);
     runApp(MyApp());
   });
 }
+
+final navigationKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   final String appTitle = 'Icrib Tenant';
@@ -39,16 +43,13 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: appTitle,
           debugShowCheckedModeBanner: false,
+          navigatorKey: navigationKey,
           theme: ThemeData(
             primaryColor: Colors.black,
             accentColor: Colors.black38,
             scaffoldBackgroundColor: Color(0xFFF3F5F7),
           ),
           darkTheme: ThemeData(
-            //   textTheme: Theme.of(context).textTheme.apply(
-            //   fontSizeFactor: 0.75,
-            //   fontSizeDelta: 1.0,
-            // ),
             primaryColor: Colors.black,
             accentColor: Colors.black38,
             scaffoldBackgroundColor: Color(0xFFF3F5F7),

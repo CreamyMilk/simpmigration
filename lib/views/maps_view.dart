@@ -1,10 +1,11 @@
-import 'package:clone/archive/dark_mode_map.dart';
-import 'package:clone/model/locations_model.dart';
-import 'package:clone/providers/gmapsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:simpmigration/archive/dark_mode_map.dart';
+import 'package:simpmigration/archive/ubber_map_style.dart';
+import 'package:simpmigration/model/locations_model.dart';
+import 'package:simpmigration/providers/gmapsProvider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MapSample extends StatefulWidget {
@@ -97,9 +98,8 @@ class MapSampleState extends State<MapSample> {
               mini: true,
               onPressed: () async {
                 if (_darkMapStyle) {
-                  gcontrol.setMapStyle(null);
-
-                  _mapStyle = null;
+                  gcontrol.setMapStyle(uberMap);
+                  _mapStyle = uberMap;
                 } else {
                   gcontrol.setMapStyle(darkMapStyle);
                   _mapStyle = darkMapStyle;
@@ -128,7 +128,7 @@ class MapSampleState extends State<MapSample> {
 
   void mapCreated(GoogleMapController controller) async {
     gcontrol = controller;
-    gcontrol.setMapStyle(null);
+    gcontrol.setMapStyle(uberMap);
   }
 
   void rerenderMarkers(GoogleMapController controller) async {}

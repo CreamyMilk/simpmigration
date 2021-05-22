@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:simpmigration/constants.dart';
 
 class TokenList extends StatefulWidget {
   @override
@@ -14,9 +15,9 @@ class _TokenListState extends State<TokenList> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: Hive.box('user').listenable(),
+        valueListenable: Hive.box(Constants.HiveBoxName).listenable(),
         builder: (context, box, widget) {
-          var temp = box.get('tokens');
+          var temp = box.get(Constants.PowerTokensStore);
           var local = json.decode(temp);
 
           if (true) {
@@ -59,7 +60,7 @@ class _TokenListState extends State<TokenList> {
                     final item = local['colPrepayment'].removeAt(oldIndex);
 
                     local['colPrepayment'].insert(newIndex, item);
-                    box.put("tokens", jsonEncode(local));
+                    box.put(Constants.PowerTokensStore, jsonEncode(local));
                   });
                 },
                 children: [

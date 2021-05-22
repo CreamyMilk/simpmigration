@@ -1,9 +1,4 @@
 import 'dart:convert';
-//import 'package:clone/model/cofee_model.dart';
-import 'package:clone/model/cofee_model.dart';
-import 'package:clone/providers/list_switcher_provider.dart';
-import 'package:clone/views/kplc_card.dart';
-import 'package:clone/views/rent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -11,22 +6,26 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:simpmigration/constants.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simpmigration/model/cofee_model.dart';
+import 'package:simpmigration/providers/list_switcher_provider.dart';
+import 'package:simpmigration/views/kplc_card.dart';
+import 'package:simpmigration/views/rent_card.dart';
 
 void upadateRentCard(String month, bool status, int amount) {
-  var userBox = Hive.box('user');
+  var userBox = Hive.box(Constants.HiveBoxName);
   Map<String, dynamic> rent = {
     "month": month,
     "rentDue": amount,
     "rentStatus": status
   };
-  userBox.put("rent", rent);
+  userBox.put(Constants.RentPayableStore, rent);
 }
 
 Future<void> addFakeService() async {
   List<Coffee> coffeeShop = [];
-  var serveBox = Hive.box("serves");
+  var serveBox = Hive.box(Constants.HiveBoxName);
   List<dynamic> servicesJson = [
     {
       "rank": "1",
@@ -38,7 +37,6 @@ Future<void> addFakeService() async {
       "Long": "50.00"
     }
   ];
-  //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
   for (dynamic s in servicesJson) {
     coffeeShop.add(Coffee(
         rank: int.parse(s["rank"]),
@@ -49,12 +47,11 @@ Future<void> addFakeService() async {
         locationCoords:
             LatLng(double.parse(s["Lat"]), double.parse(s["Long"]))));
   }
-  serveBox.put("servicesD", servicesJson);
+  serveBox.put(Constants.ServicesStore, servicesJson);
 }
 
 void updateTransactions() async {
-  final prefs = await SharedPreferences.getInstance();
-  var userBox = Hive.box('user');
+  var userBox = Hive.box(Constants.HiveBoxName);
   List<Map<String, dynamic>> newtrans = [
     {
       "month": "Febuary",
@@ -73,8 +70,7 @@ void updateTransactions() async {
     'title': "Transactions",
     'data': newtrans,
   };
-  userBox.put("transaction", jsonEncode(transactions));
-  prefs.setString("user_transactions", jsonEncode(transactions));
+  userBox.put(Constants.TransactionStore, jsonEncode(transactions));
   print("Transactions Added");
 }
 
@@ -109,27 +105,6 @@ class AwesomeFAB extends StatelessWidget {
                     TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
                 labelBackgroundColor: Colors.green,
               ),
-
-              // SpeedDialChild(
-              //   child: Icon(Icons.brush, color: Colors.white),
-              //   backgroundColor: Colors.green,
-              //   onTap: () {
-              //     //addFakeService();
-              //     //makeShops();
-              //     //makeShops();
-              //     //var userBox = Hive.box('user');
-              //     //getLatestTrans();
-              //     //userBox.put('rentStats',!(userBox.get('rentStats')));
-              //     //updateTransactions();
-              //     //upadateRentCard("January",false,2);
-              //     //print("eee${userBox.get('rentStats')}");
-              //     //print('Receipts');
-              //     },
-              //   label: 'Receipts',
-              //   labelStyle:
-              //       TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-              //   labelBackgroundColor: Colors.green,
-              // ),
               SpeedDialChild(
                 child: Icon(Icons.map, color: Colors.white),
                 backgroundColor: Colors.blue,
@@ -138,6 +113,7 @@ class AwesomeFAB extends StatelessWidget {
                     Navigator.of(context)
                         .pushNamed('/services', arguments: position);
                   } else {
+                    // ignore: deprecated_member_use
                     Scaffold.of(context).showSnackBar(
                         SnackBar(content: Text("Turn on location service")));
                   }

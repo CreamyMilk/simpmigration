@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:simpmigration/constants.dart';
 
 class PaymentUpdateModel {
   Token token;
@@ -108,7 +108,7 @@ class Transaction {
   Transaction.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = [];
       json['data'].forEach((v) {
         data.add(new Data.fromJson(v));
       });
@@ -203,9 +203,8 @@ Future<void> getLatestTrans() async {
   PaymentUpdateModel data;
   String transaction;
   String tokenStore;
-  var userBox = Hive.box('user');
-  final prefs = await SharedPreferences.getInstance();
-  var uid = userBox.get("uid", defaultValue: 0);
+  var userBox = Hive.box(Constants.HiveBoxName);
+  var uid = userBox.get(Constants.UserIDStore, defaultValue: 0);
   if (uid != 0) {
     final response = await http.post(
       ("http://92.222.201.138:9003/" + "getnewtrans"),
@@ -221,15 +220,12 @@ Future<void> getLatestTrans() async {
     );
     var myjson = json.decode(response.body);
     data = PaymentUpdateModel.fromJson(myjson);
-    userBox.put("rent", data.rent.toJson());
+    userBox.put(Constants.RentPayableStore, data.rent.toJson());
     tokenStore = jsonEncode(data.token.toJson());
     transaction = jsonEncode(data.transaction.toJson());
-    userBox.put("transaction", transaction);
-    userBox.put("tokens", tokenStore); //lastIssue
-    userBox.put("lastIssue", myjson["lastIssue"]);
-
-    prefs.setString("user_transactions", transaction);
-    prefs.setString("tokens_string", tokenStore);
+    userBox.put(Constants.TransactionStore, transaction);
+    userBox.put(Constants.PowerTokensStore, tokenStore); //lastIssue
+    userBox.put(Constants.ReportedIssuesStore, myjson["lastIssue"]);
 
     print("Transactions Added");
   }

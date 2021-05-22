@@ -1,7 +1,7 @@
-import 'package:clone/archive/users_data.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:simpmigration/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class IssuesCard extends StatefulWidget {
@@ -49,9 +49,9 @@ class _IssuesCardState extends State<IssuesCard> {
             ],
           ),
           ValueListenableBuilder(
-              valueListenable: Hive.box('user').listenable(),
+              valueListenable: Hive.box(Constants.HiveBoxName).listenable(),
               builder: (context, box, widget) {
-                var noofcomplains = box.get('lastIssue');
+                var noofcomplains = box.get(Constants.ReportedIssuesStore);
                 return Text(
                   "$noofcomplains",
                   style: TextStyle(
@@ -123,8 +123,4 @@ void choiceAction(String choice) async {
       throw 'Could not launch $url';
     }
   }
-  Navigator.push(
-    null,
-    MaterialPageRoute(builder: (_) => UserTest(appTitle: "ok")),
-  );
 }

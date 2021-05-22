@@ -5,8 +5,7 @@ class ServicesNet {
 
   ServicesNet.fromJson(Map<String, dynamic> json) {
     if (json['servicesArray'] != null) {
-     
-      servicesArray = new List<ServicesArray>();
+      servicesArray = [];
       json['servicesArray'].forEach((v) {
         servicesArray.add(new ServicesArray.fromJson(v));
       });

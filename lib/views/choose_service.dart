@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:clone/providers/gmapsProvider.dart';
-import 'package:clone/widget/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:simpmigration/providers/gmapsProvider.dart';
+import 'package:simpmigration/widget/api_service.dart';
 
 class ServicesGrid extends StatelessWidget {
   final Position cordinates;

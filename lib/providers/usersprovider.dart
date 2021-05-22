@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:clone/model/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:simpmigration/model/transaction.dart';
 
 class MyTransactionprovider extends ChangeNotifier {
   MyData data;

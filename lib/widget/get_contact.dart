@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 
@@ -45,7 +46,7 @@ class _MainWidgetState extends State<MainWidget> {
                 ],
               ),
             if (_contact != null) Text(_contact),
-            RaisedButton(
+            MaterialButton(
               child: const Text("pick phone contact"),
               onPressed: () async {
                 final PhoneContact contact =
@@ -56,30 +57,32 @@ class _MainWidgetState extends State<MainWidget> {
                 });
               },
             ),
-            RaisedButton(
-              child: const Text('Check permission'),
-              onPressed: () async {
-                final granted = await FlutterContactPicker.hasPermission();
-                showDialog(
+            MaterialButton(
+                child: const Text('Check permission'),
+                onPressed: () async {
+                  final granted = await FlutterContactPicker.hasPermission();
+                  showCupertinoDialog(
                     context: context,
-                   
-                    child: AlertDialog(
-                        title: const Text('Granted: '),
-                        content: Text('$granted')));
-              },
-            ),
-            RaisedButton(
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                          title: const Text('Granted: '),
+                          content: Text('$granted'));
+                    },
+                  );
+                }),
+            MaterialButton(
               child: const Text('Request permission'),
               onPressed: () async {
                 final granted = await FlutterContactPicker.requestPermission();
-                showDialog(
+                showCupertinoDialog(
                     context: context,
-                   
-                    child: AlertDialog(
-                        title: const Text('Granted: '),
-                        content: Text('$granted')));
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                          title: const Text('Granted: '),
+                          content: Text('$granted'));
+                    });
               },
-            ),
+            )
           ],
         ),
       );

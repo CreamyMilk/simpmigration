@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:simpmigration/constants.dart';
 
 class ComplainsForm extends StatefulWidget {
   final String title;
@@ -106,7 +107,7 @@ class _ComplainsFormState extends State<ComplainsForm> {
                     ),
                   ),
                   Spacer(),
-                  OutlineButton(
+                  MaterialButton(
                     color: Colors.grey,
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -124,8 +125,8 @@ class _ComplainsFormState extends State<ComplainsForm> {
 }
 
 Future sendComplain(type, desc, context) async {
-  final userHiveBox = Hive.box('user');
-  final uid = userHiveBox.get("uid", defaultValue: "1");
+  final userHiveBox = Hive.box(Constants.HiveBoxName);
+  final uid = userHiveBox.get(Constants.UserIDStore, defaultValue: "1");
   try {
     final response = await http.post(
       ("http://92.222.201.138:9003" + "/complain"),

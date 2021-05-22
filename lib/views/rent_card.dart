@@ -1,16 +1,16 @@
 import 'dart:convert';
-import 'package:clone/model/paymentResponse.dart';
-import 'package:clone/providers/list_switcher_provider.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:clone/widget/payments_selections.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:provider/provider.dart';
+import 'package:simpmigration/constants.dart';
+import 'package:simpmigration/model/paymentResponse.dart';
+import 'package:simpmigration/providers/list_switcher_provider.dart';
+import 'package:simpmigration/widget/payments_selections.dart';
 
 class RentPaymentCard extends StatefulWidget {
   RentPaymentCard({Key key}) : super(key: key);
@@ -39,8 +39,8 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   @override
   void initState() {
     super.initState();
-    userHiveBox = Hive.box('user');
-    var temp = userHiveBox.get('rent', defaultValue: {
+    userHiveBox = Hive.box(Constants.HiveBoxName);
+    var temp = userHiveBox.get(Constants.RentPayableStore, defaultValue: {
       'rentDue': 0,
       'month': "October",
       "rentStatus": false
@@ -54,9 +54,9 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: Hive.box('user').listenable(),
+      valueListenable: Hive.box(Constants.HiveBoxName).listenable(),
       builder: (context, box, widget) {
-        var local = userHiveBox.get('rent', defaultValue: {
+        var local = userHiveBox.get(Constants.RentPayableStore, defaultValue: {
           'rentDue': 0,
           'month': "October",
           "rentStatus": false
@@ -186,7 +186,6 @@ void settingModalBottomSheet(context, amountDue) {
 }
 
 Future _sendPayment(mobile, amountDue, accName, ctx) async {
-  final FirebaseMessaging _fcm = FirebaseMessaging();
   //v2 work with paymentapi responses
   PaymentResponse data;
   Flushbar(
@@ -203,7 +202,6 @@ Future _sendPayment(mobile, amountDue, accName, ctx) async {
     forwardAnimationCurve: Curves.easeInOutBack,
   )..show(ctx);
   try {
-    String fcmToken = await _fcm.getToken();
     final response = await http.post(
       ("https://googlesecureotp.herokuapp.com/" + "payment"),
       headers: {
@@ -217,13 +215,11 @@ Future _sendPayment(mobile, amountDue, accName, ctx) async {
           "amount": amountDue,
           "userID": accName ?? "Error",
           "socketID": "mee",
-          "notifToken": fcmToken
         },
       ),
     );
     print("$accName");
     var myjson = json.decode(response.body);
-    print(fcmToken);
     data = PaymentResponse.fromJson(myjson);
     print(data.paymentCode);
     print(data.description);
@@ -291,14 +287,14 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
   String accountName;
   @override
   void initState() {
-    userHiveBox = Hive.box('user');
-    var temp = userHiveBox.get('rent', defaultValue: {
+    userHiveBox = Hive.box(Constants.HiveBoxName);
+    var temp = userHiveBox.get(Constants.RentPayableStore, defaultValue: {
       'rentDue': 0,
       'account': 'err',
       'month': "null",
       "rentStatus": false
     }); //Add default for non complains
-    mobile = userHiveBox.get('mobile', defaultValue: "");
+    mobile = userHiveBox.get(Constants.PhoneNumberStore, defaultValue: "");
     amountDue = temp["rentDue"].toString();
     accountName = temp["account"];
     visualAmount = amountDue.replaceAllMapped(

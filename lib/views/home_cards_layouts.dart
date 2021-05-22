@@ -1,22 +1,24 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
-import 'package:clone/model/payment_update.dart';
-import 'package:clone/providers/list_switcher_provider.dart';
-import 'package:clone/services/geolocation_service.dart';
-import 'package:clone/views/TokensList.dart';
-import 'package:clone/views/kplc_card.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:clone/views/issues_card.dart';
-import 'package:clone/views/rent_card.dart';
-import 'package:clone/views/services_card.dart';
-import 'package:clone/widget/awesome_fab.dart';
-import 'package:clone/widget/pdf_button.dart';
-import 'package:clone/widget/slidingContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simpmigration/constants.dart';
+import 'package:simpmigration/model/payment_update.dart';
+import 'package:simpmigration/providers/list_switcher_provider.dart';
+import 'package:simpmigration/services/geolocation_service.dart';
+import 'package:simpmigration/views/TokensList.dart';
+import 'package:simpmigration/views/issues_card.dart';
+import 'package:simpmigration/views/kplc_card.dart';
+import 'package:simpmigration/views/rent_card.dart';
+import 'package:simpmigration/views/services_card.dart';
+import 'package:simpmigration/widget/awesome_fab.dart';
+import 'package:simpmigration/widget/pdf_button.dart';
+import 'package:simpmigration/widget/slidingContainer.dart';
 
 class HomeViewCardLayout extends StatefulWidget {
   HomeViewCardLayout({Key key, this.transitionAnime}) : super(key: key);
@@ -50,8 +52,9 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   @override
   void initState() {
     super.initState();
-    userHiveBox = Hive.box('user');
-    _username = userHiveBox.get('username', defaultValue: "JohnDoe");
+    userHiveBox = Hive.box(Constants.HiveBoxName);
+    _username =
+        userHiveBox.get(Constants.UserNameStore, defaultValue: "JohnDoe");
     fadeswitch = true;
   }
 
@@ -61,6 +64,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
     return MultiProvider(
       providers: [
         FutureProvider<Position>(
+          initialData: Position(latitude: 0, longitude: 12),
           create: (context) => geoService.getInitialLocation(),
         ),
       ],
@@ -77,14 +81,14 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                       color: Colors.white,
                     ),
                     onPressed: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      prefs
-                          .setString("user_token", "Loggedut")
-                          .then((bool success) {
-                        if (success) {
-                          Navigator.of(context).pushNamed('/login');
-                        }
-                      });
+                      dynamic box = Hive.box(Constants.HiveBoxName);
+                      box.put(Constants.IsLoggedInStore, false);
+                      if (Platform.isAndroid) {
+                        FirebaseMessaging.instance.unsubscribeFromTopic(box.get(
+                            Constants.NotificationTopicStore,
+                            defaultValue: "."));
+                      }
+                      Navigator.of(context).pushNamed('/login');
                     })
               ],
               leading: IconButton(
@@ -94,7 +98,6 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                   Navigator.of(context).pushNamed('/');
                 },
               )),
-          //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, _complains: _complains, _transactions: _transactions),
           floatingActionButton: AwesomeFAB(),
           body: SafeArea(
             child: RefreshIndicator(
@@ -203,9 +206,9 @@ class _TransListState extends State<TransList> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: Hive.box('user').listenable(),
+        valueListenable: Hive.box(Constants.HiveBoxName).listenable(),
         builder: (context, box, widget) {
-          var temp = box.get('transaction');
+          var temp = box.get(Constants.TransactionStore);
           var local = json.decode(temp);
           //print("SDSSD$local");
           if (true) {
@@ -248,7 +251,7 @@ class _TransListState extends State<TransList> {
                     final item = local['data'].removeAt(oldIndex);
 
                     local['data'].insert(newIndex, item);
-                    box.put("transaction", jsonEncode(local));
+                    box.put(Constants.TransactionStore, jsonEncode(local));
                   });
                 },
                 children: [

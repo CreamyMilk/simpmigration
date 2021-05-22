@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:async';
-import 'package:clone/model/otpresponse.dart';
-import 'package:clone/route_generator.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:clone/widget/intro_video.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:simpmigration/model/otpresponse.dart';
+import 'package:simpmigration/route_generator.dart';
+import 'package:simpmigration/widget/intro_video.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:sms_autofill/sms_autofill.dart';
@@ -104,6 +104,7 @@ class _LoginOTPState extends State<LoginOTP> {
                     Spacer(flex: 2),
                     MultiProvider(providers: [
                       FutureProvider<Position>(
+                          initialData: Position(latitude: 10, longitude: 2),
                           create: (context) => geoService.getInitialLocation()),
                     ], child: _ThreeBButtons()),
                   ],
@@ -181,6 +182,7 @@ class _ThreeBButtons extends StatelessWidget {
                         Navigator.of(context)
                             .pushNamed('/services', arguments: position);
                       } else {
+                        // ignore: deprecated_member_use
                         Scaffold.of(context).showSnackBar(SnackBar(
                           content: Text("Turn on location service"),
                           action: SnackBarAction(
@@ -447,7 +449,7 @@ class _PopupFormState extends State<PopupForm> {
           ),
         ),
         actions: <Widget>[
-          OutlineButton(
+          MaterialButton(
             child: Text('CANCEL'),
             onPressed: () {
               Navigator.of(context).pop();
