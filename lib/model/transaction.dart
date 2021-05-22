@@ -5,8 +5,7 @@ class MyData {
 
   MyData.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
-     
-      results = new List<Results>();
+      results = [];
       json['results'].forEach((v) {
         results.add(new Results.fromJson(v));
       });

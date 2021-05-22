@@ -102,7 +102,7 @@ class Token {
     idService = json['idService'];
     idPaymentForm = json['idPaymentForm'];
     if (json['colPrepayment'] != null) {
-      colPrepayment = new List<ColPrepayment>();
+      colPrepayment = [];
       json['colPrepayment'].forEach((v) {
         colPrepayment.add(new ColPrepayment.fromJson(v));
       });
@@ -207,7 +207,7 @@ class Transaction {
   Transaction.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = [];
       json['data'].forEach((v) {
         data.add(new Data.fromJson(v));
       });

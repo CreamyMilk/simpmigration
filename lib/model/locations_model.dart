@@ -1,6 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:hive/hive.dart';
+import 'package:simpmigration/constants.dart';
 
 class ServiceProvider {
   int rank;
@@ -24,8 +25,9 @@ class ServiceProvider {
 //get form db
 void makeShops() async {
   List<ServiceProvider> serviceProviderShop = [];
-  var serveBox = Hive.box("serves");
-  List<dynamic> servicesJson = serveBox.get("servicesD", defaultValue: [
+  var serveBox = Hive.box(Constants.HiveBoxName);
+  List<dynamic> servicesJson =
+      serveBox.get(Constants.ServicesStore, defaultValue: [
     {
       "rank": "1",
       "shopName": "No Service available",
@@ -36,7 +38,6 @@ void makeShops() async {
       "Long": "10.00"
     }
   ]);
-  //List<dynamic> servicesJson = serveBox.get("services",defaultValue:[]);
   for (dynamic s in servicesJson) {
     serviceProviderShop.add(ServiceProvider(
         rank: int.parse(s["rank"]),
