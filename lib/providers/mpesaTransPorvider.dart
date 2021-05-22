@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:clone/model/mpesaconfirmcallback.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:simpmigration/model/mpesaconfirmcallback.dart';
 
 class MpexaProvider extends ChangeNotifier {
   MpesaConfirmResponse data;

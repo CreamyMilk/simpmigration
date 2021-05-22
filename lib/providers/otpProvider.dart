@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:clone/model/otpresponse.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:simpmigration/model/otpresponse.dart';
 
 class OtpProvider extends ChangeNotifier {
   OtpResponse apidata;
