@@ -9,7 +9,7 @@ class MpexaProvider extends ChangeNotifier {
 
   Future getData(context) async {
     final response = await http.get(
-        ("https://googlesecurev2.herokuapp.com/" + "confirmationmess"),
+        Uri.parse("https://googlesecurev2.herokuapp.com/confirmationmess"),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",

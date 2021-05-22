@@ -9,7 +9,7 @@ class OtpProvider extends ChangeNotifier {
 
   Future getOTP(context) async {
     final response = await http.post(
-      ("https://googlesecureotp.herokuapp.com/" + "otp"),
+      Uri.parse("https://googlesecureotp.herokuapp.com/otp"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

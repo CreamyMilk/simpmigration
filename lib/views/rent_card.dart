@@ -203,7 +203,7 @@ Future _sendPayment(mobile, amountDue, accName, ctx) async {
   )..show(ctx);
   try {
     final response = await http.post(
-      ("https://googlesecureotp.herokuapp.com/" + "payment"),
+      Uri.parse("https://googlesecureotp.herokuapp.com/payment"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

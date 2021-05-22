@@ -207,7 +207,7 @@ Future<void> getLatestTrans() async {
   var uid = userBox.get(Constants.UserIDStore, defaultValue: 0);
   if (uid != 0) {
     final response = await http.post(
-      ("http://92.222.201.138:9003/" + "getnewtrans"),
+      Uri.parse("http://92.222.201.138:9003/getnewtrans"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

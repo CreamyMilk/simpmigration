@@ -12,10 +12,7 @@ import 'package:simpmigration/model/payment_update.dart';
 import 'package:simpmigration/providers/list_switcher_provider.dart';
 import 'package:simpmigration/services/geolocation_service.dart';
 import 'package:simpmigration/views/TokensList.dart';
-import 'package:simpmigration/views/issues_card.dart';
-import 'package:simpmigration/views/kplc_card.dart';
 import 'package:simpmigration/views/rent_card.dart';
-import 'package:simpmigration/views/services_card.dart';
 import 'package:simpmigration/widget/awesome_fab.dart';
 import 'package:simpmigration/widget/pdf_button.dart';
 import 'package:simpmigration/widget/slidingContainer.dart';
@@ -133,14 +130,12 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                         padding: EdgeInsets.all(4.0),
                         scrollDirection: Axis.horizontal,
                         children: [
-                          
                           SizedBox(width: 20),
                           PageCard(
                             childwidget: RentPaymentCard(),
                             gradients: [Colors.white, Colors.lightGreen[200]],
                           ),
                           SizedBox(width: 10),
-                       
                         ],
                       ),
                     ),

@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:simpmigration/constants.dart';
 import 'package:simpmigration/model/loginotpmodel.dart';
 import 'package:simpmigration/widget/timerFab.dart';
-import 'package:sms_consent/sms_consent.dart';
 import 'package:hive/hive.dart';
 
 import 'package:sms_autofill/sms_autofill.dart';
@@ -24,31 +22,6 @@ class OtpReceiver extends StatefulWidget {
 
 class _OtpReceiverState extends State<OtpReceiver> {
   String _receivedCode = '';
-  @override
-  void initState() {
-    super.initState();
-    initSMSState();
-  }
-
-  Future<void> initSMSState() async {
-    String receivedCode;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      String temp = await SmsConsent.startSMSConsent();
-      receivedCode = temp.substring(0, 4);
-    } on PlatformException {
-      receivedCode = '';
-    }
-    if (!mounted) return;
-    setState(() => _receivedCode = receivedCode);
-  }
-
-  @override
-  void dispose() {
-    SmsConsent.stopSMSConsent();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +72,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
 Future confirmOTP(mobile, code, context) async {
   Otploginresponse data;
   final response = await http.post(
-    ("http://92.222.201.138:9003/" + "verifyotp"),
+    Uri.parse("http://92.222.201.138:9003/verifyotp"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",

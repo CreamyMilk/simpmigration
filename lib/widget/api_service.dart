@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 Future getAllCategories(BuildContext ctx, Position cords) async {
   try {
     final response = await http.post(
-      ("http://92.222.201.138:9009/serivces"),
+      Uri.parse("http://92.222.201.138:9009/serivces"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

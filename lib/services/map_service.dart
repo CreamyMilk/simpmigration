@@ -5,7 +5,7 @@
 //     print("Got Data from api");
 //     try {
 //       final response = await http.post(
-//         ("http://92.222.201.138:9003/" + "service"),
+//         Uri.parse("http://92.222.201.138:9003/service"),
 //         headers: {
 //           "Accept": "application/json",
 //           "content-type": "application/json",

@@ -10,7 +10,7 @@ Future updateRent() async {
   final userHiveBox = Hive.box(Constants.HiveBoxName);
   var userID = userHiveBox.get(Constants.UserIDStore, defaultValue: "no");
   final response = await post(
-    ("http://92.222.201.138:9003/" + "getnewtrans"),
+    Uri.parse("http://92.222.201.138:9003/getnewtrans"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",

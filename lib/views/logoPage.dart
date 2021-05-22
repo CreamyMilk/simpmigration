@@ -62,7 +62,7 @@ class _LogoPageState extends State<LogoPage> {
   Widget build(BuildContext context) {
     autoNavigate(context);
     return Container(
-      color: Color(0x000E1F),
+      color: Colors.black,
       child: Center(
         child: Hero(
             tag: 'house',

@@ -40,7 +40,7 @@ class _LoginOTPState extends State<LoginOTP> {
         children: [
           IntroVideo(),
           Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.black.withOpacity(0.1),
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               leading: IconButton(
@@ -500,7 +500,7 @@ Future getOTP(mobile, appsign, context) async {
   if (mobile != null) {
     try {
       final response = await http.post(
-        ("http://92.222.201.138:9003/" + "getotp"),
+        Uri.parse("http://92.222.201.138:9003/getotp"),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",

@@ -129,7 +129,7 @@ Future sendComplain(type, desc, context) async {
   final uid = userHiveBox.get(Constants.UserIDStore, defaultValue: "1");
   try {
     final response = await http.post(
-      ("http://92.222.201.138:9003" + "/complain"),
+      Uri.parse("http://92.222.201.138:9003/complain"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
