@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 class TimerFab extends StatefulWidget {
   const TimerFab({Key key}) : super(key: key);
@@ -23,19 +22,7 @@ class _TimerFabState extends State<TimerFab> {
     return FloatingActionButton.extended(
       backgroundColor: fabColor,
       icon: Icon(Icons.ac_unit),
-      label: CountdownTimer(
-        textStyle: TextStyle(color: Colors.white),
-        emptyWidget: Center(
-          child: Text("Resend"),
-        ),
-        onEnd: () {
-          setState(() {
-            fabColor = Colors.green;
-            endtim = 1;
-          });
-        },
-        endTime: endtim,
-      ),
+      label: Text("10"),
       onPressed: () {
         setState(() {
           fabColor = Colors.grey;
