@@ -4,6 +4,7 @@
         android:label="Icrv2"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
+     
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

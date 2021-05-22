@@ -118,7 +118,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                   Column(
                     children: [
                       Text(
-                        "RentStatus",
+                        "WaterBillStatus",
                         style: TextStyle(color: Colors.grey, fontSize: 10.0),
                       ),
                       Consumer<ListSwitcherProvider>(
