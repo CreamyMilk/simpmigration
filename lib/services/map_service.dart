@@ -1,5 +1,4 @@
 // Future getServices(serviceName, lat, long, context) async {
-//   final serveBox = Hive.box('serves');
 //   ServicesNet data;
 //   print('Service requested for is  $serviceName');
 //   if (serviceName != null) {
@@ -18,7 +17,7 @@
 //       var myjson = json.decode(response.body);
 //       data = ServicesNet.fromJson(myjson);
 //       var t = data.toJson();
-//       serveBox.put("servicesD", t["servicesArray"]);
+//       serveput("servicesD", t["servicesArray"]);
 //       makeShops();
 //     } catch (SocketException) {
 //       showDialog(
