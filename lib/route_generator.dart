@@ -8,6 +8,7 @@ import 'package:simpmigration/views/home_cards_layouts.dart';
 import 'package:simpmigration/views/login_otp.dart';
 import 'package:simpmigration/views/logoPage.dart';
 import 'package:simpmigration/views/maps_view.dart';
+import 'package:simpmigration/views/mmmmaps.dart';
 import 'package:simpmigration/widget/otp_receiver.dart';
 
 final GeolocatorService geoService = GeolocatorService();
@@ -36,6 +37,10 @@ class RouteGenerator {
           },
           transitionDuration: const Duration(seconds: 2),
         );
+      case '/mmap':
+        return MaterialPageRoute(
+            builder: (ctx) => Mmmmmmmm(initialPosition: args));
+
       case '/map':
         return MaterialPageRoute(
             builder: (ctx) => MapSample(initialPosition: args));
@@ -44,7 +49,6 @@ class RouteGenerator {
             builder: (ctx) => ServicesGrid(
                   cordinates: args,
                 ));
-
       case '/complain':
         return MaterialPageRoute(
             builder: (ctx) => ComplainsForm(

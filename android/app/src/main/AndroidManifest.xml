@@ -8,6 +8,8 @@
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
      
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyD3ix89sMkF1i8Q2pMZA78ZEm6oDW3eaR4"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

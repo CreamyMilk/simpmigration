@@ -180,7 +180,7 @@ class _ThreeBButtons extends StatelessWidget {
                     onTap: () {
                       if (position != null) {
                         Navigator.of(context)
-                            .pushNamed('/services', arguments: position);
+                            .pushNamed('/mmap', arguments: position);
                       } else {
                         // ignore: deprecated_member_use
                         Scaffold.of(context).showSnackBar(SnackBar(
