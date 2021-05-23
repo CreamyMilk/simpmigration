@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:simpmigration/constants.dart';
 import 'package:simpmigration/model/paymentResponse.dart';
 import 'package:simpmigration/providers/list_switcher_provider.dart';
+import 'package:simpmigration/views/newPaymentsBottomSheet.dart';
 import 'package:simpmigration/widget/payments_selections.dart';
 
 class RentPaymentCard extends StatefulWidget {
@@ -176,11 +177,12 @@ void settingModalBottomSheet(context, amountDue) {
     isScrollControlled: true,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
+          topLeft: Radius.circular(1.0), topRight: Radius.circular(1.0)),
     ),
     context: context,
     builder: (BuildContext context) {
-      return PaymentBottomSheet();
+      return NewRentPaymentSheet();
+//      return PaymentBottomSheet();
     },
   );
 }
@@ -316,7 +318,11 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.arrow_downward),
+                  IconButton(
+                      icon: Icon(Icons.arrow_downward),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
                   Text(
                     "Rent Payment",
                     style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20),

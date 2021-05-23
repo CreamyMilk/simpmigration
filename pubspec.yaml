@@ -23,16 +23,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  video_player: ^1.0.1
+  video_player:
   firebase_core: "^0.7.0"
   firebase_messaging: "^8.0.0-dev.15"
   flare_flutter: ^2.0.6
   provider:
   flushbar: ^1.10.4
   http:
-  # connectivity: ^2.0.0
   sms_autofill: ^1.2.5
   url_launcher: 
+  
   # Maps
   google_maps_flutter:
   geolocator: ^5.3.1
@@ -78,6 +78,7 @@ flutter:
     - assets/sign.png
     - assets/introvideo.mp4
     - assets/mpesa.png
+    - assets/wallet.png
     - assets/fail.flr
   # assets:
   #   - images/a_dot_burr.jpeg

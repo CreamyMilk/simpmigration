@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:async';
 import 'package:app_settings/app_settings.dart';
 import 'package:flushbar/flushbar.dart';
@@ -38,7 +39,7 @@ class _LoginOTPState extends State<LoginOTP> {
       onWillPop: () async => false,
       child: Stack(
         children: [
-          IntroVideo(),
+          Platform.isLinux?Container(color:Colors.black):IntroVideo(),
           Scaffold(
             backgroundColor: Colors.black.withOpacity(0.1),
             appBar: AppBar(
@@ -74,7 +75,7 @@ class _LoginOTPState extends State<LoginOTP> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    //Navigator.of(context).pushNamed('/home');
+                    Navigator.of(context).pushNamed('/home');
                     print(MediaQuery.of(context).size.height / 210);
                     print(MediaQuery.of(context).size.height / 105);
                     Flushbar(message: "👷‍♂️ Coming Soon...")..show(context);
