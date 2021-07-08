@@ -12,6 +12,7 @@ import 'package:simpmigration/providers/list_switcher_provider.dart';
 import 'package:simpmigration/route_generator.dart';
 import 'package:simpmigration/services/geolocation_service.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
@@ -23,6 +24,7 @@ void main() async {
 }
 
 final navigationKey = GlobalKey<NavigatorState>();
+//Dff
 
 class MyApp extends StatelessWidget {
   final String appTitle = 'Icrib Tenant';
