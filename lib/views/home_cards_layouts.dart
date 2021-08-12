@@ -71,7 +71,9 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
+            leading: Container(),
             centerTitle: false,
+            elevation: 0,
             title: Text("Good Morning, \nKinyua",
                 style: TextStyle(
                     color: Colors.white,
