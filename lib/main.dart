@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           title: appTitle,
           debugShowCheckedModeBanner: false,
           navigatorKey: navigationKey,
-          themeMode: ThemeMode.dark,
+
           theme: ThemeData(
             brightness: Brightness.light,
             primarySwatch: Colors.indigo,
