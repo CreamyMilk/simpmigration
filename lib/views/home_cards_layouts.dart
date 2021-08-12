@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -70,31 +71,31 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
-              backgroundColor: Theme.of(context).primaryColor,
-              actions: [
-                IconButton(
-                    icon: Icon(
-                      Icons.exit_to_app,
-                      color: Colors.white,
-                    ),
-                    onPressed: () async {
-                      dynamic box = Hive.box(Constants.HiveBoxName);
-                      box.put(Constants.IsLoggedInStore, false);
-                      if (Platform.isAndroid) {
-                        FirebaseMessaging.instance.unsubscribeFromTopic(box.get(
-                            Constants.NotificationTopicStore,
-                            defaultValue: "."));
-                      }
-                      Navigator.of(context).pushNamed('/login');
-                    })
-              ],
-              leading: IconButton(
-                icon: Icon(Icons.build),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/');
-                },
-              )),
+            centerTitle: false,
+            title: Text("Good Morning, \nKinyua",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500)),
+            backgroundColor: Theme.of(context).primaryColor,
+            actions: [
+              IconButton(
+                  icon: Icon(
+                    Icons.exit_to_app,
+                    color: Colors.white,
+                  ),
+                  onPressed: () async {
+                    dynamic box = Hive.box(Constants.HiveBoxName);
+                    box.put(Constants.IsLoggedInStore, false);
+                    if (Platform.isAndroid) {
+                      FirebaseMessaging.instance.unsubscribeFromTopic(box.get(
+                          Constants.NotificationTopicStore,
+                          defaultValue: "."));
+                    }
+                    Navigator.of(context).pushNamed('/login');
+                  })
+            ],
+          ),
           floatingActionButton: AwesomeFAB(),
           body: SafeArea(
             child: RefreshIndicator(
